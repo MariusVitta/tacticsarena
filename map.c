@@ -24,10 +24,18 @@
 void initialisation(char matriceJeu[N][N], int joueur){
 	printf("Placement du joueur %i\n",joueur);
 	srand(time(NULL));
-	int x = rand()%11,y = rand()%8;
+	int y = rand()%2+6,x = rand()%12,i;
+	matriceJeu[x][y] = '1';
+	matriceJeu[-x][-y] = '2';
+	//printf("x = %i y = %i\n",x,y);
+	for(i = 0,i < N ,i++){
+		for(j = 0,j < N, J++){
+			if(matriceJeu[i][j] != '1' || matriceJeu[i][j] != '2'){
+				matriceJeu[i][j] = 'x';
+			}
+		}
 
-	printf("x = %i y = %i\n",x,y );
-
+	}
 
 }
 
