@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "fonc.h"
+
  
 #define N 11
-char map[N][N];
+
 /**
  *\file map.c
  *\brief programme d'initialisation du jeu
@@ -22,9 +22,9 @@ char map[N][N];
  *\return void 
  */
 void initialisation(char matriceJeu[N][N], int joueur){
-	printf("Placement du joueur %i",joueur);
+	printf("Placement du joueur %i\n",joueur);
 	srand(time(NULL));
-	int x = rand(),y = rand()%8;
+	int x = rand()%11,y = rand()%8;
 
 	printf("x = %i y = %i\n",x,y );
 
@@ -33,16 +33,8 @@ void initialisation(char matriceJeu[N][N], int joueur){
 
 
 int main(){  
-	int i, j;
-
-	for(i = 0; i < N; i++){
-		for(j = 0; j < N; j++)
-			map[i][j] = 'a' + i + j;
-	}
-
-	affichage_map(map);
 	char jeu[N][N];
-	initialisation(jeu[N][N],2);
+	initialisation(jeu,2);
 
 
 	return 0;
