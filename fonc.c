@@ -5,7 +5,7 @@
 
 char map[N][N];
 
-void affichage_sort(){
+void affichage_sort();
 	
 
 void affichage_map(char map[N][N]){
@@ -18,21 +18,8 @@ void affichage_map(char map[N][N]){
 		for(j = 0; j < N; j++)
 			printf(" %c |", map[i][j]);
 		printf("\n");
-		
-		
 	}
 }
 
 
-int main(){
-
-	int i, j;
-
-	for(i = 0; i < N; i++){
-		for(j = 0; j < N; j++)
-			map[i][j] = 'a' + i + j;
-	}
-
-	affichage(map);
-}
 
