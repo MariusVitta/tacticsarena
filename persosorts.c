@@ -31,7 +31,7 @@ t_personnage creer_perso(int classe,t_personnage perso){
 		t_sort soin;
 		soin.nom="Soin";
 		soin.portee=0;
-		soin.degat=-10;
+		soin.degat=-6;
 		soin.point_action=1;
 
 		t_sort ptitcoup;
@@ -43,12 +43,12 @@ t_personnage creer_perso(int classe,t_personnage perso){
 		t_sort groscoup;
 		groscoup.nom="Groscoup";
 		groscoup.portee=1;
-		groscoup.degat=20;
-		groscoup.point_action=1;
+		groscoup.degat=25;
+		groscoup.point_action=2;
 
 		perso.nom="Guerrier";
 		perso.pv=60;
-		perso.pa=1;
+		perso.pa=2;
 		perso.s1=saut;
 		perso.s2=soin;
 		perso.s3=ptitcoup;
@@ -60,26 +60,26 @@ t_personnage creer_perso(int classe,t_personnage perso){
 	if(classe==2){
 		t_sort diago;
 		diago.nom="Diago";
-		diago.portee=3;
-		diago.degat=0;
+		diago.portee=7;
+		diago.degat=14;
 		diago.point_action=2;
 		
 		t_sort ligne;
 		ligne.nom="ligne";
-		ligne.portee=0;
-		ligne.degat=-10;
+		ligne.portee=7;
+		ligne.degat=14;
 		ligne.point_action=2;
 
 		t_sort doubletape;
 		doubletape.nom="Doubletape";
-		doubletape.portee=3;
-		doubletape.degat=10;
+		doubletape.portee=5;
+		doubletape.degat=6;
 		doubletape.point_action=1;
 		
 		t_sort coupzone;
 		coupzone.nom="Coupzone";
-		coupzone.portee=1;
-		coupzone.degat=20;
+		coupzone.portee=5;
+		coupzone.degat=12;
 		coupzone.point_action=2;
 
 		perso.nom="Archer";
