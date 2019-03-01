@@ -7,7 +7,7 @@
 
 /*Fonction permettant de deplacer son personnage et changer ses coordonnées*/
 
-int deplacement(t_coordonnees coordj1,t_coordonnees coordj2){
+int deplacement(t_personnage j1,t_personnage j2){
 
 	int x,y;
 
@@ -16,18 +16,14 @@ int deplacement(t_coordonnees coordj1,t_coordonnees coordj2){
 
 		scanf("%d %d",&x,&y);
 	}
-	while(((fabs(coordj1.x-x)+fabs(coordj1.y-y))<=3) && (x<0 || x>=N) && (y<0 || y>=N) && (coordj1.x!=coordj2.x || coordj1.y!=coordj2;y));
 
-	coordj1.x = x;
+	while(((fabs(j1.coord.x-x)+fabs(j1.coord.y-y))<=3) && (x<0 || x>=N) && (y<0 || y>=N) && (j1.coord.x!=j2.coord.x || j1.coord.y!=j2.coord.y));
 
-	coordj1.y = y;
 
-	return(coordj1);
+	j1.coord.x = x;
+
+	j1.coord.y = y;
+
+	return(j1);
 }
 
-int main(){
-
-
-
-	return 0;
-}
