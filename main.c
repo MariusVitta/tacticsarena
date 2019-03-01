@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]){
 
 	//affichage_map(map);
 
-	initialisation(map,2);
+	initialisation(map,1);
 	affichage_map(map);
 
 	return 0;
