@@ -27,20 +27,34 @@ void initialisation(char matriceJeu[N][N], int joueur){
 	srand(time(NULL));
 	int y = rand()%3+8, x = rand()%7+2;
 	int i,j,choix = 0,numero_j=1;
+	int nb = 0;
 	while(numero_j <=2){
 		printf("Choix des cases possibles pour le joueur %i:",numero_j);
-		matriceJeu[y][x]='+';
-		matriceJeu[y-1][x-2]='+';
-		matriceJeu[y -1][x + 2]='+';
-		printf("\n[1]{x=%i y=%i}\n [2]{x=%i y=%i}\n [3]{x=%i y=%i}\n",x-2,y-1,x,y,x+2,y-1);
+		if(numero_j == 1){
+			matriceJeu[y][x]='2';
+			matriceJeu[y-1][x-2]='1';
+			matriceJeu[y -1][x + 2]='3';
+		}
+		else{
+			y = rand()%3;
+			x = rand()%7+2;
+			matriceJeu[y][x]='5';
+			matriceJeu[y+1][x-2]='4';
+			matriceJeu[y +1][x + 2]='6';
+		}
+		printf("\n[%i]{x=%i y=%i}\n [%i]{x=%i y=%i}\n [%i]{x=%i y=%i}\n",++nb,x-2,y+1,++nb,x,y,++nb, x+2,y+1);
 		affichage_map(matriceJeu);
 		printf("choix:");
 		scanf("%i",&choix);
+
 		switch(choix){
-			case 1: matriceJeu[y-1][x-2]= '*';break;
-			case 2: matriceJeu[y][x] = '*';break;
-			case 3: matriceJeu[y -1][x + 2] = '*';break;
-			default: matriceJeu[y][x]='*';break;
+			case 1: matriceJeu[y-1][x-2]= '*';matriceJeu[y][x] = ' ';matriceJeu[y -1][x + 2] = ' ';break;
+			case 2: matriceJeu[y][x] = '*';matriceJeu[y -1][x + 2] = ' ';matriceJeu[y-1][x-2]= ' ';break;
+			case 3: matriceJeu[y -1][x + 2] = '*';matriceJeu[y][x] = ' ';matriceJeu[y-1][x-2]= ' ';break;
+			case 4: matriceJeu[y+1][x-2]= '*';matriceJeu[y][x] = ' ';matriceJeu[y +1][x + 2] = ' ';break;
+			case 5: matriceJeu[y][x] = '*';matriceJeu[y +1][x + 2] = ' ';matriceJeu[y+1][x-2]= ' ';break;
+			case 6: matriceJeu[y +1][x + 2] = '*';matriceJeu[y][x] = ' ';matriceJeu[y+1][x-2]= ' ';break;
+			/*default: matriceJeu[y][x]='*';break;*/
 		}
 		choix = 0;
 		numero_j++;
