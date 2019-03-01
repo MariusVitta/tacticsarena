@@ -14,7 +14,7 @@ int main(){
 	scanf("%d",&classe);
 
 	personnage=creer_perso(classe,personnage);
-	initialisation(map,classe);
+	initialisation(map);
 	affichage_sort(personnage);
 	affichage_map(map);
 

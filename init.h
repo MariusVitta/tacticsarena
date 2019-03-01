@@ -1,2 +1,2 @@
 #define N 11
-void initialisation(char matriceJeu[N][N], int joueur);
+void initialisation(char matriceJeu[N][N]);
