@@ -6,9 +6,12 @@
 char map[N][N];
 
 void affichage_sort(t_personnage perso){
+/*affiche les sorts selon le personnage choisi par l'utilisateur*/
 
 	printf("Personnage : %s\n\n", perso.nom);
 	printf("Listes des sorts: \n");
+
+	/*affichage des quatres sorts*/
 
 	printf("- %s : ", perso.s1.nom);
 	printf("portée [%i] / ", perso.s1.portee);
@@ -33,6 +36,7 @@ void affichage_sort(t_personnage perso){
 }
 
 void affichage_map(char map[N][N]){
+/*affiche le plan de jeu*/
 
 	int i, j;
 
