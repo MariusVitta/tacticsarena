@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*création d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
+
 typedef struct s_sort{
 
 	char * nom;
@@ -10,6 +12,8 @@ typedef struct s_sort{
 
 }t_sort;
 
+/*création d'un personnage ayant un nom, des points de vie, des points d'actions lui permettant d'utiliser ses sorts et 4sorts*/
+
 typedef struct s_personnage{
 
 	char* nom;
@@ -18,6 +22,8 @@ typedef struct s_personnage{
 	t_sort s1,s2,s3,s4;
 
 }t_personnage;
+
+/*création de la classe choisie par l'utilisateur*/
 
 t_personnage creer_perso(int classe,t_personnage perso){
 
