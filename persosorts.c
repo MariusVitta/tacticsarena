@@ -1,30 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-/*création d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
-
-typedef struct s_sort{
-
-	char * nom;
-	int portee;
-	int degat;
-	int point_action;
-
-}t_sort;
-
-/*création d'un personnage ayant un nom, des points de vie, des points d'actions lui permettant d'utiliser ses sorts et 4sorts*/
-
-typedef struct s_personnage{
-
-	char* nom;
-	int pv;
-	int pa;
-	t_sort s1,s2,s3,s4;
-
-}t_personnage;
+#include "fonc.h" 
 
 /*création de la classe choisie par l'utilisateur*/
-
 t_personnage creer_perso(int classe,t_personnage perso){
 
 	if(classe==1){
@@ -71,9 +49,9 @@ t_personnage creer_perso(int classe,t_personnage perso){
 		diago.point_action=2;
 		
 		t_sort ligne;
-		ligne.nom="ligne";
+		ligne.nom="Ligne";
 		ligne.portee=7;
-		ligne.degat=14;
+		ligne.degat=-14;
 		ligne.point_action=2;
 
 		t_sort doubletape;
@@ -100,17 +78,3 @@ t_personnage creer_perso(int classe,t_personnage perso){
 	}
 }
 
-int main(){
-
-	int classe;
-	t_personnage personnage;
-	printf("choisir classe\n");
-	scanf("%d",&classe);
-
-	personnage=creer_perso(classe,personnage);
-
-	printf("%s %s %s %s %s \n",personnage.nom,personnage.s1.nom,personnage.s2.nom,personnage.s3.nom,personnage.s4.nom);
-
-
-
-}
