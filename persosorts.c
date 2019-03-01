@@ -29,7 +29,7 @@ t_personnage creer_perso(int classe,t_personnage perso){
 		groscoup.degat=25;
 		groscoup.point_action=2;
 
-		perso.nom="Guerrier";
+		perso.nom="https://github.com/MariusVitta/tacticsarenaGuerrier";
 		perso.pv=60;
 		perso.pa=2;
 		perso.s1=saut;
