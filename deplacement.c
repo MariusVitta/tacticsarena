@@ -16,7 +16,7 @@ int deplacement(t_coordonnees coordj1,t_coordonnees coordj2){
 
 		scanf("%d %d",&x,&y);
 	}
-	while(((fabs(coord.x-x)+fabs(coord.y-y))<=3) && (x<0 || x>=N) && (y<0 || y>=N) && (coordj1.x!=coordj2.x || coordj1.y!=coordj2;y));
+	while(((fabs(coordj1.x-x)+fabs(coordj1.y-y))<=3) && (x<0 || x>=N) && (y<0 || y>=N) && (coordj1.x!=coordj2.x || coordj1.y!=coordj2;y));
 
 	coordj1.x = x;
 
