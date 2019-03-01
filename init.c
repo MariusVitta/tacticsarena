@@ -22,7 +22,7 @@
  *\param joueur numéro du joueur qui sera placé sur la carte
  *\return void 
  */
-void initialisation(char matriceJeu[N][N], int joueur){
+void initialisation(char matriceJeu[N][N]){
 	//printf("Choix du placement du joueur %i\n",joueur);
 	srand(time(NULL));
 	int y = rand()%3+8, x = rand()%7+2;
@@ -71,8 +71,7 @@ void initialisation(char matriceJeu[N][N], int joueur){
 			if(matriceJeu[i][j] != '*' && matriceJeu[i][j] != '*'){
 				matriceJeu[i][j] = '.';
 			}
-		}
-
+		
 	}
 
 }
