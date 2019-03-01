@@ -28,12 +28,13 @@ void initialisation(char matriceJeu[N][N], int joueur){
 	int y = rand()%3+8, x = rand()%7+2;
 	int i,j,choix = 0,numero_j=1;
 	while(numero_j <=2){
-		printf("Choix des cases possibles pour le joueur %i:"numero_j);
+		printf("Choix des cases possibles pour le joueur %i:",numero_j);
 		matriceJeu[y][x]='+';
 		matriceJeu[y-1][x-2]='+';
 		matriceJeu[y -1][x + 2]='+';
 		printf("\n[1]{x=%i y=%i}\n [2]{x=%i y=%i}\n [3]{x=%i y=%i}\n",x-2,y-1,x,y,x+2,y-1);
 		affichage_map(matriceJeu);
+		printf("choix:");
 		scanf("%i",&choix);
 		switch(choix){
 			case 1: matriceJeu[y-1][x-2]= '*';break;

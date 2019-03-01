@@ -1,19 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "init.h"
 #include "fonc.h"
-
-#define N 11
+ 
 
 char map[N][N];
 
+int main(){
 
-int main(int argc, char const *argv[]){
-	int i, j;
-	char jeu[N][N];
+	int i, j, classe;
 
-	//affichage_map(map);
+	t_personnage personnage;
+	printf("choisir classe\n");
+	scanf("%d",&classe);
 
-	initialisation(map,1);
+
+	personnage=creer_perso(classe,personnage);
+	initialisation(map,classe);
+	affichage_sort(personnage);
+
 	affichage_map(map);
 
 	return 0;
