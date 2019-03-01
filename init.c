@@ -7,7 +7,7 @@
 #define N 11
 
 /**
- *\file map.c
+ *\file init.c
  *\brief programme d'initialisation du jeu
  *\author Marius Vitta
  *\version 0.1
@@ -17,7 +17,7 @@
 
 /** 
  *\fn void initialisation(char matriceJeu[N][N],int joueur)
- *\brief initialise le jeu
+ *\brief initialise la position des deux joueurs
  *\param matriceJeu[N][N] matrice qui sert au tour du jeu
  *\param joueur numéro du joueur qui sera placé sur la carte
  *\return void 
@@ -30,12 +30,14 @@ void initialisation(char matriceJeu[N][N], int joueur){
 	int nb = 0;
 	while(numero_j <=2){
 		printf("Choix des cases possibles pour le joueur %i:",numero_j);
+		/* choix des positions du premier joueurs*/
 		if(numero_j == 1){
 			matriceJeu[y][x]='2';
 			matriceJeu[y-1][x-2]='1';
 			matriceJeu[y -1][x + 2]='3';
 		}
 		else{
+			/* choix des positions du deuxième joueur */
 			y = rand()%3;
 			x = rand()%7+2;
 			matriceJeu[y][x]='5';
@@ -60,10 +62,6 @@ void initialisation(char matriceJeu[N][N], int joueur){
 		numero_j++;
 	}
 	affichage_map(matriceJeu);
-	/*
-	matriceJeu[y-1][x-1] = '1';
-	matriceJeu[N-y-1][N-x] = '2';
-	*/
 /*
 	printf("(*) x joueur 1 = %i y joueur 1 = %i\n",x,y);
 	printf("(X) x joueur 2 = %i y joueur 2 = %i\n",N-x,N-y-1);
