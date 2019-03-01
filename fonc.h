@@ -30,18 +30,15 @@ typedef struct s_personnage{
 	int pv;
 	int pa;
 	t_coordonnees coord;
-	int coordx;
-	int coordy;
 	t_sort s1,s2,s3,s4;
 
 }t_personnage;
-
-
 
 t_personnage creer_perso(int,t_personnage);
 void affichage_sort(t_personnage);
 void affichage_map(char map[N][N]);
 int est_mort(t_personnage);
+void maj(char map[N][N], t_personnage);
 
 
 
