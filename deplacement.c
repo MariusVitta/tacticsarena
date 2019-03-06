@@ -12,19 +12,25 @@
  */
 
 int deplacement(t_personnage * j1,t_personnage j2){
-	int x,y;
+	int x,y,dep_reste=3,x2,y2;
+
+	//affiche_coordonnee();
+
+	//demande la saisie de la nouvelle coordonnee
 	do{
 		printf("saisir les coordonnées de la case ou vous voulez aller\n");
-
 		scanf("%d %d",&x,&y);
-	}
-	while(((fabs(j1->coord.x-x)+fabs(j1->coord.y-y))<=3) && (x<0 || x>=N) && (y<0 || y>=N) && (j1->coord.x!=j2.coord.x || j1->coord.y!=j2.coord.y));
 
+	//Vérifie que le personnage ne se déplace pas de plus de 3 cases & que le perso ne sorte pas de la matrice & qu'il ne va pas sur une case occupée
+	}while( ((x2=fabs(j1->coord.x-x)+y2=fabs(j1->coord.y-y))<=3) && (x>=0 && x<N) && (y>=0 && y<N) && (x!=j2.coord.x || y!=j2.coord.y) ) ;       
+	// need rajouter la verif qu'il n'y a pas d'obstacle
 
 	j1->coord.x = x;
 
 	j1->coord.y = y;
 
-	return 1;
+	dep_reste -= x2+y2;
+
+	return dep_reste;
 }
 
