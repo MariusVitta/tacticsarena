@@ -35,7 +35,7 @@ typedef struct s_personnage{
 }t_personnage;
 
 t_personnage creer_perso(int,t_personnage);
-void affichage_sort(t_personnage);
+void affichage_sort(t_personnage);                   
 void affichage_map(char map[N][N]);
 int est_mort(t_personnage);
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
