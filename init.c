@@ -42,7 +42,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int obs_x = rand()%10+1 , osb_y = rand()%3+4;
 
 	/* génération des obstacles sur la carte */
-
+	//while()
 
 
 
