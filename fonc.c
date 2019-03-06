@@ -46,3 +46,9 @@ void affichage_map(char map[N][N]){
 	}
 }
 
+void affichage_coord(t_personnage perso){
+
+	printf("- %s : ", perso.s1.nom);
+	printf("Vos coordonnées : x = %i et y = %i\n", perso.coord.x, perso.coord.y);
+}
+
