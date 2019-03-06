@@ -28,6 +28,17 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int y = rand()%3+(N-3), x = rand()%(N-4)+2;
 	int i,j,choix = 0,numero_j=1;
 	int nb = 1;
+
+	// remplissage de la map sans les joueurs positionnés 
+	for(i = 0; i < N ; i++){
+		for(j = 0;j < N; j++){
+			//if(matriceJeu[i][j] != '*' && matriceJeu[i][j] != '*'){
+				matriceJeu[i][j] = '.';
+			//}
+		}
+	}
+
+
 	while(numero_j <=2){
 		printf("Choix des cases possibles pour le joueur %i:",numero_j);
 		/* choix des positions du premier joueurs*/
@@ -50,6 +61,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 		scanf("%i",&choix);
 
 		switch(choix){
+			/* choix de la position du joueur avec le caractère '*' */
 			case 1: matriceJeu[y-1][x-2]= '*' ; matriceJeu[y][x] = ' '; matriceJeu[y -1][x + 2] = ' '; perso1->coord.x = x-2+ 1 ; perso1->coord.y = y- 1+1;break;
 			case 2: matriceJeu[y][x] = '*'; matriceJeu[y -1][x + 2] = ' '; matriceJeu[y-1][x-2]= ' '; perso1->coord.x = x + 1; perso1->coord.y = y+1;break;
 			case 3: matriceJeu[y -1][x + 2] = '*'; matriceJeu[y][x] = ' '; matriceJeu[y-1][x-2]= ' '; perso1->coord.x = x+2+ 1 ; perso1->coord.y = y- 1+1;break;
@@ -57,20 +69,10 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 			case 4: matriceJeu[y+1][x-2]= '*'; matriceJeu[y][x] = ' '; matriceJeu[y +1][x + 2] = ' '; perso2->coord.x = x-2 + 1; perso2->coord.y = y + 1+1;break;
 			case 5: matriceJeu[y][x] = '*'; matriceJeu[y +1][x + 2] = ' '; matriceJeu[y+1][x-2]= ' '; perso2->coord.x = x+ 1 ; perso2->coord.y = y+1;break;
 			case 6: matriceJeu[y +1][x + 2] = '*'; matriceJeu[y][x] = ' '; matriceJeu[y+1][x-2]= ' '; perso2->coord.x = x+2 + 1; perso2->coord.y = y + 1+1;break;
-			/*default: matriceJeu[y][x]='*';break;*/
 		}
 		choix = 0;
 		numero_j++;
 	}
 	affichage_map(matriceJeu);
 
-	for(i = 0; i < N ; i++){
-		for(j = 0;j < N; j++){
-			if(matriceJeu[i][j] != '*' && matriceJeu[i][j] != '*'){
-				matriceJeu[i][j] = '.';
-			}
-		
-		}
-
-	}
 }
