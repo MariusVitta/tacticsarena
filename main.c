@@ -41,7 +41,7 @@ int main(){
 	affichage_sort(personnage1);
 	affichage_map(map);
 
-	printf("vos coords : {%i;%i}",personnage1.coord.x,personnage1.coord.y);
+	printf("vos coords : {%0.0f;%0.0f}\n",personnage1.coord.x,personnage1.coord.y);
 	deplacement(&personnage1,personnage2);
 	/*printf("x perso 1:%i - y perso 1:%i\n",personnage1.coord.x,personnage1.coord.y);
 	printf("x perso 2:%i - y perso 2:%i\n",personnage2.coord.x,personnage2.coord.y);*/
@@ -52,8 +52,8 @@ int main(){
 	affichage_map(map);
 
 
-	printf("x perso 1:%i - y perso 1:%i\n",personnage1.coord.x,personnage1.coord.y);
-	printf("x perso 2:%i - y perso 2:%i\n",personnage2.coord.x,personnage2.coord.y);
+	printf("x perso 1:%0.0f - y perso 1:%0.0f\n",personnage1.coord.x,personnage1.coord.y);
+	printf("x perso 2:%0.0f - y perso 2:%0.0f\n",personnage2.coord.x,personnage2.coord.y);
 
 	/*if(est_mort(personnage1))
 		printf("Le personnage '%s' est mort\n", personnage1.nom);
