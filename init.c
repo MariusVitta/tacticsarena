@@ -29,24 +29,28 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int i,j,choix = 0,numero_j=1;
 	int nb = 1;
 
-	// remplissage de la map sans les joueurs positionnés 
-	for(i = 0; i < N ; i++){
-		for(j = 0;j < N; j++){
-			//if(matriceJeu[i][j] != '*' && matriceJeu[i][j] != '*'){
-				matriceJeu[i][j] = '.';
-			//}
-		}
-	}
-
-
-	int obs_x = rand()%10+1 , osb_y = rand()%3+4;
+	int obs_x = rand()%9+1 , obs_y = rand()%3+4;
 
 	/* génération des obstacles sur la carte */
-	//i = 1;
-	/*while(i <= 5){
-		matriceJeu[obs_x][osb_y] = 1;
-	}*/
+	i = 1;
+	while(i <= 5){
+		if(matriceJeu[obs_x][obs_y] != 'o'){
+			matriceJeu[obs_y][obs_x] = 'o';
+			i++;
+		}
+		obs_x = rand()%10+1 , obs_y = rand()%3+4;
+		printf("%i\n",i);
+	}
 
+	/* remplissage de la map sans les joueurs positionnés */
+	for(i = 0; i < N ; i++){
+		for(j = 0;j < N; j++){
+			if(matriceJeu[i][j] != 'o'){
+				matriceJeu[i][j] = '.';
+			}
+
+		}
+	}
 
 
 	while(numero_j <=2){
@@ -87,7 +91,6 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 				break;
 			}
 		}
-
 		else{
 			/* choix des positions du deuxième joueur */
 			y2 = rand()%3;
