@@ -22,7 +22,9 @@ int deplacement(t_personnage * j1,t_personnage j2){
 		scanf("%d %d",&x,&y);
 
 	//Vérifie que le personnage ne se déplace pas de plus de 3 cases & que le perso ne sorte pas de la matrice & qu'il ne va pas sur une case occupée
-	}while( ((x2=fabs(j1->coord.x-x)+y2=fabs(j1->coord.y-y))<=3) && (x>=0 && x<N) && (y>=0 && y<N) && (x!=j2.coord.x || y!=j2.coord.y) ) ;       
+		x2=fabs(j1->coord.x-x);
+		y2=fabs(j1->coord.y-y);
+	}while( (x2+y2)<=3) && (x>=0 && x<N) && (y>=0 && y<N) && (x!=j2.coord.x || y!=j2.coord.y) ) ;       
 	// need rajouter la verif qu'il n'y a pas d'obstacle
 
 	j1->coord.x = x;
