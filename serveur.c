@@ -8,6 +8,9 @@
 #include<netdb.h>
 #include <signal.h>
 #include <unistd.h>
+
+//voir man socket;
+
 char buffer[512];
 
 void fin(int sig){
@@ -60,7 +63,7 @@ int main ( void )
 	bzero(&mon_address,sizeof(mon_address));
 	mon_address.sin_port = htons(30000);
 	mon_address.sin_family = AF_INET;
-	mon_address.sin_addr.s_addr = htonl(INADDR_ANY);
+	mon_address.sin_addr.s_addr = htonl(INADDR_ANY); // mettre ladresse ip ici a la place de INADRR_ANY 
 
 	char *hostname = "localhost";
     char ip[100];
@@ -114,6 +117,3 @@ int main ( void )
 	close(ma_socket);
 	return 0;
 }
-
-
-

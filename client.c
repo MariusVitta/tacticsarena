@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include<strings.h>
+
 //#define SERVEURNAME "192.168.1.106" // adresse IP de mon serveur
 #define SERVEURNAME "127.0.0.1" // adresse IP de mon serveur
 
@@ -48,6 +49,7 @@ int main (  int argc, char** argv )
 	char buffer[512];
 	int to_server_socket;
 
+	// vérifie si il y a erreur lors de la récupération de l'adresse
 	bzero(&serveur_addr,sizeof(serveur_addr));
 	hostAddr = inet_addr(SERVEURNAME);
 	if ( (long)hostAddr != (long)-1 ){
@@ -60,8 +62,14 @@ int main (  int argc, char** argv )
 	  	}
 	  	bcopy(serveur_info->h_addr,&serveur_addr.sin_addr,serveur_info->h_length);
 	}
-	serveur_addr.sin_port = htons(30000);
+
+
+	//Spécification de l'adresse du socket : type / port
 	serveur_addr.sin_family = AF_INET;
+	serveur_addr.sin_port = htons(30000);  //<-- fonction de convertion pour le port 
+	//serveur_addr.sin_addr.s_addr = INADDR_ANY; <-- connection local ( trouve l'ip )
+
+
 	/* creation de la socket */
 	if ( (to_server_socket = socket(AF_INET,SOCK_STREAM,0)) < 0) {
 		printf("Impossible de créer la socket client\n");
@@ -101,5 +109,3 @@ int main (  int argc, char** argv )
 	close(to_server_socket);
 	return 0;
 }
-
-
