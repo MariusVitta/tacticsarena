@@ -38,8 +38,8 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 		}
 	}
 
-	int obs_x = rand()% ,osb_y
 
+	int obs_x = rand()% ,osb_y;
 
 
 
