@@ -1,8 +1,8 @@
-test: main.o init.o fonc.o persosorts.o foncjeu.o init.h fonc.h
+test: main.o init.o fonc.o persosorts.o foncjeu.o fonc.h
 	gcc main.o init.o fonc.o persosorts.o foncjeu.c -o test
 main.o: main.c fonc.h
 	gcc -c main.c
-init.o: init.c init.h
+init.o: init.c fonc.h
 	gcc -c init.c
 fonc.o: fonc.c fonc.h
 	gcc -c fonc.c
