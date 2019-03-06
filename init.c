@@ -42,21 +42,21 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int obs_x = rand()%10+1 , osb_y = rand()%3+4;
 
 	/* génération des obstacles sur la carte */
-	i = 1
+	i = 1;/*
 	while(i <= 5){
-		matriceJeu[obs_x][osb_y] =;
-	}
+		matriceJeu[obs_x][osb_y] = 1;
+	}*/
 
 
 
 	while(numero_j <=2){
-		printf("Choix des cases possibles pour le joueurez %i:",numero_j);
+		printf("Choix des cases possibles pour le joueur %i:",numero_j);
 		/* choix des positions du premier joueurs*/
 		if(numero_j == 1){
 			matriceJeu[y][x]='2';
 			matriceJeu[y-1][x-2]='1';
 			matriceJeu[y -1][x + 2]='3';
-			printf(" \n[%i]{x=%i y=%i}\n [%i]{x=%i y=%i}\n [%i]{x=%i y=%i}\n",nb++,x-2+1,y-1+1,nb++,x+1,y+1,nb++, x+2+1,y-1+1);
+			printf(" \n[1]{x=%i y=%i}\n [2]{x=%i y=%i}\n [3]{x=%i y=%i}\n",x-2+1,y-1+1,x+1,y+1,x+2+1,y-1+1);
 		}
 		else{
 			/* choix des positions du deuxième joueur */
@@ -65,7 +65,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 			matriceJeu[y][x]='5';
 			matriceJeu[y+1][x-2]='4';
 			matriceJeu[y +1][x + 2]='6';
-			printf(" \n[%i]{x=%i y=%i}\n [%i]{x=%i y=%i}\n [%i]{x=%i y=%i}\n",nb++,x-2+1,y+1+1,nb++,x,y,nb++, x+2+1,y+1+1);
+			printf(" \n[4]{x=%i y=%i}\n [5]{x=%i y=%i}\n [6]{x=%i y=%i}\n",x-2+1,y+1+1,x,y,x+2+1,y+1+1);
 		}
 		affichage_map(matriceJeu);
 		/* gestion erreurs de saisie de l'utilisateur */
@@ -86,13 +86,41 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 		
 		switch(choix){
 			/* choix de la position du joueur avec le caractère '*' */
-			case 1: matriceJeu[y-1][x-2]= '*' ; matriceJeu[y][x] = '.'; matriceJeu[y -1][x + 2] = '.'; perso1->coord.x = x-2+ 1 ; perso1->coord.y = y- 1+1;break;
-			case 2: matriceJeu[y][x] = '*'; matriceJeu[y -1][x + 2] = '.'; matriceJeu[y-1][x-2]= '.'; perso1->coord.x = x + 1; perso1->coord.y = y+1;break;
-			case 3: matriceJeu[y -1][x + 2] = '*'; matriceJeu[y][x] = '.'; matriceJeu[y-1][x-2]= '.'; perso1->coord.x = x+2+ 1 ; perso1->coord.y = y- 1+1;break;
+			case 1: matriceJeu[y-1][x-2]= '*' ; 
+					matriceJeu[y][x] = '.'; 
+					matriceJeu[y -1][x + 2] = '.'; 
+					perso1->coord.x = x-2 ; 
+					perso1->coord.y = y- 1;break;
 
-			case 4: matriceJeu[y+1][x-2]= '$'; matriceJeu[y][x] = '.'; matriceJeu[y +1][x + 2] = '.'; perso2->coord.x = x-2 + 1; perso2->coord.y = y + 1+1;break;
-			case 5: matriceJeu[y][x] = '$'; matriceJeu[y +1][x + 2] = '.'; matriceJeu[y+1][x-2]= '.'; perso2->coord.x = x+ 1 ; perso2->coord.y = y+1;break;
-			case 6: matriceJeu[y +1][x + 2] = '$'; matriceJeu[y][x] = '.'; matriceJeu[y+1][x-2]= '.'; perso2->coord.x = x+2 + 1; perso2->coord.y = y + 1+1;break;
+			case 2: matriceJeu[y][x] = '*'; 
+					matriceJeu[y -1][x + 2] = '.'; 
+					matriceJeu[y-1][x-2]= '.'; 
+					perso1->coord.x = x ; 
+					perso1->coord.y = y;break;
+
+			case 3: matriceJeu[y -1][x + 2] = '*'; 
+					matriceJeu[y][x] = '.'; 
+					matriceJeu[y-1][x-2]= '.'; 
+					perso1->coord.x = x+2 ; 
+					perso1->coord.y = y- 1;break;
+
+			case 4: matriceJeu[y+1][x-2]= '$'; 
+					matriceJeu[y][x] = '.'; 
+					matriceJeu[y +1][x + 2] = '.'; 
+					perso2->coord.x = x-2; 
+					perso2->coord.y = y + 1;break;
+
+			case 5: matriceJeu[y][x] = '$'; 
+					matriceJeu[y +1][x + 2] = '.'; 
+					matriceJeu[y+1][x-2]= '.'; 
+					perso2->coord.x = x ; 
+					perso2->coord.y = y ;break;
+
+			case 6: matriceJeu[y +1][x + 2] = '$'; 
+					matriceJeu[y][x] = '.'; 
+					matriceJeu[y+1][x-2]= '.'; 
+					perso2->coord.x = x+2; 
+					perso2->coord.y = y + 1;break;
 		}
 		choix = 0;
 		numero_j++;

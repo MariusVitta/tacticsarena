@@ -41,7 +41,7 @@ int main(){
 	affichage_sort(personnage1);
 	affichage_map(map);
 
-	printf("vos coords : {%0.0f;%0.0f}\n",personnage1.coord.x,personnage1.coord.y);
+	printf("vos coords : {%0.0f;%0.0f}\n",personnage1.coord.x + 1,personnage1.coord.y + 1);
 	deplacement(&personnage1,personnage2);
 	/*printf("x perso 1:%i - y perso 1:%i\n",personnage1.coord.x,personnage1.coord.y);
 	printf("x perso 2:%i - y perso 2:%i\n",personnage2.coord.x,personnage2.coord.y);*/
