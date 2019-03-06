@@ -7,6 +7,7 @@ int est_mort(t_personnage perso){
 }
 
 void maj(char map[N][N], t_personnage perso){
+	int i,j;
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
 			if(j == perso.coord.x && i == perso.coord.y)
