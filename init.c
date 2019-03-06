@@ -38,6 +38,11 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 		}
 	}
 
+	int obs_x = rand()% ,osb_y
+
+
+
+
 
 	while(numero_j <=2){
 		printf("Choix des cases possibles pour le joueur %i:",numero_j);
