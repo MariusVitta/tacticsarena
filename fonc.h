@@ -44,6 +44,8 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 void affichage_coord(t_personnage perso);
 
 
+type enum direction(NORD,SUD,EST,OUEST);
 
+int direction(int * x, int * y, direction dir, int nb_cases);
 
 
