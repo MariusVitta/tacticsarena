@@ -14,7 +14,7 @@ void maj(char map[N][N], t_personnage perso1, t_personnage perso2){
 			map[i][j] = '.';
 	
 	}	
-
+	/*problème de type x et y == type double */
 	map[perso1.coord.y][perso1.coord.x] = '*';
 	map[perso2.coord.y][perso2.coord.x] = '$';
 
