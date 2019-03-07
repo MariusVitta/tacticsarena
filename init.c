@@ -29,7 +29,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int i,j,choix = 0,numero_j=1;
 	int nb = 1;
 
-	int obs_x = rand()%9+1 , obs_y = rand()%3+4;
+	int obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
 
 	/* génération des obstacles sur la carte */
 	i = 1;
@@ -38,7 +38,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 			matriceJeu[obs_y][obs_x] = 'o';
 			i++;
 		}
-		obs_x = rand()%10+1 , obs_y = rand()%3+4;
+		obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
 		printf("%i\n",i);
 	}
 
