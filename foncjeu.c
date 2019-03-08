@@ -8,13 +8,17 @@ int est_mort(t_personnage perso){
 
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2){
 	int i, j;
+	
+	char obs[5];	
 
 	for(i = 0; i < N; i++){
-		for(j = 0; j < N; j++)
-			map[i][j] = '.';
+		for(j = 0; j < N; j++){
+			if(map[i][j] != 'o')
+				map[i][j] = '.';
+		}
 	
 	}	
-	/*problème de type x et y == type double */
+
 	map[perso1.coord.y][perso1.coord.x] = '*';
 	map[perso2.coord.y][perso2.coord.x] = '$';
 
