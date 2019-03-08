@@ -40,8 +40,18 @@ int main(){
 
 	initialisation(map,&personnage1,&personnage2);
 
+<<<<<<< HEAD
+	affichage_sort(personnage1);
+
+	affichage_map(map);
+
+	affichage_coord(personnage1);
+
+	deplacement(&personnage1,personnage2,map);
+=======
     printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
     printf("Tour du joueur %i\n\n",num_j);
+>>>>>>> 160550df12d8e009f92494604f22a80338159563
 
 	affichage_sort(personnage1);
     affichage_sort(personnage2);
@@ -54,13 +64,28 @@ int main(){
         affichage_map(map);
    }
 
+<<<<<<< HEAD
+	printf("après deplacement\n");
+
+	maj(map,personnage1,personnage2);
+
+	affichage_map(map);
+	affichage_coord(personnage1);
+
+=======
    printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
+>>>>>>> 160550df12d8e009f92494604f22a80338159563
 
+	printf("Le personnage '%s' est vivant\n", personnage1.nom);
 
+<<<<<<< HEAD
+
+=======
 	if(est_mort(personnage1))
 		printf("Le personnage '%s' est mort\n", personnage1.nom);
 	else if(est_mort(personnage1))
 		printf("Le personnage '%s' est mort\n", personnage1.nom);
+>>>>>>> 160550df12d8e009f92494604f22a80338159563
 
 	return 0;
 }
