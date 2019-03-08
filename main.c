@@ -46,11 +46,11 @@ int main(){
 	affichage_sort(personnage1);
     affichage_sort(personnage2);
     while(est_mort(personnage1) || est_mort(personnage2)){
-        tour(map,&personnage1,&personnage2);
+        tour(map,personnage1,personnage2);
         affichage_map(map);
         i++;
         printf("Tour du joueur %i\n\n",num_j);
-        tour(map,&personnage2,&personnage1);
+        tour(map,personnage2,personnage1);
         affichage_map(map);
    }
 
