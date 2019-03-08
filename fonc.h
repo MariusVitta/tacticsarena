@@ -44,7 +44,7 @@ int est_mort(t_personnage);
 /* mise à jour de la carte suite à une déplacement d'un joueur */
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
 /* fonction déplacement case par case pour le joueur */
-int deplacement(t_personnage * j1,t_personnage j2);
+int deplacement(t_personnage * j1,char mat[N][N]);
 /*fonction d'initialisation (positionnement,création des obstacles) */
 void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2);
 /* affichage des coordonnées actuelles du personnage */
