@@ -17,7 +17,7 @@ int tour(char map[N][N],t_personnage j1,t_personnage j2 ){
     int point_action = j1.pa;
     while(choix != 3){
         do{
-            printf(" ---- Quel action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?\n[2]:Utiliser un sort ?\n[3]:Passer son tour\nchoix:");
+            printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?\n[2]:Utiliser un sort ?\n[3]:Passer son tour\nchoix:");
             scanf("%i",&choix );
         }
         while(choix < 1 || choix > 3);

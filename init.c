@@ -52,7 +52,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	}
 
 	while(numero_j <=2){
-		printf("Choix des cases possibles pour le joueur %i:",numero_j);
+		printf("\n ---- Choix des cases possibles pour le joueur %i ---- \n",numero_j);
 		/* choix des positions du premier joueurs*/
 		if(numero_j == 1){
 			matriceJeu[y1][x1]='1';

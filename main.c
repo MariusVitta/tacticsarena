@@ -14,7 +14,7 @@ int main(){
 	do{
 		printf("Joueur 1: choisir une classe\n");
 		printf("[1] : Guerrier\n");
-		printf("[2] : Archer\n");
+		printf("[2] : Archer\nChoix:");
 		scanf("%d",&classe1);
 
 		if((classe1 != 1)&&(classe1 != 2))
@@ -25,7 +25,7 @@ int main(){
 	do{
 		printf("Joueur 2: choisir une classe\n");
 		printf("[1] : Guerrier\n");
-		printf("[2] : Archer\n");
+		printf("[2] : Archer\nChoix:");
 
 
 		scanf("%d",&classe2);
