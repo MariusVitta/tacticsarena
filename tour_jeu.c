@@ -14,23 +14,29 @@ int tour(char map[N][N],t_personnage j1,t_personnage j2 ){
     /* variable qui compte le nombre de déplacement max possible par personnage*/
     int nb_deplacement = 3;
     int choix = 0;
-    int point_action = 0;
-    do{
-        printf("Quel action souhaitez vous effectuer ?\n[1]:Se déplacer ?\n[2]:Utiliser un sort ?\n[3]:Passer son tour\nchoix:");
-        scanf("%i",&choix );
-    }
-    while(choix < 1 || choix > 3);
+    int point_action = j1.pa;
+    while(choix != 3){
+        do{
+            printf(" ---- Quel action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?\n[2]:Utiliser un sort ?\n[3]:Passer son tour\nchoix:");
+            scanf("%i",&choix );
+        }
+        while(choix < 1 || choix > 3);
 
-    switch(choix){
-
-        case 1:
-                deplacement(&j1,map);
-                maj(map,j1,j2);break;
-        case 2:
-            if(point_action < j1.pa){
-                printf("fonction sort");break;
-            }
-        case 3: printf("vous avez passer votre tour");break;
+        switch(choix){
+            case 1:
+                if(nb_deplacement > 0 ){
+                    nb_deplacement = deplacement(&j1,j2,map,nb_deplacement);break;
+                }
+                else{
+                    printf("\n ---- Vous avez utilisé tous vos points de déplacements ----\n\n");break;
+                }
+            case 2:
+                if(point_action > 0){
+                    printf("\n ---- fonction sort ---- \n\n");break;
+                    /*point_action = */
+                }
+            case 3: printf("\n ---- vous avez passé votre tour ---- \n\n");break;
+        }
     }
     return 1;
 }
