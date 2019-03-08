@@ -1,4 +1,4 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o
+OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o
 
 test: $(OBJ) fonc.h
 	gcc $(OBJ) -o test
@@ -15,8 +15,6 @@ persosorts.o: persosorts.c fonc.h
 foncjeu.o: foncjeu.c fonc.h
 	gcc -c $<
 deplacement.o: deplacement.c fonc.h
-	gcc -c $<
-tour_jeu.o: tour_jeu.c fonc.h
 	gcc -c $<
 
 #

@@ -45,35 +45,21 @@ int main(){
 	affichage_map(map);
 
 	affichage_coord(personnage1);
-<<<<<<< HEAD
-	deplacement(&personnage1,personnage2);
-	
-	/*
-=======
-	deplacement(&personnage1,map);
+
+	deplacement(&personnage1,personnage2,map);
 
 
->>>>>>> 0edcaaa96b954f835c76fe4153a83dddde823bfe
 	printf("après deplacement\n");
-	*/
+
 	maj(map,personnage1,personnage2);
 
 	affichage_map(map);
 	affichage_coord(personnage1);
 
 
+	printf("Le personnage '%s' est vivant\n", personnage1.nom);
 
-	/*if(est_mort(personnage1))
-		printf("Le personnage '%s' est mort\n", personnage1.nom);
-	else
-<<<<<<< HEAD
-		printf("Le personnage '%s' est vivant\n", personnage1.nom);
-	*/
-	
-=======
-		printf("Le personnage '%s' est vivant\n", personnage1.nom);*/
 
->>>>>>> 0edcaaa96b954f835c76fe4153a83dddde823bfe
 
 	return 0;
 }

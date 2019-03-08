@@ -39,7 +39,8 @@ void affichage_sort(t_personnage);
 void affichage_map(char map[N][N]);
 int est_mort(t_personnage);
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
-int deplacement(t_personnage * j1,char mat[N][N]);
+int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]);
+int saut(t_personnage * j1,char mat[N][N]);
 void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2);
 void affichage_coord(t_personnage perso);
 
