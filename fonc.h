@@ -15,7 +15,7 @@ typedef struct s_sort{
 /*structure contenant les coordonnées du personnage*/
 
 typedef struct s_coordonnees{
-	
+
 	int x;
 	int y;
 
@@ -35,11 +35,11 @@ typedef struct s_personnage{
 }t_personnage;
 
 t_personnage creer_perso(int,t_personnage);
-void affichage_sort(t_personnage);                   
+void affichage_sort(t_personnage);
 void affichage_map(char map[N][N]);
 int est_mort(t_personnage);
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
-int deplacement(t_personnage * j1,t_personnage j2);
+int deplacement(t_personnage * j1,char mat[N][N]);
 void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2);
 void affichage_coord(t_personnage perso);
 
@@ -47,5 +47,3 @@ void affichage_coord(t_personnage perso);
 typedef enum {NORD,SUD,EST,OUEST}t_direction;
 
 int direction(int * x, int * y, t_direction dir, int nb_cases);
-
-

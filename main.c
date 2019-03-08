@@ -10,16 +10,16 @@ int main(){
 	int i, j, classe1, classe2;
 
 	t_personnage personnage1,personnage2;
-	
+
 	do{
 		printf("Joueur 1: choisir une classe\n");
 		printf("[1] : Guerrier\n");
 		printf("[2] : Archer\n");
 		scanf("%d",&classe1);
-		
+
 		if((classe1 != 1)&&(classe1 != 2))
 			printf("Vous devez taper 1 ou 2\n");
-		
+
 	}while((classe1 != 1)&&(classe1 != 2));
 
 	do{
@@ -27,12 +27,12 @@ int main(){
 		printf("[1] : Guerrier\n");
 		printf("[2] : Archer\n");
 
-		
+
 		scanf("%d",&classe2);
-		
+
 		if((classe2 != 1)&&(classe2 != 2))
 			printf("Vous devez taper 1 ou 2\n");
-		
+
 	}while((classe2 != 1)&&(classe2 != 2));
 
 	personnage1 = creer_perso(classe1,personnage1);
@@ -45,9 +45,9 @@ int main(){
 	affichage_map(map);
 
 	affichage_coord(personnage1);
-	deplacement(&personnage1,personnage2);
-	
-	
+	deplacement(&personnage1,map);
+
+
 	printf("après deplacement\n");
 
 	maj(map,personnage1,personnage2);
@@ -55,13 +55,13 @@ int main(){
 	affichage_map(map);
 	affichage_coord(personnage1);
 
-	
+
 
 	/*if(est_mort(personnage1))
 		printf("Le personnage '%s' est mort\n", personnage1.nom);
 	else
 		printf("Le personnage '%s' est vivant\n", personnage1.nom);*/
-	
+
 
 	return 0;
 }
