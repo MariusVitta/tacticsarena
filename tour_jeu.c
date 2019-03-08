@@ -24,7 +24,7 @@ int tour(char map[N][N],t_personnage j1,t_personnage j2 ){
     switch(choix){
 
         case 1:
-                deplacement(&j1,map);
+                deplacement(&j1,j2,map);
                 maj(map,j1,j2);break;
         case 2:
             if(point_action < j1.pa){

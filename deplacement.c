@@ -40,7 +40,7 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
 		do{
 		printf("choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
 
-		scanf("%c",&c);
+		scanf(" %c",&c);
 		}
 		while(c != 'h' && c != 'b' && c != 'g' && c != 'd' && c != 'R');
 

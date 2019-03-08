@@ -1,4 +1,4 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o
+OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o
 
 OBJ_COUP_ZONE = fonc.o coup_zone.o init.o foncjeu.o persosorts.o
 
