@@ -47,9 +47,9 @@ int main(){
 	affichage_coord(personnage1);
 	deplacement(&personnage1,personnage2);
 	
-	
+	/*
 	printf("après deplacement\n");
-
+	*/
 	maj(map,personnage1,personnage2);
 
 	affichage_map(map);
@@ -60,7 +60,8 @@ int main(){
 	/*if(est_mort(personnage1))
 		printf("Le personnage '%s' est mort\n", personnage1.nom);
 	else
-		printf("Le personnage '%s' est vivant\n", personnage1.nom);*/
+		printf("Le personnage '%s' est vivant\n", personnage1.nom);
+	*/
 	
 
 	return 0;
