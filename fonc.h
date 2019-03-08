@@ -16,8 +16,8 @@ typedef struct s_sort{
 
 typedef struct s_coordonnees{
 	
-	double x;
-	double y;
+	int x;
+	int y;
 
 }t_coordonnees;
 

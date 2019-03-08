@@ -34,12 +34,13 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	/* génération des obstacles sur la carte */
 	i = 1;
 	while(i <= 5){
-		if(matriceJeu[obs_x][obs_y] != 'o'){
+		if(matriceJeu[obs_y][obs_x] != 'o'){
 			matriceJeu[obs_y][obs_x] = 'o';
 			i++;
+			printf("cooord x=%i et y=%i\n",obs_x,obs_y);
 		}
 		obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
-		printf("%i\n",i);
+		//printf("%i\n",i);
 	}
 
 	/* remplissage de la map sans les joueurs positionnés */
