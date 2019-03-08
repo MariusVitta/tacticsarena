@@ -37,7 +37,6 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 		if(matriceJeu[obs_y][obs_x] != 'o'){
 			matriceJeu[obs_y][obs_x] = 'o';
 			i++;
-			printf("cooord x=%i et y=%i\n",obs_x,obs_y);
 		}
 		obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
 	}
