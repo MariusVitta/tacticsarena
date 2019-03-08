@@ -7,20 +7,20 @@
 
 /* Fonction permettant de deplacer son personnage et changer ses coordonnées
  * paramètre j1 : joueur que l'on souhaite déplacer
- * paramètre j2 : joueur non déplacer, utilisation de ses coordonnées pour éviter la superposition des joueurs
+ * paramètre map
  * retourne : 1 si le déplacement a bien eu lieu
  */
 
-int deplacement(t_personnage * j1,char mat[N][N]){
-	int x,y;
+int deplacement(t_personnage * j1,char map[N][N]){
+	int x,y,i,j;
 
 	do{
 		printf("saisir les coordonnées de la case ou vous voulez aller\n");
 
 		scanf("%d %d",&x,&y);
 	}
-	while((((fabs(j1->coord.x-x)+fabs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (mat[x][y]!='.'));
 
+	while((((fabs(j1->coord.x-x)+fabs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
 	j1->coord.x = x;
 
