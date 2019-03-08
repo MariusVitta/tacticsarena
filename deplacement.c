@@ -105,6 +105,8 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
 			case 'R':
 				return 1;
 		}
+		maj(map,*j1,j2);
+		affichage_map(map);
 
 	}
 
