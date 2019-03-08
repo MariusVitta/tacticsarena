@@ -44,14 +44,15 @@ int main(){
     affichage_map(map);
 	affichage_sort(personnage1);
     affichage_sort(personnage2);
-    while(est_mort(personnage1) || est_mort(personnage2)){
+    while(!est_mort(personnage1) || !est_mort(personnage2)){
+        printf("[Tour du joueur %i]\n\n",num_j);
         tour(map,personnage1,personnage2);
         affichage_map(map);
-        i++;
-        printf("Tour du joueur %i\n\n",num_j);
+        num_j++;
+        printf("[Tour du joueur %i]\n\n",num_j);
         tour(map,personnage2,personnage1);
         affichage_map(map);
-        i--;
+        num_j--;
    }
    printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
 
