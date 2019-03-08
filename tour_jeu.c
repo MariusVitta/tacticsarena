@@ -34,3 +34,4 @@ int tour(char map[N][N],t_personnage j1,t_personnage j2 ){
     }
     return 1;
 }
+ 
