@@ -8,7 +8,7 @@ char map[N][N];
 int main(){
 
 	int i, j, classe1, classe2;
-
+    int num_j = 1;
 	t_personnage personnage1,personnage2;
 
 	do{
@@ -40,40 +40,27 @@ int main(){
 
 	initialisation(map,&personnage1,&personnage2);
 
+    printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
+    printf("Tour du joueur %i\n\n",num_j);
+
 	affichage_sort(personnage1);
+    affichage_sort(personnage2);
+    while(est_mort(personnage1) || est_mort(personnage2)){
+        tour(map,&personnage1,&personnage2);
+        affichage_map(map);
+        i++;
+        printf("Tour du joueur %i\n\n",num_j);
+        tour(map,&personnage2,&personnage1);
+        affichage_map(map);
+   }
 
-	affichage_map(map);
-
-	affichage_coord(personnage1);
-<<<<<<< HEAD
-	deplacement(&personnage1,personnage2);
-	
-	/*
-=======
-	deplacement(&personnage1,map);
-
-
->>>>>>> 0edcaaa96b954f835c76fe4153a83dddde823bfe
-	printf("après deplacement\n");
-	*/
-	maj(map,personnage1,personnage2);
-
-	affichage_map(map);
-	affichage_coord(personnage1);
+   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
 
 
-
-	/*if(est_mort(personnage1))
+	if(est_mort(personnage1))
 		printf("Le personnage '%s' est mort\n", personnage1.nom);
-	else
-<<<<<<< HEAD
-		printf("Le personnage '%s' est vivant\n", personnage1.nom);
-	*/
-	
-=======
-		printf("Le personnage '%s' est vivant\n", personnage1.nom);*/
-
->>>>>>> 0edcaaa96b954f835c76fe4153a83dddde823bfe
+	else if(est_mort(personnage1))
+		printf("Le personnage '%s' est mort\n", personnage1.nom);
 
 	return 0;
 }
