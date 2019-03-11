@@ -30,8 +30,8 @@ int saut(t_personnage * j1,char map[N][N]){
 }
 
 
-
-int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ){
+/*avec personnage n le nombre de deplacements qu'il reste et nbj le numero du joueur*/
+int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj){
 
 	char c;
 
@@ -105,9 +105,14 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ){
 			case 'R':
 				return n;
 		}
-		maj(map,*j1,j2);
-		affichage_map(map);
-
+		if(nbj==1){
+			maj(map,*j1,j2);
+			affichage_map(map);
+		}
+		else{
+			maj(map,j2,*j1);
+			affichage_map(map);
+		}
 	//}
 
 	return n;
