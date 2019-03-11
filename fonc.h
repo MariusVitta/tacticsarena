@@ -57,7 +57,7 @@ void affichage_coord(t_personnage perso);
 /* affichage des sorts utilisable par le joueur */
 void sort_uti(t_personnage perso);
 /*fonction de tour de jeu (se déplacer,utiliser un sort, passer son tour) */
-int tour(char map[N][N],t_personnage j1,t_personnage j2 );
+int tour(char map[N][N],t_personnage j1,t_personnage j2 ,int nb_j);
 
 void diago(char map[N][N], t_personnage perso1, t_personnage * perso2);
 

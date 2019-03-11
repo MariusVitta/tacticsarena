@@ -28,12 +28,13 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2;
 	int i,j,choix = 0,numero_j=1;
 	int nb = 1;
+	int nb_obs = 10;
 
 	int obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
 
 	/* génération des obstacles sur la carte */
 	i = 1;
-	while(i <= 5){
+	while(i <= nb_obs){
 		if(matriceJeu[obs_y][obs_x] != 'o'){
 			matriceJeu[obs_y][obs_x] = 'o';
 			i++;

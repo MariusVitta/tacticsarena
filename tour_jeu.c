@@ -10,7 +10,7 @@
  * la fonction demande au personne s'il souhaite effectuer un déplacement/utiliser un ou des sort(s)/passer son tour et ne rien faire
  * renvoie vrai lors que le tour de jeu du personnage est finie ou lorsqu'il passe son tour
  */
-int tour(char map[N][N],t_personnage j1,t_personnage j2 ){
+int tour(char map[N][N],t_personnage j1,t_personnage j2,int nb_j ){
     /* variable qui compte le nombre de déplacement max possible par personnage*/
     int nb_deplacement = 3;
     int choix = 0;
@@ -25,7 +25,7 @@ int tour(char map[N][N],t_personnage j1,t_personnage j2 ){
         switch(choix){
             case 1:
                 if(nb_deplacement > 0 ){
-                    nb_deplacement = deplacement(&j1,j2,map,nb_deplacement);break;
+                    nb_deplacement = deplacement(&j1,j2,map,nb_deplacement,nb_j);break;
                 }
                 else{
                     printf("\n ---- Vous avez utilisé tous vos points de déplacements ----\n\n");break;
