@@ -27,7 +27,7 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != '*' && point[i][j] != 'o'){
+					if(point[i][j] != '1' && point[i][j] != 'o'){
 						point[i][j] = 'A' + car;
 						car++;
 					}
@@ -45,7 +45,7 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != '*' && point[g][j] != 'o'){
+					if(point[g][j] != '1' && point[g][j] != 'o'){
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -66,7 +66,7 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 	}while(!existe(point, choix, &x, &y));
 
 	//printf("x = %i y = %i\n", x, y);
-	if((map[y][x] == '$') || (map[y][x] == '*')){
+	if((map[y][x] == '2') || (map[y][x] == '1')){
 		j2->pv -= j1->s3.degat;
 		printf("%s touché.\nPoint de vie : %i\n", j2->nom, j2->pv);
 	}

@@ -27,7 +27,7 @@ void coup_zone(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != '*' && point[i][j] != 'o'){
+					if(point[i][j] != '1' && point[i][j] != 'o'){
 						point[i][j] = 'A' + car;
 						car++;
 					}
@@ -45,7 +45,7 @@ void coup_zone(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != '*' && point[g][j] != 'o'){
+					if(point[g][j] != '1' && point[g][j] != 'o'){
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -65,11 +65,16 @@ void coup_zone(char map[N][N],t_personnage * j1,t_personnage  * j2){
 	}while(!existe(point, choix, &x, &y));
 
 	//printf("x = %i y = %i\n", x, y);
-  //vérifie si il y a un ennemie si oui lui inflige les dégats
-	if((map[y][x] == '$') || (map[y][x] == '*')){
-    if ((map[y-1][x] == map[i][j]) || (map[y+1][x] == map[i][j]) || (map[y][x-1] == map[i][j]) || (map[y][x+1] == map[i][j])){
-    		j2->pv -= j1->s4.degat;
-				printf("%s touché.\nPoint de vie : %i\n", j2->nom, j2->pv);
-		}
-	}
+  //vérifie si il y a des personnages si oui leurs infliges les dégats
+  //  if ( (map[y][x] == '2') || (map[y][x] == '1') || (map[y-1][x] == map[i][j]) || (map[y+1][x] == map[i][j]) || (map[y][x-1] == map[i][j]) || (map[y][x+1] == map[i][j])){
+			for( i=y-1;i<=y+1;i++){
+				if( i==y ){
+					for( j=x-1;j<=x+1;j++){
+						if( (map[i][j] == 1) || (map[i][j] == 2) || (map[i][j] == 3) || (map[i][j] == 4) ){
+							j2->pv -= j1->s4.degat;
+							printf("%s touché.\nPoint de vie : %i\n", j2->nom, j2->pv);
+						}
+					}
+				}
+			}
 }
