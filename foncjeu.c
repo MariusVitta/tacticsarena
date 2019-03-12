@@ -98,7 +98,7 @@ void diago(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 	}while(!existe(point, choix, &x, &y));
 
 	//printf("x = %i y = %i\n", x, y);
-	if(map[y][x] == '*'){
+	if(map[y][x] == '$' || map[y][x] == '*'){
 		perso2->pv -= perso1->s1.degat;
 		printf("%s touché.\nPoint de vie : %i\n", perso2->nom, perso2->pv);
 	}
@@ -157,7 +157,7 @@ void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 			scanf(" %c", &choix);
 	}while(!existe(point, choix, &x, &y));
 
-	if(map[y][x] == '*'){
+	if(map[y][x] == '$' || map[y][x] == '*'){
 		perso2->pv -= perso1->s2.degat;
 		printf("%s touché.\nPoint de vie : %i\n", perso2->nom, perso2->pv);
 	}
@@ -215,7 +215,7 @@ void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 			scanf(" %c", &choix);
 	}while(!existe(point, choix, &x, &y));
 
-	if(map[y][x] == '$'){
+	if(map[y][x] == '$' || map[y][x] == '*'){
 		perso2->pv -= perso1->s4.degat;
 		printf("%s touché.\nPoint de vie : %i\n", perso2->nom, perso2->pv);
 	}
