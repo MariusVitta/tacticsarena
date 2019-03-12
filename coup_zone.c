@@ -4,10 +4,82 @@
 
 char map[N][N];
 
-void coup_zone(char map[N][N],t_personnage j1,t_personnage j2){
+static int existe(char mat[N][N], char choix, int * x, int * y){
+
+	int i, j;
+
+	for(i = 0; i < N; i++){
+		for(j = 0; j < N; j++){
+			if(mat[i][j] == choix){
+				*x = j;
+				*y = i;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
 
 
-    //affichage_map(map);
+void double_tape(char map[N][N],t_personnage j1,t_personnage  * j2){
+
+	char point[N][N];/*matrice affichant les possibilités de jeu*/
+	int i, j, g, dist=j1.s4.portee,car=0;
+	char choix;
+
+	/* recopie matrice dans la matrice point qui affiche la portee */
+
+	for(i = 0; i < N; i++){
+		for(j = 0; j < N; j++){
+			point[i][j] = map[i][j];
+		}
+	}
+
+
+	i = j1.coord.y;
+	j = j1.coord.x - dist ;
+
+	for( ; i >= 0  && ( dist >= 0 ) ; i--, dist--){
+		j = j1.coord.x - dist ;
+		for( ; (j >= 0 && j < N)  && (j <= j1.coord.x + dist) ; j++){
+			if(point[i][j] != '*' && point[i][j] != 'o'){
+				point[i][j] = 'A' + car;
+				car++;
+			}
+		}
+	}
+
+	dist=j1.s4.portee;
+	g = j1.coord.y;
+	j = j1.coord.x - dist ;
+
+	for( ; g < N  && ( dist >= 0 ) ; g++, dist--){
+		j = j1.coord.x - dist ;
+		for( ; (j >= 0 && j < N)  && (j <= j1.coord.x + dist) ; j++){
+			if(point[g][j] != '*' && point[g][j] != 'o'){
+				if(g != j1.coord.y){
+						point[g][j] = 'A' + car;
+						car ++;
+				}
+			}
+		}
+	}
+
+	/* affichage */
+	affichage_map(point);
+
+	int x = 0, y = 0;
+	do{
+			printf("Où souhaitez vous taper : ");
+			scanf(" %c", &choix);
+	}while(!existe(point, choix, &x, &y));
+
+	//printf("x = %i y = %i\n", x, y);
+  //vérifie si il y a un ennemie si oui lui inflige les dégats
+	if((map[y][x] == map[i][j])){
+    if ((map[y-1][x] == map[i][j]) || (map[y+1][x] == map[i][j]) || (map[y][x-1] == map[i][j]) || (map[y][x+1] == map[i][j]))
+    		j2->pv -= j1.s4.degat;
+  }
 }
 
 int main(){
@@ -44,7 +116,6 @@ int main(){
 
 	initialisation(map,&personnage1,&personnage2);
 
-
-    coup_zone(map,personnage1,personnage2);
+    double_tape(map,personnage1,&personnage2);
     return 0;
 }
