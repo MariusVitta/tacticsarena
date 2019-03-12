@@ -54,7 +54,7 @@ void sort_uti(t_personnage perso){
 	printf("[%i] %s : ", i++, perso.s4.nom);
 	printf("portée [%i] / ", perso.s4.portee);
 	printf("dégât [%i] / ", perso.s4.degat);
-	printf("point d'action [%i]\n\n", perso.s4.point_action);
+	printf("point d'action [%i]\n\nchoix:", perso.s4.point_action);
 
 }
 
@@ -63,7 +63,7 @@ void affichage_map(char map[N][N]){
 
 	int i, j;
 
-	printf("Plan de jeu \n\n");
+	printf(" ---- [Plan de jeu] ---- \n\n");
 
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++)
