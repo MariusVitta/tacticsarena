@@ -51,14 +51,14 @@ int main(){
         affichage_map(map);
         num_j++;
         mort1 = est_mort(personnage1);
+				  mort2= est_mort(personnage2);
         /* si le personnage 1 est mort on effectue pas le tour du joueur */
-        if(!mort1){
+        if(!mort1 && !mort2){
             printf("[Tour numéro:%i][Tour du joueur %i]\n\n",nb_tour,num_j);
             tour(map,&personnage2,&personnage1,2);
             affichage_map(map);
         }
-        mort2= est_mort(personnage2);
-        if( mort1 || mort2 ){
+        if( !mort1 && !mort2 ){
 		          printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
 		          affichage_coord(personnage2);
 		          affichage_coord(personnage1);
