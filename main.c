@@ -7,7 +7,7 @@ char map[N][N];
 
 int main(){
 
-	int i, j, classe1, classe2;
+	int i, j, classe1, classe2,nb_tour = 1;
     int num_j = 1;
 	t_personnage personnage1,personnage2;
 
@@ -40,28 +40,25 @@ int main(){
 
 	initialisation(map,&personnage1,&personnage2);
     printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
-    printf("Tour du joueur %i\n\n",num_j);
-
     affichage_map(map);
-    /* affichage de tout les jours des joueurs */
-
 
     /* boucle principale du jeu */
     while(!est_mort(personnage1) || !est_mort(personnage2)){
-        printf("[Tour du joueur %i]\n\n",num_j);
-				affichage_sort(personnage1);
+        printf("[Tour numéro:%i][Tour du joueur %i]\n\n",nb_tour,num_j);
+
         tour(map,&personnage1,&personnage2,1);
         affichage_map(map);
         num_j++;
 
-        printf("[Tour du joueur %i]\n\n",num_j);
-				affichage_sort(personnage2);
+        printf("[Tour numéro:%i][Tour du joueur %i]\n\n",nb_tour,num_j);
+
         tour(map,&personnage2,&personnage1,2);
         affichage_map(map);
-		printf("=========AFFICHAGE COORD========\n");
+		printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
 		affichage_coord(personnage2);
 		affichage_coord(personnage1);
         num_j--;
+        nb_tour++;
    }
    printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
 
