@@ -27,7 +27,7 @@ void coup_zone(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != '1' && point[i][j] != 'o'){
+					if(point[i][j] != '1'  && point[g][j] != '2' && point[i][j] != 'o'){
 						point[i][j] = 'A' + car;
 						car++;
 					}
@@ -45,7 +45,7 @@ void coup_zone(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != '1' && point[g][j] != 'o'){
+					if(point[g][j] != '1' && point[g][j] != '2' && point[g][j] != 'o'){
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
