@@ -20,10 +20,10 @@ static int existe(char mat[N][N], char choix, int * x, int * y){
 	return 0;
 }
 
-void petit_coup(char map[N][N],t_personnage j1,t_personnage  * j2){
+void petit_coup(char map[N][N],t_personnage * j1,t_personnage  * j2){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
-	int i, j, g, dist=j1.s3.portee,car=0;
+	int i, j, g, dist=j1->s3.portee,car=0;
 	char choix;
 
 
@@ -36,32 +36,40 @@ void petit_coup(char map[N][N],t_personnage j1,t_personnage  * j2){
 	}
 
 
-	i = j1.coord.y;
-	j = j1.coord.x - dist ;
+	i = j1->coord.y;
+	j = j1->coord.x - dist ;
 
 	for( ; i >= 0  && ( dist >= 0 ) ; i--, dist--){
-		j = j1.coord.x - dist ;
-		for( ; (j >= 0 && j < N)  && (j <= j1.coord.x + dist) ; j++){
-			if(point[i][j] != '*' && point[i][j] != 'o'){
-				point[i][j] = 'A' + car;
-				car++;
-				if('A' + car == 'o')
-					car++;
+		j = j1->coord.x - dist ;
+		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
+			if(j>=0){
+				if(j<N){
+					if(point[i][j] != '*' && point[i][j] != 'o'){
+						point[i][j] = 'A' + car;
+						car++;
+						if('A' + car == 'o')
+							car++;
+					}
+				}
 			}
 		}
 	}
 
-	dist=j1.s3.portee;
-	g = j1.coord.y;
-	j = j1.coord.x - dist ;
+	dist=j1->s3.portee;
+	g = j1->coord.y;
+	j = j1->coord.x - dist ;
 
 	for( ; g < N  && ( dist >= 0 ) ; g++, dist--){
-		j = j1.coord.x - dist ;
-		for( ; (j >= 0 && j < N)  && (j <= j1.coord.x + dist) ; j++){
-			if(point[g][j] != '*' && point[g][j] != 'o'){
-				if(g != j1.coord.y){
-						point[g][j] = 'A' + car;
-						car ++;
+		j = j1->coord.x - dist ;
+		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
+			if(j>=0){
+				if(j<N){
+					if(point[g][j] != '*' && point[g][j] != 'o'){
+						if(g != j1->coord.y){
+								point[g][j] = 'A' + car;
+								car ++;
+						}
+					}
 				}
 			}
 		}
@@ -78,7 +86,7 @@ void petit_coup(char map[N][N],t_personnage j1,t_personnage  * j2){
 
 	//printf("x = %i y = %i\n", x, y);
 	if(map[y][x] == map[i][j])
-		j2->pv -= j1.s3.degat;
+		j2->pv -= j1->s3.degat;
 
 }
 
@@ -111,11 +119,11 @@ int main(){
 
 	}while((classe2 != 1)&&(classe2 != 2));
 
-	personnage1 = creer_perso(classe1,personnage1);
-	personnage2 = creer_perso(classe2,personnage2);
+	personnage1 = creer_perso(classe1,&personnage1);
+	personnage2 = creer_perso(classe2,&personnage2);
 
 	initialisation(map,&personnage1,&personnage2);
 
-    petit_coup(map,personnage1,&personnage2);
+    petit_coup(map,&personnage1,&personnage2);
     return 0;
 }

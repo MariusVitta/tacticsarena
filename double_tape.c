@@ -40,10 +40,14 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 
 	for( ; i >= 0  && ( dist >= 0 ) ; i--, dist--){
 		j = j1->coord.x - dist ;
-		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
-			if(point[i][j] != '*' && point[i][j] != 'o'){
-				point[i][j] = 'A' + car;
-				car++;
+		for( ;(j <= j1->coord.x + dist) ; j++){
+			if(j>=0){
+				if(j<N){
+					if(point[i][j] != '*' && point[i][j] != 'o'){
+						point[i][j] = 'A' + car;
+						car++;
+					}
+				}
 			}
 		}
 	}
@@ -54,11 +58,15 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 
 	for( ; g < N  && ( dist >= 0 ) ; g++, dist--){
 		j = j1->coord.x - dist ;
-		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
-			if(point[g][j] != '*' && point[g][j] != 'o'){
-				if(g != j1->coord.y){
-						point[g][j] = 'A' + car;
-						car ++;
+		for( ;(j <= j1->coord.x + dist) ; j++){
+			if(j>=0){
+				if(j<N){
+					if(point[g][j] != '*' && point[g][j] != 'o'){
+						if(g != j1->coord.y){
+								point[g][j] = 'A' + car;
+								car ++;
+						}
+					}
 				}
 			}
 		}
@@ -108,8 +116,8 @@ int main(){
 
 	}while((classe2 != 1)&&(classe2 != 2));
 
-	personnage1 = creer_perso(classe1,personnage1);
-	personnage2 = creer_perso(classe2,personnage2);
+	personnage1 = creer_perso(classe1,&personnage1);
+	personnage2 = creer_perso(classe2,&personnage2);
 
 	initialisation(map,&personnage1,&personnage2);
 
