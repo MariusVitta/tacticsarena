@@ -66,7 +66,8 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 	}while(!existe(point, choix, &x, &y));
 
 	//printf("x = %i y = %i\n", x, y);
-	if(map[y][x] == map[i][j])
+	if((map[y][x] == '$') || (map[y][x] == '*')){
 		j2->pv -= j1->s3.degat;
-
+		printf("%s touché.\nPoint de vie : %i\n", j2->nom, j2->pv);
+	}
 }
