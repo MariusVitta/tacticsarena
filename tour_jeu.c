@@ -34,24 +34,72 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                 if(point_action > 0){
                     printf("\n ---- fonctions sort ---- \n\n");
                     do{
-                        printf(" ---- Quel sort souhaitez vous effectuer ? ---- \n[1]:%s\n[2]:%s\n[3]:%s\n[4]:%s",j1.s1.nom,j1.s2.nom,j1.s3.nom,j1.s4.nom);
+                        sort_uti(*j1);
                         scanf("%i",&choix );
                     }
                     while(choix < 1 || choix > 4);
-                    if(j1.nom == "Guerrier"){
+                    if(j1->nom == "Guerrier"){
                         switch(choix){
-                            case 1:saut(j1,map);break;
-                            case 2:/*perso.s2=soin;*/break;
-                            case 3: petit_coup(map,j1,j2);break;
-                            case 4:/*perso.s4=groscoup;*/break;
-                        }
+                            case 1:
+                                if (point_action <= j1->s1.point_action) {
+                                    saut(j1,map);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            case 2:
+                                if (point_action <= j1->s1.point_action) {
+                                    soin(j1);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            case 3:
+                                if (point_action <= j1->s1.point_action) {
+                                    petit_coup(map,*j1,j2);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            case 4:
+                                if (point_action <= j1->s1.point_action) {
+                                    grosCoup(map,j1,j2);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            }
                     }
-                    else if(j1.nom == "Archer"){
+                    else if(j1->nom == "Archer"){
                         switch(choix){
-                            case 1:diago(map,j1,j2);break;
-                            case 2:/*perso.s2=ligne;*/break;
-                            case 3:double_tape(map,j1,j2);break;
-                            case 4:/*perso.s4=coupzone;*/break;
+                            case 1:
+                                if (point_action <= j1->s1.point_action) {
+                                    diago(map,j1,j2);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            case 2:
+                                if (point_action <= j1->s1.point_action) {
+                                    ligne(map,j1,j2);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            case 3:
+                                if (point_action <= j1->s1.point_action) {
+                                    double_tape(map,*j1,j2);break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
+                            case 4:
+                                if (point_action <= j1->s1.point_action) {
+                                    /*perso.s4=coupzone;*/break;
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;
+                                }
                         }
                     }
                 }
