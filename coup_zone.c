@@ -21,7 +21,7 @@ static int existe(char mat[N][N], char choix, int * x, int * y){
 }
 
 
-void double_tape(char map[N][N],t_personnage j1,t_personnage  * j2){
+void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist=j1.s4.portee,car=0;
@@ -116,6 +116,6 @@ int main(){
 
 	initialisation(map,&personnage1,&personnage2);
 
-    double_tape(map,personnage1,&personnage2);
+    double_tape(map,&personnage1,&personnage2);
     return 0;
 }
