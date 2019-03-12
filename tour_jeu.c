@@ -32,7 +32,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                 }
             case 2:
                 if(point_action > 0){
-                    printf("\n ---- fonctions sort ---- \n\n");
+                    printf("\n ---- fonctions sort ---- \n\n");  
                     do{
 
                         sort_uti(*j1);
