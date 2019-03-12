@@ -28,16 +28,16 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2;
 	int i,j,choix = 0,numero_j=1;
 	int nb = 1;
+	int nb_obs = 10;
 
 	int obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
 
 	/* génération des obstacles sur la carte */
 	i = 1;
-	while(i <= 5){
+	while(i <= nb_obs){
 		if(matriceJeu[obs_y][obs_x] != 'o'){
 			matriceJeu[obs_y][obs_x] = 'o';
 			i++;
-			printf("cooord x=%i et y=%i\n",obs_x,obs_y);
 		}
 		obs_x = rand()%(N-2)+1 , obs_y = rand()%3+4;
 	}
@@ -53,7 +53,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	}
 
 	while(numero_j <=2){
-		printf("Choix des cases possibles pour le joueur %i:",numero_j);
+		printf("\n ---- Choix des cases possibles pour le joueur %i ---- \n",numero_j);
 		/* choix des positions du premier joueurs*/
 		if(numero_j == 1){
 			matriceJeu[y1][x1]='1';

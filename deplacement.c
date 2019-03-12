@@ -15,7 +15,7 @@ int saut(t_personnage * j1,char map[N][N]){
 	int x,y;
 
 	do{
-		printf("saisir les coordonnées de la case où vous voulez aller\n");
+		printf("Saisir les coordonnées de la case où vous voulez aller\n");
 
 		scanf("%d %d",&x,&y);
 	}
@@ -30,15 +30,15 @@ int saut(t_personnage * j1,char map[N][N]){
 }
 
 
+/*avec personnage n le nombre de deplacements qu'il reste et nbj le numero du joueur*/
+int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj){
 
-int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
-	int n=0;
 	char c;
 
-	while (n<3) {
+	//while (n > 0) {
 
 		do{
-		printf("choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
+		printf("Choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
 
 		scanf(" %c",&c);
 		}
@@ -55,8 +55,8 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
 				}
 				else{
 					j1->coord.y--;
-					printf("haut\n");
-					n++;
+					printf("Haut\n");
+					n--;
 					break;
 				}
 
@@ -69,8 +69,8 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
 
 				else{
 					j1->coord.y++;
-					printf("bas\n");
-					n++;
+					printf("Bas\n");
+					n--;
 					break;
 				}
 
@@ -83,8 +83,8 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
 
 				else{
 					j1->coord.x--;
-					printf("gauche\n");
-					n++;
+					printf("Gauche\n");
+					n--;
 					break;
 				}
 
@@ -97,18 +97,23 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]){
 
 				else{
 					j1->coord.x++;
-					printf("droite\n");
-					n++;
+					printf("Droite\n");
+					n--;
 					break;
 				}
 
 			case 'R':
-				return 1;
+				return n;
 		}
-		maj(map,*j1,j2);
-		affichage_map(map);
+		if(nbj==1){
+			maj(map,*j1,j2);
+			affichage_map(map);
+		}
+		else{
+			maj(map,j2,*j1);
+			affichage_map(map);
+		}
+	//}
 
-	}
-
-	return 1;
+	return n;
 }

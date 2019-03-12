@@ -60,7 +60,7 @@ void diago(char map[N][N], t_personnage perso1, t_personnage * perso2){
 
 	int nb = 0;
 
-	printf("%i\n", perso1.s1.portee);
+	//printf("%i\n", perso1.s1.portee);
 
 	for(; (i < N && j < N) && nb < perso1.s1.portee && point[i][j] != 'o'; i++, j++, nb++)
 		point[i][j] = 'A' + nb;

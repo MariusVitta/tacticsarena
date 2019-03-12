@@ -14,7 +14,7 @@ int main(){
 	do{
 		printf("Joueur 1: choisir une classe\n");
 		printf("[1] : Guerrier\n");
-		printf("[2] : Archer\n");
+		printf("[2] : Archer\nChoix:");
 		scanf("%d",&classe1);
 
 		if((classe1 != 1)&&(classe1 != 2))
@@ -25,7 +25,7 @@ int main(){
 	do{
 		printf("Joueur 2: choisir une classe\n");
 		printf("[1] : Guerrier\n");
-		printf("[2] : Archer\n");
+		printf("[2] : Archer\nChoix:");
 
 
 		scanf("%d",&classe2);
@@ -41,17 +41,24 @@ int main(){
 	initialisation(map,&personnage1,&personnage2);
     printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
     printf("Tour du joueur %i\n\n",num_j);
+
     affichage_map(map);
+    /* affichage de tout les jours des joueurs */
 	affichage_sort(personnage1);
     affichage_sort(personnage2);
+    /* boucle principale du jeu */
     while(!est_mort(personnage1) || !est_mort(personnage2)){
         printf("[Tour du joueur %i]\n\n",num_j);
-        tour(map,personnage1,personnage2);
+        tour(map,personnage1,personnage2,1);
         affichage_map(map);
         num_j++;
+
         printf("[Tour du joueur %i]\n\n",num_j);
-        tour(map,personnage2,personnage1);
+        tour(map,personnage2,personnage1,2);
         affichage_map(map);
+		printf("=========AFFICHAGE COORD========\n");
+		affichage_coord(personnage2);
+		affichage_coord(personnage1);
         num_j--;
    }
    printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");

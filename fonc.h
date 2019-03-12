@@ -7,6 +7,8 @@ typedef struct s_sort{
 	char * nom;
 	int portee;
 	int degat;
+	int cd;/* cooldown*/
+	int upt;/*utilisation par tour*/
 	int point_action;
 
 }t_sort;
@@ -28,6 +30,7 @@ typedef struct s_personnage{
 
 	char* nom;
 	int pv;
+	int pv_max;
 	int pa;
 	t_coordonnees coord;
 	t_sort s1,s2,s3,s4;
@@ -44,7 +47,7 @@ int est_mort(t_personnage);
 /* mise à jour de la carte suite à une déplacement d'un joueur */
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
 /* fonction déplacement case par case pour le joueur */
-int deplacement(t_personnage * j1,t_personnage j2,char map[N][N]);
+int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj);
 
 int saut(t_personnage * j1,char mat[N][N]);
 /*fonction d'initialisation (positionnement,création des obstacles) */
@@ -54,7 +57,7 @@ void affichage_coord(t_personnage perso);
 /* affichage des sorts utilisable par le joueur */
 void sort_uti(t_personnage perso);
 /*fonction de tour de jeu (se déplacer,utiliser un sort, passer son tour) */
-int tour(char map[N][N],t_personnage j1,t_personnage j2 );
+int tour(char map[N][N],t_personnage j1,t_personnage j2 ,int nb_j);
 
 void diago(char map[N][N], t_personnage perso1, t_personnage * perso2);
 
