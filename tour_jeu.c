@@ -43,7 +43,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                         switch(choix){
                             case 1:
                                 if (point_action <= j1->s1.point_action) {
-                                    saut(j1,map);break;
+                                    saut(j1,j2,map,nb_j);break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");break;

@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include "fonc.h"
 
-void affichage_sort(t_personnage perso){
-/*affiche les sorts selon le personnage choisi par l'utilisateur*/
-
-	printf("Personnage : %s\n\n", perso.nom);
-	printf("Listes des sorts: \n");
 
 void affichage_sort(t_personnage perso){
 /*affiche les sorts selon le personnage choisi par l'utilisateur*/
