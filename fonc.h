@@ -37,7 +37,7 @@ typedef struct s_personnage{
 
 }t_personnage;
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
-t_personnage creer_perso(int,t_personnage);
+t_personnage creer_perso(int,t_personnage *);
 /*affichage de tout les sorts du personnage choisi pour le joueur*/
 void affichage_sort(t_personnage);
 /* affichage de la matrice */
@@ -61,8 +61,16 @@ int tour(char map[N][N],t_personnage *j1,t_personnage *j2 ,int nb_j);
 
 void diago(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
-void coup_zone(char map[N][N],t_personnage * j1,t_personnage * j2);
+void coup_zone(char map[N][N],t_personnage *j1,t_personnage *j2);
+
+void double_tape(char map[N][N],t_personnage *j1,t_personnage  * j2);
+
+void petit_coup(char map[N][N],t_personnage * j1,t_personnage  * j2);
+
+int saut(t_personnage * j1,char map[N][N]);
 
 void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
 void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2);
+
+void soin(t_personnage * j1);
