@@ -62,3 +62,9 @@ int tour(char map[N][N],t_personnage j1,t_personnage j2 ,int nb_j);
 void diago(char map[N][N], t_personnage perso1, t_personnage * perso2);
 
 void coup_zone(char map[N][N],t_personnage j1,t_personnage j2);
+
+void double_tape(char map[N][N],t_personnage j1,t_personnage  * j2);
+
+void petit_coup(char map[N][N],t_personnage j1,t_personnage  * j2);
+
+int saut(t_personnage * j1,char map[N][N])

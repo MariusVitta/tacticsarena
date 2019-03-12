@@ -41,7 +41,7 @@ double_tape.o: double_tape.c fonc.h
 	gcc -c $<
 
 
-all: test test_coup_zone test_petit_coup
+all: test test_coup_zone test_petit_coup test_double_tape
 
 clean:
 	- rm -rf *.o
