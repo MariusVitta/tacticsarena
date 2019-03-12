@@ -11,7 +11,7 @@
  * retourne : 1 si le déplacement a bien eu lieu
  */
 
-int saut(t_personnage * j1,char map[N][N]){
+int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 	int x,y;
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist=j1->s3.portee,car=0;
@@ -61,6 +61,10 @@ int saut(t_personnage * j1,char map[N][N]){
 		}
 	}
 
+
+	/* affichage */
+	affichage_map(point);
+
 	do{
 
 			printf("Déplacement impossible\n" );
@@ -75,9 +79,15 @@ int saut(t_personnage * j1,char map[N][N]){
 	j1->coord.y = y;
 
 
-	/* affichage */
-	affichage_map(point);
 
+	if(nbj==1){
+		maj(map,*j1,*j2);
+		affichage_map(map);
+	}
+	else{
+		maj(map,*j2,*j1);
+		affichage_map(map);
+	}
 
 	return 1;
 }
@@ -104,12 +114,12 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'h':
 
 				if(j1->coord.y-1<0 || (map[j1->coord.y-1][j1->coord.x]!='.')){
-					printf("Déplacement impossible\n" );
+  				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 				else{
 					(j1->coord.y)--;
-					printf("Déplacement en haut \n");
+  				printf(" ---- Déplacement en Haut ---- \n" );
 					n--;
 					break;
 				}
@@ -117,13 +127,13 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'b':
 
 				if(j1->coord.y+1>=N || (map[j1->coord.y+1][j1->coord.x]!='.')){
-					printf("Déplacement impossible\n" );
+  				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 
 				else{
 					(j1->coord.y)++;
-					printf("Déplacement en bas \n");
+  				printf(" ---- Déplacement en Bas ---- \n" );
 					n--;
 					break;
 				}
@@ -131,13 +141,13 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'g':
 
 				if(j1->coord.x-1<0 || (map[j1->coord.y][j1->coord.x-1]!='.')){
-					printf("Déplacement impossible\n" );
+  				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 
 				else{
 					(j1->coord.x)--;
-					printf("Déplacement à gauche \n");
+  				printf(" ---- Déplacement à Gauche ---- \n" );
 					n--;
 					break;
 				}
@@ -145,13 +155,13 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'd':
 
 				if(j1->coord.x+1>=N || (map[j1->coord.y][j1->coord.x+1]!='.')){
-					printf("Déplacement impossible\n" );
+  				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 
 				else{
 					(j1->coord.x)++;
-					printf("Déplacement à droite \n");
+  				printf(" ---- Déplacement à Droite ---- \n" );
 					n--;
 					break;
 				}

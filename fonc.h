@@ -36,6 +36,10 @@ typedef struct s_personnage{
 	t_sort s1,s2,s3,s4;
 
 }t_personnage;
+
+
+
+
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
 t_personnage creer_perso(int,t_personnage *);
 /*affichage de tout les sorts du personnage choisi pour le joueur*/
@@ -49,7 +53,7 @@ void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
 /* fonction déplacement case par case pour le joueur */
 int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int nbj);
 
-int saut(t_personnage * j1,char mat[N][N]);
+int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj);
 /*fonction d'initialisation (positionnement,création des obstacles) */
 void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2);
 /* affichage des coordonnées actuelles du personnage */
@@ -67,12 +71,15 @@ void double_tape(char map[N][N],t_personnage *j1,t_personnage  * j2);
 
 void petit_coup(char map[N][N],t_personnage * j1,t_personnage  * j2);
 
-int saut(t_personnage * j1,char map[N][N]);
+
 
 void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
 void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
 void soin(t_personnage * j1);
+<<<<<<< HEAD
 
 int existe(char mat[N][N], char choix, int * x, int * y);
+=======
+>>>>>>> c89b76820e71631ed98e9198b3908c0b15538873
