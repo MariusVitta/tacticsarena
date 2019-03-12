@@ -76,5 +76,11 @@ void coup_zone(char map[N][N],t_personnage * j1,t_personnage  * j2){
 						}
 					}
 				}
+				else{
+					if( (map[i][j] == 1) || (map[i][j] == 2) || (map[i][j] == 3) || (map[i][j] == 4) ){
+						j2->pv -= j1->s4.degat;
+						printf("%s touché.\nPoint de vie : %i\n", j2->nom, j2->pv);
+					}
+				}
 			}
 }
