@@ -35,8 +35,8 @@ int main(){
 
 	}while((classe2 != 1)&&(classe2 != 2));
 
-	personnage1 = creer_perso(classe1,personnage1);
-	personnage2 = creer_perso(classe2,personnage2);
+	personnage1 = creer_perso(classe1,&personnage1);
+	personnage2 = creer_perso(classe2,&personnage2);
 
 	initialisation(map,&personnage1,&personnage2);
     printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");

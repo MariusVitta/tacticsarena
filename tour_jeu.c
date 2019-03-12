@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonc.h"
-
+#include <string.h>
 
 /* fonction de gestion d'un tour de jeu
  * paramètre map : carte de jeu
@@ -34,11 +34,19 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                 if(point_action > 0){
                     printf("\n ---- fonctions sort ---- \n\n");
                     do{
+<<<<<<< HEAD
                         sort_uti(*j1);
                         scanf("%i",&choix );
                     }
                     while(choix < 1 || choix > 4);
                     if(j1->nom == "Guerrier"){
+=======
+                        printf(" ---- Quel sort souhaitez vous effectuer ? ---- \n[1]:%s\n[2]:%s\n[3]:%s\n[4]:%s",j1->s1.nom,j1->s2.nom,j1->s3.nom,j1->s4.nom);
+                        scanf("%i",&choix );
+                    }
+                    while(choix < 1 || choix > 4);
+                    if(!(strcmp("Guerrier",j1->nom))){
+>>>>>>> 8fa97ddab2f0c6c5d513d3b16963c56bdf55508d
                         switch(choix){
                             case 1:
                                 if (point_action <= j1->s1.point_action) {
@@ -70,7 +78,11 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 }
                             }
                     }
+<<<<<<< HEAD
                     else if(j1->nom == "Archer"){
+=======
+                    else if(!(strcmp("Archer",j1->nom))){
+>>>>>>> 8fa97ddab2f0c6c5d513d3b16963c56bdf55508d
                         switch(choix){
                             case 1:
                                 if (point_action <= j1->s1.point_action) {
