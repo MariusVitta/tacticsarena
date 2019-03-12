@@ -17,7 +17,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
     int point_action = j1->pa;
     while(choix != 3){
         do{
-            printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?\n[2]:Utiliser un sort ?\n[3]:Passer son tour\nchoix:");
+            printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ?\n[3]:Passer son tour\nchoix:",nb_deplacement);
             scanf("%i",&choix );
         }
         while(choix < 1 || choix > 3);
@@ -32,10 +32,33 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                 }
             case 2:
                 if(point_action > 0){
-                    printf("\n ---- fonction sort ---- \n\n");break;
-                    /*point_action = */
+                    printf("\n ---- fonctions sort ---- \n\n");
+                    do{
+                        printf(" ---- Quel sort souhaitez vous effectuer ? ---- \n[1]:%s\n[2]:%s\n[3]:%s\n[4]:%s",j1.s1.nom,j1.s2.nom,j1.s3.nom,j1.s4.nom);
+                        scanf("%i",&choix );
+                    }
+                    while(choix < 1 || choix > 4);
+                    if(j1.nom == "Guerrier"){
+                        switch(choix){
+                            case 1:saut(j1,map);break;
+                            case 2:/*perso.s2=soin;*/break;
+                            case 3: petit_coup(map,j1,j2);break;
+                            case 4:/*perso.s4=groscoup;*/break;
+                        }
+                    }
+                    else if(j1.nom == "Archer"){
+                        switch(choix){
+                            case 1:diago(map,j1,j2);break;
+                            case 2:/*perso.s2=ligne;*/break;
+                            case 3:double_tape(map,j1,j2);break;
+                            case 4:/*perso.s4=coupzone;*/break;
+                        }
+                    }
                 }
-            case 3: printf("\n ---- vous avez passé votre tour ---- \n\n");break;
+                else{
+                    printf("\n ---- Vous avez utilisé tous vos points d'actions ----\n\n");break;
+                }
+            case 3: printf("\n ---- Vous avez passé votre tour ---- \n\n");break;
         }
     }
     return 1;
