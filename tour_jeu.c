@@ -48,6 +48,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             case 2:
                                 if (j1->s1.point_action <= point_action ) {
                                     soin(j1);point_action--;
@@ -55,6 +56,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             case 3:
                                 if ( j1->s1.point_action <= point_action  ) {
                                     petit_coup(map,j1,j2);point_action--;
@@ -62,6 +64,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             case 4:
                                 if (j1->s1.point_action <= point_action  ) {
                                     grosCoup(map,j1,j2);point_action--;
@@ -69,6 +72,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             }
                             break;
                     }
@@ -81,6 +85,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             case 2:
                                 if (j1->s1.point_action <=  point_action) {
                                     ligne(map,j1,j2);point_action--;
@@ -88,6 +93,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             case 3:
                                 if (j1->s1.point_action <=  point_action) {
                                     double_tape(map,j1,j2);point_action--;
@@ -95,6 +101,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                             case 4:
                                 if (j1->s1.point_action <= point_action) {
                                     /*perso.s4=coupzone;*/
@@ -102,6 +109,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
+                                break;
                         }
                         break;
                     }
