@@ -34,7 +34,7 @@ void affichage_sort(t_personnage perso){
 
 void sort_uti(t_personnage perso){
 	int i = 1;
-	printf("Quel sort souhaitez vous utiliser ?\n");
+	printf(" ---- Quel sort souhaitez vous effectuer ? ---- \n");
 
 	printf("[%i] %s : ", i++, perso.s1.nom);
 	printf("portée [%i] / ", perso.s1.portee);
