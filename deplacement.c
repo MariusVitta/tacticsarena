@@ -62,15 +62,13 @@ int saut(t_personnage * j1,char map[N][N]){
 	}
 
 	do{
+
+			printf("Déplacement impossible\n" );
+
 			printf("Où souhaitez vous aller : ");
 			scanf(" %c", &choix);
-	}while(!existe(point, choix, &x, &y));
+	}while((!existe(point, choix, &x, &y)) || (((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
-
-
-
-
-	while((((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
 	j1->coord.x = x;
 
@@ -106,7 +104,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'h':
 
 				if(j1->coord.y-1<0 || (map[j1->coord.y-1][j1->coord.x]!='.')){
-
+					printf("Déplacement impossible\n" );
 					break;
 				}
 				else{
@@ -119,7 +117,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'b':
 
 				if(j1->coord.y+1>=N || (map[j1->coord.y+1][j1->coord.x]!='.')){
-
+					printf("Déplacement impossible\n" );
 					break;
 				}
 
@@ -133,7 +131,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'g':
 
 				if(j1->coord.x-1<0 || (map[j1->coord.y][j1->coord.x-1]!='.')){
-
+					printf("Déplacement impossible\n" );
 					break;
 				}
 
@@ -147,7 +145,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 			case 'd':
 
 				if(j1->coord.x+1>=N || (map[j1->coord.y][j1->coord.x+1]!='.')){
-
+					printf("Déplacement impossible\n" );
 					break;
 				}
 
@@ -159,6 +157,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 				}
 
 			case 'R':
+
 				return n;
 		}
 		if(nbj==1){
