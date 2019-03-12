@@ -14,8 +14,10 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
     /* variable qui compte le nombre de déplacement max possible par personnage*/
     int nb_deplacement = 3;
     int choix = 0;
+    /* variable qui compte le nombre de points d'actions max du personnage 1 */
     int point_action = j1->pa;
-    while(choix != 3){
+    /* tant que le joueur ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
+    while(choix != 3 || (nb_deplacement > 0 && point_action > 0 )){
         do{
             printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ? [nombre de points d'actions:%i]\n[3]:Passer son tour\nchoix:",nb_deplacement,point_action);
             scanf("%i",&choix );
@@ -33,9 +35,8 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                 break;
             case 2:
                 if(point_action > 0){
-                    /*printf("\n ---- fonctions sort ---- \n\n");*/
                     do{
-
+                        /*affichage de la liste des sorts utilisable par le personnage actuel*/
                         sort_uti(*j1);
                         scanf("%i",&choix );
                     }
@@ -45,11 +46,9 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                             case 1:
                                 if (j1->s1.point_action <= point_action  ) {
                                     saut(j1,j2,map,nb_j);point_action -= j1->s1.point_action ;
-
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-
                                 }
                                 break;
                             case 2:
@@ -58,7 +57,6 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-
                                 }
                                 break;
                             case 3:
@@ -132,9 +130,9 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                     }
                 }
                 else{
-                    printf("\n ---- Vous avez utilisé tous vos points d'actions ----\n\n");
+                    printf("\n ---- Vous avez utilisé tous vos points d'actions ----\n\n");break;
                 }
-                break;
+
             case 3:
                 printf("\n ---- Vous avez passé votre tour ---- \n\n");
 
