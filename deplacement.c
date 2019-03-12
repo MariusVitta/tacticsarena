@@ -20,7 +20,7 @@ int saut(t_personnage * j1,char map[N][N]){
 		scanf("%d %d",&x,&y);
 	}
 
-	while((((fabs(j1->coord.x-x)+fabs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
+	while((((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
 	j1->coord.x = x;
 
