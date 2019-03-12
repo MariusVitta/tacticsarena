@@ -68,7 +68,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 			}while((choix < 1)||(choix >3));
 
 			switch(choix){
-				case 1: matriceJeu[y1][x1] = '*';
+				case 1: matriceJeu[y1][x1] = '1';
 					matriceJeu[y1-1][x1-2]='.';
 					matriceJeu[y1 -1][x1 + 2]='.';
 					perso1->coord.x = x1;
@@ -76,7 +76,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 				break;
 
 				case 2: matriceJeu[y1][x1] = '.';
-					matriceJeu[y1-1][x1-2]='*';
+					matriceJeu[y1-1][x1-2]='1';
 					matriceJeu[y1 -1][x1 + 2]='.';
 					perso1->coord.x = x1-2;
 					perso1->coord.y = y1-1;
@@ -84,7 +84,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 
 				case 3: matriceJeu[y1][x1] = '.';
 					matriceJeu[y1-1][x1-2]='.';
-					matriceJeu[y1 -1][x1 + 2]='*';
+					matriceJeu[y1 -1][x1 + 2]='1';
 					perso1->coord.x = x1+2;
 					perso1->coord.y = y1-1;
 				break;
@@ -107,7 +107,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 				}while((choix < 4)||(choix >6));
 
 				switch(choix){
-					case 4: matriceJeu[y2][x2]='$';
+					case 4: matriceJeu[y2][x2]='2';
 						matriceJeu[y2+1][x2-2]='.';
 						matriceJeu[y2 +1][x2 + 2]='.';
 						perso2->coord.x = x2;
@@ -115,7 +115,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 					break;
 
 					case 5: matriceJeu[y2][x2]='.';
-						matriceJeu[y2+1][x2-2]='$';
+						matriceJeu[y2+1][x2-2]='2';
 						matriceJeu[y2+1][x2 + 2]='.';
 						perso2->coord.x = x2-2;
 						perso2->coord.y = y2+1;
@@ -123,7 +123,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 
 					case 6: matriceJeu[y2][x2]='.';
 						matriceJeu[y2+1][x2-2]='.';
-						matriceJeu[y2 +1][x2 + 2]='$';
+						matriceJeu[y2 +1][x2 + 2]='2';
 						perso2->coord.x = x2+2;
 						perso2->coord.y = y2+1;
 					break;
