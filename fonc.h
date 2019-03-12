@@ -72,3 +72,5 @@ int saut(t_personnage * j1,char map[N][N]);
 void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
 void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2);
+
+void soin(t_personnage * j1);
