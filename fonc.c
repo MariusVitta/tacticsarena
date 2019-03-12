@@ -8,6 +8,12 @@ void affichage_sort(t_personnage perso){
 	printf("Personnage : %s\n\n", perso.nom);
 	printf("Listes des sorts: \n");
 
+void affichage_sort(t_personnage perso){
+/*affiche les sorts selon le personnage choisi par l'utilisateur*/
+
+	printf("Personnage : %s\n\n", perso.nom);
+	printf("Listes des sorts: \n");
+
 	/*affichage des quatres sorts*/
 
 	printf("- %s : ", perso.s1.nom);
