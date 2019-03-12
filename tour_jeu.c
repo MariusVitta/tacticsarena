@@ -25,10 +25,12 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
         switch(choix){
             case 1:
                 if(nb_deplacement > 0 ){
-                    nb_deplacement = deplacement(j1,j2,map,nb_deplacement,nb_j);break;
+                    nb_deplacement = deplacement(j1,j2,map,nb_deplacement,nb_j);
+                    break;
                 }
                 else{
-                    printf("\n ---- Vous avez utilisé tous vos points de déplacements ----\n\n");break;
+                    printf("\n ---- Vous avez utilisé tous vos points de déplacements ----\n\n");
+                    break;
                 }
             case 2:
                 if(point_action > 0){
@@ -44,112 +46,98 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                             case 1:
                                 if (j1->s1.point_action <= point_action  ) {
                                     saut(j1,j2,map,nb_j);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             case 2:
                                 if (j1->s1.point_action <= point_action ) {
                                     soin(j1);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             case 3:
                                 if ( j1->s1.point_action <= point_action  ) {
                                     petit_coup(map,j1,j2);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             case 4:
                                 if (j1->s1.point_action <= point_action  ) {
                                     grosCoup(map,j1,j2);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             }
-                            break;
+
                     }
                     else if(!(strcmp("Archer",j1->nom))){
                         switch(choix){
                             case 1:
                                 if (j1->s1.point_action <= point_action  ) {
                                     diago(map,j1,j2);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             case 2:
                                 if (j1->s1.point_action <=  point_action) {
                                     ligne(map,j1,j2);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             case 3:
                                 if (j1->s1.point_action <=  point_action) {
                                     double_tape(map,j1,j2);point_action--;
+                                    break;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                             case 4:
                                 if (j1->s1.point_action <= point_action) {
+                                  break;
                                     /*perso.s4=coupzone;*/
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-<<<<<<< HEAD
-                                }break;
-=======
+                                    break;
                                 }
-                                break;
->>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
+
                         }
-                        break;
+
                     }
                 }
                 else{
-                    printf("\n ---- Vous avez utilisé tous vos points d'actions ----\n\n");break;
+                    printf("\n ---- Vous avez utilisé tous vos points d'actions ----\n\n");
+                    break;
                 }
-            case 3:printf("\n ---- Vous avez passé votre tour ---- \n\n");break;
+            case 3:printf("\n ---- Vous avez passé votre tour ---- \n\n");
+            break;
         }
     }
     return 1;
