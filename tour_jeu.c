@@ -47,28 +47,48 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             case 2:
                                 if (j1->s1.point_action <= point_action ) {
                                     soin(j1);point_action--;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             case 3:
                                 if ( j1->s1.point_action <= point_action  ) {
                                     petit_coup(map,j1,j2);point_action--;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             case 4:
                                 if (j1->s1.point_action <= point_action  ) {
                                     grosCoup(map,j1,j2);point_action--;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             }
                             break;
                     }
@@ -80,28 +100,48 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             case 2:
                                 if (j1->s1.point_action <=  point_action) {
                                     ligne(map,j1,j2);point_action--;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             case 3:
                                 if (j1->s1.point_action <=  point_action) {
                                     double_tape(map,j1,j2);point_action--;
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                             case 4:
                                 if (j1->s1.point_action <= point_action) {
                                     /*perso.s4=coupzone;*/
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+<<<<<<< HEAD
                                 }break;
+=======
+                                }
+                                break;
+>>>>>>> f4df9b425177c88c4120bef1e8aed37e1f6006a7
                         }
                         break;
                     }
