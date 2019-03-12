@@ -25,7 +25,7 @@ void maj(char map[N][N], t_personnage perso1, t_personnage perso2){
 
 }
 
-static int existe(char mat[N][N], char choix, int * x, int * y){
+int existe(char mat[N][N], char choix, int * x, int * y){
 
 	int i, j;
 

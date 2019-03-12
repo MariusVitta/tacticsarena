@@ -74,3 +74,5 @@ void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
 void soin(t_personnage * j1);
+
+int existe(char mat[N][N], char choix, int * x, int * y);

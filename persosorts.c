@@ -17,7 +17,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		t_sort soin;
 		soin.nom="Soin";
 		soin.portee=0;
-		soin.degat=-6;
+		soin.degat=6;
 		soin.point_action=1;
 		soin.cd=0;
 		soin.upt=2;
