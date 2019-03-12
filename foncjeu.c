@@ -29,6 +29,9 @@ static int existe(char mat[N][N], char choix, int * x, int * y){
 
 	int i, j;
 
+	if(choix == 'o')
+		return 0;
+
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
 			if(mat[i][j] == choix){
@@ -41,7 +44,7 @@ static int existe(char mat[N][N], char choix, int * x, int * y){
 	return 0;
 }
 
-void diago(char map[N][N], t_personnage perso1, t_personnage * perso2){
+void diago(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -54,37 +57,37 @@ void diago(char map[N][N], t_personnage perso1, t_personnage * perso2){
 		}
 	}
 
-	i = perso1.coord.y + 1;
-	j = perso1.coord.x + 1;
+	i = perso1->coord.y + 1;
+	j = perso1->coord.x + 1;
 
 
 	int nb = 0;
-
+	int car = 0;
 	//printf("%i\n", perso1.s1.portee);
 
-	for(; (i < N && j < N) && nb < perso1.s1.portee && point[i][j] != 'o'; i++, j++, nb++)
-		point[i][j] = 'A' + nb;
+	for(; (i < N && j < N) && nb < perso1->s1.portee && point[i][j] != 'o'; i++, j++, nb++, car++)
+		point[i][j] = 'A' + car;
 
-	i = perso1.coord.y - 1;
-	j = perso1.coord.x - 1;
+	i = perso1->coord.y - 1;
+	j = perso1->coord.x - 1;
 	nb = 0;
 
-	for(; (i >= 0  && j >= 0) && nb < perso1.s1.portee && point[i][j] != 'o'; i--, j--, nb++)
-		point[i][j] = 'G' + nb;
+	for(; (i >= 0  && j >= 0) && nb < perso1->s1.portee && point[i][j] != 'o'; i--, j--, nb++, car++)
+		point[i][j] = 'A' + car;
 
-	i = perso1.coord.y - 1;
-	j = perso1.coord.x + 1;
+	i = perso1->coord.y - 1;
+	j = perso1->coord.x + 1;
 	nb = 0;
 
-	for(; (i >= 0  && j < N) && nb < perso1.s1.portee && point[i][j] != 'o'; i--, j++, nb++)
-		point[i][j] = 'M' + nb;
+	for(; (i >= 0  && j < N) && nb < perso1->s1.portee && point[i][j] != 'o'; i--, j++, nb++, car++)
+		point[i][j] = 'A' + car;
 
-		i = perso1.coord.y + 1;
-		j = perso1.coord.x - 1;
+		i = perso1->coord.y + 1;
+		j = perso1->coord.x - 1;
 		nb = 0;
 
-	for(; (i < N  && j >= 0) && nb < perso1.s1.portee && point[i][j] != 'o'; i++, j--, nb++)
-		point[i][j] = 'S' + nb;
+	for(; (i < N  && j >= 0) && nb < perso1->s1.portee && point[i][j] != 'o'; i++, j--, nb++, car++)
+		point[i][j] = 'A' + car;
 
 	affichage_map(point);
 
@@ -96,7 +99,121 @@ void diago(char map[N][N], t_personnage perso1, t_personnage * perso2){
 
 	//printf("x = %i y = %i\n", x, y);
 	if(map[y][x] == map[i][j])
-		perso2->pv -= perso1.s1.degat;
+		perso2->pv -= perso1->s1.degat;
 
+
+}
+
+void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2){
+
+	char point[N][N];/*matrice affichant les possibilités de jeu*/
+	int i, j;
+	char choix;
+/*copie plan jeu dans la matrice point*/
+
+	for(i = 0; i < N; i++){
+		for(j = 0; j < N; j++){
+			point[i][j] = map[i][j];
+		}
+	}
+
+	i = perso1->coord.y + 1;
+	j = perso1->coord.x ;
+
+
+	int nb = 0;
+	int car = 0;
+
+	for(; i < N && nb < perso1->s2.portee && point[i][j] != 'o'; i++, nb++, car++)
+		point[i][j] = 'A' + car;
+
+	i = perso1->coord.y - 1;
+	j = perso1->coord.x;
+	nb = 0;
+
+	for(; i >= 0  && nb < perso1->s2.portee && point[i][j] != 'o'; i--, nb++, car++)
+		point[i][j] = 'A' + car;
+
+	i = perso1->coord.y;
+	j = perso1->coord.x + 1;
+	nb = 0;
+
+	for(; j < N && nb < perso1->s2.portee && point[i][j] != 'o'; j++, nb++, car++)
+		point[i][j] = 'A' + car;
+
+		i = perso1->coord.y;
+		j = perso1->coord.x - 1;
+		nb = 0;
+
+	for(; j >= 0 && nb < perso1->s2.portee && point[i][j] != 'o'; j--, nb++, car++)
+		point[i][j] = 'A' + car;
+
+	affichage_map(point);
+
+	int x = 0, y = 0;
+	do{
+			printf("Où souhaitez vous taper : ");
+			scanf(" %c", &choix);
+	}while(!existe(point, choix, &x, &y));
+
+	if(map[y][x] == map[i][j])
+		perso2->pv -= perso1->s2.degat;
+
+}
+
+void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2){
+
+	char point[N][N];/*matrice affichant les possibilités de jeu*/
+	int i, j;
+	char choix;
+/*copie plan jeu dans la matrice point*/
+
+	for(i = 0; i < N; i++){
+		for(j = 0; j < N; j++){
+			point[i][j] = map[i][j];
+		}
+	}
+
+	i = perso1->coord.y + 1;
+	j = perso1->coord.x ;
+
+
+	int nb = 0;
+	int car = 0;
+
+	for(; i < N && nb < perso1->s4.portee && point[i][j] != 'o'; i++, nb++, car++)
+		point[i][j] = 'A' + car;
+
+	i = perso1->coord.y - 1;
+	j = perso1->coord.x;
+	nb = 0;
+
+	for(; i >= 0  && nb < perso1->s4.portee && point[i][j] != 'o'; i--, nb++, car++)
+		point[i][j] = 'A' + car;
+
+	i = perso1->coord.y;
+	j = perso1->coord.x + 1;
+	nb = 0;
+
+	for(; j < N && nb < perso1->s4.portee && point[i][j] != 'o'; j++, nb++, car++)
+		point[i][j] = 'A' + car;
+
+		i = perso1->coord.y;
+		j = perso1->coord.x - 1;
+		nb = 0;
+
+	for(; j >= 0 && nb < perso1->s4.portee && point[i][j] != 'o'; j--, nb++, car++)
+		point[i][j] = 'A' + car;
+
+	affichage_map(point);
+
+	int x = 0, y = 0;
+	do{
+			printf("Où souhaitez vous taper : ");
+			scanf(" %c", &choix);
+	}while(!existe(point, choix, &x, &y));
+
+	if(map[y][x] == map[i][j])
+		perso2->pv -= perso1->s4.degat;
 
 }

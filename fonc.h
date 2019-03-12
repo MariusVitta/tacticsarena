@@ -47,7 +47,7 @@ int est_mort(t_personnage);
 /* mise à jour de la carte suite à une déplacement d'un joueur */
 void maj(char map[N][N], t_personnage perso1, t_personnage perso2);
 /* fonction déplacement case par case pour le joueur */
-int deplacement(t_personnage * j1,t_personnage *j2,char map[N][N],int  n ,int nbj);
+int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int nbj);
 
 int saut(t_personnage * j1,char mat[N][N]);
 /*fonction d'initialisation (positionnement,création des obstacles) */
@@ -58,8 +58,8 @@ void affichage_coord(t_personnage perso);
 void sort_uti(t_personnage perso);
 /*fonction de tour de jeu (se déplacer,utiliser un sort, passer son tour) */
 int tour(char map[N][N],t_personnage *j1,t_personnage *j2 ,int nb_j);
- 
-void diago(char map[N][N], t_personnage perso1, t_personnage * perso2);
+
+void diago(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 
 void coup_zone(char map[N][N],t_personnage j1,t_personnage j2);
 
@@ -68,3 +68,7 @@ void double_tape(char map[N][N],t_personnage j1,t_personnage  * j2);
 void petit_coup(char map[N][N],t_personnage j1,t_personnage  * j2);
 
 int saut(t_personnage * j1,char map[N][N]);
+
+void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2);
+
+void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2);
