@@ -30,7 +30,7 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != '*' && point[i][j] != 'o'){
+					if(point[i][j] != '1' && point[i][j] != '2' && point[i][j] != '3' point[i][j] != '4' &&  point[i][j] != 'o'){
 						point[i][j] = 'A' + car;
 						car++;
 						if('A' + car == 'o')
@@ -50,7 +50,7 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != '*' && point[g][j] != 'o'){
+					if(point[g][j] != '1' && point[g][j] != '2' && point[g][j] != '3' point[g][j] != '4' &&  point[g][j] != 'o'){
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
