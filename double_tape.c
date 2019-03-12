@@ -20,7 +20,6 @@ static int existe(char mat[N][N], char choix, int * x, int * y){
 	return 0;
 }
 
-
 void double_tape(char map[N][N],t_personnage j1,t_personnage  * j2){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
@@ -62,7 +61,7 @@ void double_tape(char map[N][N],t_personnage j1,t_personnage  * j2){
 						car ++;
 				}
 			}
-		}		
+		}
 	}
 
 	/* affichage */
