@@ -67,8 +67,6 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 
 	do{
 
-			printf("Déplacement impossible\n" );
-
 			printf("Où souhaitez vous aller : ");
 			scanf(" %c", &choix);
 	}while((!existe(point, choix, &x, &y)) || (((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
