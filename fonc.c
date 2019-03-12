@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fonc.h" 
+#include "fonc.h"
 
 void affichage_sort(t_personnage perso){
 /*affiche les sorts selon le personnage choisi par l'utilisateur*/
@@ -35,7 +35,7 @@ void affichage_sort(t_personnage perso){
 void sort_uti(t_personnage perso){
 	int i = 1;
 	printf("Quel sort souhaitez vous utiliser ?\n");
-	
+
 	printf("[%i] %s : ", i++, perso.s1.nom);
 	printf("portée [%i] / ", perso.s1.portee);
 	printf("dégât [%i] / ", perso.s1.degat);
@@ -68,13 +68,12 @@ void affichage_map(char map[N][N]){
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++)
 			printf(" %c |", map[i][j]);
-		printf("\n");			
+		printf("\n");
 	}
 }
 
 void affichage_coord(t_personnage perso){
 
-	printf("- %s : ", perso.s1.nom);
+	printf("- %s : ", perso.nom);
 	printf("Vos coordonnées : x = %i et y = %i\n", perso.coord.x, perso.coord.y);
 }
-

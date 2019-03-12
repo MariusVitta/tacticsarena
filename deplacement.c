@@ -20,7 +20,7 @@ int saut(t_personnage * j1,char map[N][N]){
 		scanf("%d %d",&x,&y);
 	}
 
-	while((((fabs(j1->coord.x-x)+fabs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
+	while((((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
 	j1->coord.x = x;
 
@@ -31,7 +31,7 @@ int saut(t_personnage * j1,char map[N][N]){
 
 
 /*avec personnage n le nombre de deplacements qu'il reste et nbj le numero du joueur*/
-int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj){
+int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int nbj){
 
 	char c;
 
@@ -54,7 +54,7 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj
 					break;
 				}
 				else{
-					j1->coord.y--;
+					(j1->coord.y)--;
 					printf("Haut\n");
 					n--;
 					break;
@@ -68,7 +68,7 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj
 				}
 
 				else{
-					j1->coord.y++;
+					(j1->coord.y)++;
 					printf("Bas\n");
 					n--;
 					break;
@@ -82,7 +82,7 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj
 				}
 
 				else{
-					j1->coord.x--;
+					(j1->coord.x)--;
 					printf("Gauche\n");
 					n--;
 					break;
@@ -96,7 +96,7 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj
 				}
 
 				else{
-					j1->coord.x++;
+					(j1->coord.x)++;
 					printf("Droite\n");
 					n--;
 					break;
@@ -106,11 +106,11 @@ int deplacement(t_personnage * j1,t_personnage j2,char map[N][N],int  n ,int nbj
 				return n;
 		}
 		if(nbj==1){
-			maj(map,*j1,j2);
+			maj(map,*j1,*j2);
 			affichage_map(map);
 		}
 		else{
-			maj(map,j2,*j1);
+			maj(map,*j2,*j1);
 			affichage_map(map);
 		}
 	//}
