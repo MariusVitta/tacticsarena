@@ -44,40 +44,50 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                     if(!(strcmp("Guerrier",j1->nom))){
                         switch(choix){
                             case 1:
-                                if (j1->s1.point_action <= point_action  ) {
-                                    saut(j1,j2,map,nb_j);point_action -= j1->s1.point_action ;
+                                if (j1->s1.point_action <= point_action && j1->s1.upt > 0 ) {
+                                    saut(j1,j2,map,nb_j);point_action -= j1->s1.point_action ; j1->s1.upt-=1;
+                                }
+                                else if(j1->s1.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
                                 break;
                             case 2:
-                                if (j1->s2.point_action <= point_action ) {
-                                    soin(j1);point_action -= j1->s2.point_action ;
+                                if (j1->s2.point_action <= point_action && j1->s2.upt > 0 ) {
+                                    soin(j1);point_action -= j1->s2.point_action ;j1->s2.upt-=1;
+                                }
+                                else if(j1->s2.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
                                 break;
                             case 3:
-                                if (j1->s3.point_action <= point_action  ) {
-                                    petit_coup(map,j1,j2);point_action -= j1->s3.point_action ;
+                                if (j1->s3.point_action <= point_action && j1->s3.upt > 0 ) {
+                                    petit_coup(map,j1,j2);point_action -= j1->s3.point_action ;j1->s3.upt-=1;
                                     choix=0;
 
                                 }
+                                else if(j1->s3.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-                                    choix=0;
                                 }
                                 break;
                             case 4:
-                                if (j1->s4.point_action <= point_action  ) {
-                                    grosCoup(map,j1,j2);point_action -= j1->s4.point_action ;
+                                if (j1->s4.point_action <= point_action && j1->s4.upt > 0 ) {
+                                    grosCoup(map,j1,j2);point_action -= j1->s4.point_action ;j1->s4.upt-=1;
 
+                                }
+                                else if(j1->s4.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-
                                 }
                                 break;
                             }
@@ -86,45 +96,52 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                     else if(!(strcmp("Archer",j1->nom))){
                         switch(choix){
                             case 1:
-                                if (j1->s1.point_action <= point_action  ) {
+                                if (j1->s1.point_action <= point_action && j1->s1.upt > 0 ) {
                                     diago(map,j1,j2);
-                                    point_action -= j1->s1.point_action ;
+                                    point_action -= j1->s1.point_action ;j1->s1.upt-=1;
 
+                                }
+                                else if(j1->s1.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-
                                 }
                                 break;
                             case 2:
-                                if (j1->s2.point_action <=  point_action) {
-                                    ligne(map,j1,j2);point_action -= j1->s2.point_action ;
+                                if (j1->s2.point_action <=  point_action && j1->s2.upt > 0 ) {
+                                    ligne(map,j1,j2);point_action -= j1->s2.point_action ;j1->s2.upt-=1;
 
+                                }
+                                else if(j1->s2.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-
                                 }
                                 break;
                             case 3:
-                                if (j1->s3.point_action <=  point_action) {
-                                    double_tape(map,j1,j2);point_action -= j1->s3.point_action ;
+                                if (j1->s3.point_action <=  point_action && j1->s3.upt > 0 ) {
+                                    double_tape(map,j1,j2);point_action -= j1->s3.point_action ;j1->s3.upt-=1;
                                     choix=0;
+                                }
+                                else if(j1->s3.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-                                    choix = 0;
-
                                 }
                                 break;
                             case 4:
-                                if (j1->s4.point_action <= point_action) {
+                                if (j1->s4.point_action <= point_action && j1->s4.upt > 0 ) {
 
-                                    coup_zone(map,j1,j2);point_action -= j1->s4.point_action ;
+                                    coup_zone(map,j1,j2);point_action -= j1->s4.point_action ;j1->s4.upt-=1;
+                                }
+                                else if(j1->s4.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
-
                                 }
                                 break;
                         }

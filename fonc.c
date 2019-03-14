@@ -13,22 +13,30 @@ void affichage_sort(t_personnage perso){
 	printf("- %s : ", perso.s1.nom);
 	printf("portée [%i] / ", perso.s1.portee);
 	printf("dégât [%i] / ", perso.s1.degat);
+	printf("utilisation par tour [%i]\n", perso.s1.upt);
 	printf("point d'action [%i]\n", perso.s1.point_action);
+
 
 	printf("- %s : ", perso.s2.nom);
 	printf("portée [%i] / ", perso.s2.portee);
 	printf("dégât [%i] / ", perso.s2.degat);
+	printf("utilisation par tour [%i]\n", perso.s2.upt);
 	printf("point d'action [%i]\n", perso.s2.point_action);
+
 
 	printf("- %s : ", perso.s3.nom);
 	printf("portée [%i] / ", perso.s3.portee);
 	printf("dégât [%i] / ", perso.s3.degat);
+	printf("utilisation par tour [%i]\n", perso.s3.upt);
 	printf("point d'action [%i]\n", perso.s3.point_action);
+
 
 	printf("- %s : ", perso.s4.nom);
 	printf("portée [%i] / ", perso.s4.portee);
 	printf("dégât [%i] / ", perso.s4.degat);
+	printf("utilisation par tour [%i]\n", perso.s4.upt);
 	printf("point d'action [%i]\n\n", perso.s4.point_action);
+
 
 }
 
@@ -39,22 +47,29 @@ void sort_uti(t_personnage perso){
 	printf("[%i] %s : ", i++, perso.s1.nom);
 	printf("portée [%i] / ", perso.s1.portee);
 	printf("dégât [%i] / ", perso.s1.degat);
+	printf("utilisation par tour [%i]\n", perso.s1.upt);
 	printf("point d'action [%i]\n", perso.s1.point_action);
+
 
 	printf("[%i] %s : ", i++, perso.s2.nom);
 	printf("portée [%i] / ", perso.s2.portee);
 	printf("dégât [%i] / ", perso.s2.degat);
+	printf("utilisation par tour [%i]\n", perso.s2.upt);
 	printf("point d'action [%i]\n", perso.s2.point_action);
+
 
 	printf("[%i] %s : ", i++, perso.s3.nom);
 	printf("portée [%i] / ", perso.s3.portee);
 	printf("dégât [%i] / ", perso.s3.degat);
+	printf("utilisation par tour [%i]\n", perso.s3.upt);
 	printf("point d'action [%i]\n", perso.s3.point_action);
 
 	printf("[%i] %s : ", i++, perso.s4.nom);
 	printf("portée [%i] / ", perso.s4.portee);
 	printf("dégât [%i] / ", perso.s4.degat);
+	printf("utilisation par tour [%i]\n", perso.s4.upt);
 	printf("point d'action [%i]\n\nchoix:", perso.s4.point_action);
+
 
 }
 
