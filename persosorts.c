@@ -42,6 +42,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		perso->pv=60;
 		perso->pv_max=60;
 		perso->pa=2;
+		perso->pm=3;
 		perso->s1=saut;
 		perso->s2=soin;
 		perso->s3=ptitcoup;
@@ -87,6 +88,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		perso->pv=55;
 		perso->pv_max=55;
 		perso->pa=2;
+		perso->pm=3;
 		perso->s1=diago;
 		perso->s2=ligne;
 		perso->s3=doubletape;

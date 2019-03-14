@@ -32,6 +32,7 @@ typedef struct s_personnage{
 	int pv;
 	int pv_max;
 	int pa;
+	int pm;
 	t_coordonnees coord;
 	t_sort s1,s2,s3,s4;
 
