@@ -12,25 +12,30 @@
  */
 
 int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
-	int x,y;
+
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
-	int i, j, g, dist=j1->s3.portee,car=0;
+	int i, j, g, dist=j1->s1.portee,car=0;
 	char choix;
+
+
+	/* recopie matrice dans la matrice point qui affiche la portee */
 
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
 			point[i][j] = map[i][j];
 		}
 	}
+
+
 	i = j1->coord.y;
 	j = j1->coord.x - dist ;
-
+	//affiche la porter vers le haut
 	for( ; i >= 0  && ( dist >= 0 ) ; i--, dist--){
 		j = j1->coord.x - dist ;
 		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != '1' && point[i][j] != '2' && point[i][j] != '3' && point[i][j] != '4' &&  point[i][j] != 'o'){
+					if(point[i][j] != 'o' && point[i][j] != point[j1->coord.y][j1->coord.x]){
 						point[i][j] = 'A' + car;
 						car++;
 						if('A' + car == 'o')
@@ -44,13 +49,13 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 	dist=j1->s1.portee;
 	g = j1->coord.y;
 	j = j1->coord.x - dist ;
-
+	//affiche la porter vers le bas
 	for( ; g < N  && ( dist >= 0 ) ; g++, dist--){
 		j = j1->coord.x - dist ;
 		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != '1' && point[g][j] != '2' && point[g][j] != '3' && point[g][j] != '4' &&  point[g][j] != 'o'){
+					if(point[g][j] != 'o'){
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -61,15 +66,14 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 		}
 	}
 
-
 	/* affichage */
 	affichage_map(point);
 
+	int x = 0, y = 0;
 	do{
-
-			printf("Où souhaitez vous aller : ");
+			printf("Où souhaitez vous taper : ");
 			scanf(" %c", &choix);
-	}while((!existe(point, choix, &x, &y)) || (((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
+	}while(!existe(point, choix, &x, &y));
 
 
 	j1->coord.x = x;
