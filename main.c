@@ -50,14 +50,18 @@ int main(){
         tour(map,&personnage1,&personnage2,1);
         affichage_map(map);
         num_j++;
+				//verifie si les personnages sont vivant au ( refaire a chaque fin de tour )
         mort1 = est_mort(personnage1);
-				  mort2= est_mort(personnage2);
+				mort2= est_mort(personnage2);
         /* si le personnage 1 est mort on effectue pas le tour du joueur */
         if(!mort1 && !mort2){
             printf("[Tour numéro:%i][Tour du joueur %i]\n\n",nb_tour,num_j);
             tour(map,&personnage2,&personnage1,2);
             affichage_map(map);
         }
+				//verifie si les personnages sont vivant
+				mort1 = est_mort(personnage1);
+				mort2= est_mort(personnage2);
         if( !mort1 && !mort2 ){
 		          printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
 		          affichage_coord(personnage2);
