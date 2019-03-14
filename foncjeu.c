@@ -32,8 +32,8 @@ int existe(char mat[N][N], char choix, int * x, int * y){
 	if(choix == 'o')
 		return 0;
 
-	if(choix == '1' || choix == '2')
-		return 0;
+	/*if(choix == '1' || choix == '2')
+		return 0;*/
 
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
