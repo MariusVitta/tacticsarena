@@ -27,7 +27,7 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != 'o' && point[i][j] != point[j1->coord.y][j1->coord.x]){
+					if(point[i][j] == '.'){
 						point[i][j] = 'A' + car;
 						car++;
 					}
@@ -45,7 +45,8 @@ void double_tape(char map[N][N],t_personnage * j1,t_personnage  * j2){
 		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != 'o'){
+					if(point[g][j] == '.'){
+						//ne pas repasser une seconde fois sur la ligne du joueur
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;

@@ -32,9 +32,10 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 	//affiche la porter vers le haut
 	for( ; i >= 0  && ( dist >= 0 ) ; i--, dist--){
 		j = j1->coord.x - dist ;
-		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
+		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
+					//verifie si il y a un obstacle ou un joueur à l'emplacement
 					if(point[i][j] == '.'){
 						point[i][j] = 'A' + car;
 						car++;
@@ -52,10 +53,11 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 	//affiche la porter vers le bas
 	for( ; g < N  && ( dist >= 0 ) ; g++, dist--){
 		j = j1->coord.x - dist ;
-		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
+		for( ;(j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
+						//ne pas repasser une seconde fois sur la ligne du joueur
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
