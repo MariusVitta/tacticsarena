@@ -32,8 +32,8 @@ int existe(char mat[N][N], char choix, int * x, int * y){
 	if(choix == 'o')
 		return 0;
 
-	/*if(choix == '1' || choix == '2')
-		return 0;*/
+		/*if(choix == '1' || choix == '2')
+			return 0;*/
 
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
@@ -68,28 +68,28 @@ void diago(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 	int car = 0;
 	//printf("%i\n", perso1.s1.portee);
 
-	for(; (i < N && j < N) && nb < perso1->s1.portee && point[i][j] != 'o'; i++, j++, nb++, car++)
+	for(; (i < N && j < N) && nb < perso1->s1.portee && point[i][j] == '.'; i++, j++, nb++, car++)
 		point[i][j] = 'A' + car;
 
 	i = perso1->coord.y - 1;
 	j = perso1->coord.x - 1;
 	nb = 0;
 
-	for(; (i >= 0  && j >= 0) && nb < perso1->s1.portee && point[i][j] != 'o'; i--, j--, nb++, car++)
+	for(; (i >= 0  && j >= 0) && nb < perso1->s1.portee && point[i][j] == '.'; i--, j--, nb++, car++)
 		point[i][j] = 'A' + car;
 
 	i = perso1->coord.y - 1;
 	j = perso1->coord.x + 1;
 	nb = 0;
 
-	for(; (i >= 0  && j < N) && nb < perso1->s1.portee && point[i][j] != 'o'; i--, j++, nb++, car++)
+	for(; (i >= 0  && j < N) && nb < perso1->s1.portee && point[i][j] == '.'; i--, j++, nb++, car++)
 		point[i][j] = 'A' + car;
 
 		i = perso1->coord.y + 1;
 		j = perso1->coord.x - 1;
 		nb = 0;
 
-	for(; (i < N  && j >= 0) && nb < perso1->s1.portee && point[i][j] != 'o'; i++, j--, nb++, car++)
+	for(; (i < N  && j >= 0) && nb < perso1->s1.portee && point[i][j] == '.'; i++, j--, nb++, car++)
 		point[i][j] = 'A' + car;
 
 	affichage_map(point);
@@ -128,28 +128,28 @@ void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 	int nb = 0;
 	int car = 0;
 
-	for(; i < N && nb < perso1->s2.portee && point[i][j] != 'o'; i++, nb++, car++)
+	for(; i < N && nb < perso1->s2.portee && point[i][j] == '.'; i++, nb++, car++)
 		point[i][j] = 'A' + car;
 
 	i = perso1->coord.y - 1;
 	j = perso1->coord.x;
 	nb = 0;
 
-	for(; i >= 0  && nb < perso1->s2.portee && point[i][j] != 'o'; i--, nb++, car++)
+	for(; i >= 0  && nb < perso1->s2.portee && point[i][j] == '.'; i--, nb++, car++)
 		point[i][j] = 'A' + car;
 
 	i = perso1->coord.y;
 	j = perso1->coord.x + 1;
 	nb = 0;
 
-	for(; j < N && nb < perso1->s2.portee && point[i][j] != 'o'; j++, nb++, car++)
+	for(; j < N && nb < perso1->s2.portee && point[i][j] == '.'; j++, nb++, car++)
 		point[i][j] = 'A' + car;
 
 		i = perso1->coord.y;
 		j = perso1->coord.x - 1;
 		nb = 0;
 
-	for(; j >= 0 && nb < perso1->s2.portee && point[i][j] != 'o'; j--, nb++, car++)
+	for(; j >= 0 && nb < perso1->s2.portee && point[i][j] == '.'; j--, nb++, car++)
 		point[i][j] = 'A' + car;
 
 	affichage_map(point);

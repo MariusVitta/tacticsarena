@@ -35,7 +35,7 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[i][j] != 'o' && point[i][j] != point[j1->coord.y][j1->coord.x]){
+					if(point[i][j] == '.'){
 						point[i][j] = 'A' + car;
 						car++;
 						if('A' + car == 'o')
@@ -55,7 +55,7 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 		for( ; (j >= 0 && j < N)  && (j <= j1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					if(point[g][j] != 'o'){
+					if(point[g][j] == '.'){
 						if(g != j1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -71,9 +71,9 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 
 	int x = 0, y = 0;
 	do{
-			printf("Où souhaitez vous taper : ");
+			printf("Où souhaitez vous sauter : ");
 			scanf(" %c", &choix);
-	}while(!existe(point, choix, &x, &y));
+	}while((!existe(point, choix, &x, &y)) || (((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
 
 	j1->coord.x = x;

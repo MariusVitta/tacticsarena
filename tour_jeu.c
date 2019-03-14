@@ -12,7 +12,7 @@
  */
 int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
     /* variable qui compte le nombre de déplacement max possible par personnage*/
-
+    j1->pm=3;
     int choix = 0;
     /* variable qui compte le nombre de points d'actions max du personnage 1 */
     int point_action = j1->pa;
