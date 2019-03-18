@@ -40,11 +40,11 @@ typedef struct s_personnage{
 
 typedef struct s_joueur{
 
-		int nbJoueur;
+		int numJoueur;
 		int nbPVivant;
 		t_personnage perso1;
 		t_personnage perso2;
-		
+
 }t_joueur;
 
 
