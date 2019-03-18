@@ -59,7 +59,7 @@ typedef struct s_joueur{
 
 
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
-t_personnage creer_perso(int,t_personnage *);
+void creer_perso(int,t_personnage *);
 /*affichage de tout les sorts du personnage choisi pour le joueur*/
 void affichage_sort(t_personnage);
 /* affichage de la matrice */
@@ -75,7 +75,7 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj);
 /*fonction d'initialisation (positionnement,création des obstacles) */
 void initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2);
 /* affichage des coordonnées actuelles du personnage */
-void affichage_coord(t_personnage perso);
+void affichage_coord(t_joueur joueur);
 /* affichage des sorts utilisable par le joueur */
 void sort_uti(t_personnage perso);
 /*fonction de tour de jeu (se déplacer,utiliser un sort, passer son tour) */

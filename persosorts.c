@@ -3,7 +3,7 @@
 #include "fonc.h"
 
 /*création de la classe choisie par l'utilisateur*/
-t_personnage creer_perso(int classe,t_personnage * perso){
+void creer_perso(int classe,t_personnage * perso){
 
 	if(classe==1){
 		t_sort saut;
@@ -135,12 +135,12 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		perso->pv_max=80;
 		perso->pa=2;
 		perso->pm=3;
-		perso->s1=Armure;
-		perso->s2=Attire;
-		perso->s3=ChenChen;
-		perso->s4=BOUM;
+		perso->s1=armure;
+		perso->s2=attire;
+		perso->s3=chenchen;
+		perso->s4=bigshaq;
 
 	}
 
-	return *perso;
+	//return *perso;
 }
