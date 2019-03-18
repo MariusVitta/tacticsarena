@@ -36,11 +36,9 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		groscoup.degat=25;
 		groscoup.point_action=2;
 		groscoup.cd=0;
-<<<<<<< HEAD
 		groscoup.uptm=1;
-=======
-		groscoup.upt=1;coupzone
->>>>>>> 11bb310682fb8f9e44a6559f8c69eafd59771874
+
+
 
 		perso->nom="Guerrier";
 		perso->pv=60;
@@ -107,14 +105,14 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		armure.portee=0;
 		armure.point_action=1;
 		armure.cd=2;
-		armure.upt=1;
+		armure.uptm=1;
 
 		t_sort attire;
 		attire.nom="Attire";
 		attire.portee=15;
 		attire.point_action=1;
 		attire.cd=0;
-		attire.upt=1;
+		attire.uptm=1;
 
 		t_sort chenchen;
 		chenchen.nom="ChenChen";
@@ -122,7 +120,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		chenchen.degat=10;
 		chenchen.point_action=1;
 		chenchen.cd=0;
-		chenchen.upt=1;
+		chenchen.uptm=1;
 
 		t_sort bigshaq;
 		bigshaq.nom="BigShaq";
@@ -130,7 +128,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		bigshaq.degat=0;
 		bigshaq.point_action=2;
 		bigshaq.cd=0;
-		bigshaq.upt=1;
+		bigshaq.uptm=1;
 
 		perso->nom="Tank";
 		perso->pv=80;
