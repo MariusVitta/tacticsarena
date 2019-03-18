@@ -22,13 +22,12 @@
  *\param joueur numéro du joueur qui sera placé sur la carte
  *\return void
  */
-void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2){
+void initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2){
 	srand(time(NULL));
 	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2;
-	int i,j,choix = 0,numero_j=1;
-	int nb = 1;
+	int i,j,choix1 = 0,choix2 = 0,numero_j=1;
+	int nb_persos = 1;
 	int nb_obs = 10; /* nb d'obstacles max sur la carte*/
-
     /* remplissage de la map sans les joueurs positionnés */
 	for(i = 0; i < N ; i++){
 		for(j = 0;j < N; j++){
@@ -46,27 +45,31 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 			printf("\n[1]{x=%i y=%i}\n[2]{x=%i y=%i}\n[3]{x=%i y=%i}\n",x1,y1,x1-2,y1-1,x1+2,y1-1);
 			affichage_map(matriceJeu);
 			do{
-				printf("Choix: ");
-				scanf("%i", &choix);
+				printf("Choix pour le perso 1 du joueur %i: ",numero_j);
+				scanf("%i", &choix1);
+                printf("Choix pour le perso 2 du joueur %i: ",numero_j);
+				scanf("%i", &choix2);
 
-			}while((choix < 1)||(choix >3));
+			}while( ((choix1 < 1)||(choix1 >3)) || ((choix2 < 1)||(choix2 >3)) || (choix1 == choix2) );
 
-			switch(choix){
+			switch(choix1){
 				case 1: matriceJeu[y1][x1] = '1';
 					matriceJeu[y1-1][x1-2]='.';
 					matriceJeu[y1 -1][x1 + 2]='.';
-					perso1->coord.x = x1;
-					perso1->coord.y = y1;
+					joueur1->perso1->coord.x = x1;
+					joueur1->perso1->coord.y = y1;
 				break;
 
-				case 2: matriceJeu[y1][x1] = '.';
+				case 2:
+                    matriceJeu[y1][x1] = '.';
 					matriceJeu[y1-1][x1-2]='1';
 					matriceJeu[y1 -1][x1 + 2]='.';
-					perso1->coord.x = x1-2;
-					perso1->coord.y = y1-1;
+					joueur1->perso1->coord.x = x1-2;
+					joueur1->perso1->coord.y = y1-1;
 				break;
 
-				case 3: matriceJeu[y1][x1] = '.';
+				case 3:
+                    matriceJeu[y1][x1] = '.';
 					matriceJeu[y1-1][x1-2]='.';
 					matriceJeu[y1 -1][x1 + 2]='1';
 					joueur1->perso1->coord.x = x1+2;
@@ -150,7 +153,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 					break;
 
 					case 5: matriceJeu[y2][x2]='.';
-						matriceJeu[y2+1][x2-2]='2';
+						matriceJeu[y2+1][x2-2]='4';
 						matriceJeu[y2+1][x2 + 2]='.';
                         matriceJeu[joueur2->perso1->coord.y][joueur2->perso1->coord.x] = '2';
 						joueur2->perso2->coord.x = x2-2;
@@ -167,7 +170,8 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 				}
 		}
 
-		choix = 0;
+		choix1 = 0;
+        choix2 = 0;
 		numero_j++;
 	}
     /* obstacles générés sur toutes la carte sauf les bords */
@@ -176,7 +180,7 @@ void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * p
 	/* génération des obstacles sur la carte */
 	i = 1;
 	while(i <= nb_obs){
-		if(matriceJeu[obs_y][obs_x] != 'o' && matriceJeu[obs_y][obs_x] != '1' && matriceJeu[obs_y][obs_x] != '2'){
+		if(matriceJeu[obs_y][obs_x] == '.'){
 			matriceJeu[obs_y][obs_x] = 'o';
 			i++;
 		}

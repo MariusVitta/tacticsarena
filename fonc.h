@@ -19,6 +19,7 @@ typedef struct s_sort{
 	int degat;
 	int cd;/* cooldown*/
 	int upt;/*utilisation par tour*/
+    int uptm;
 	int point_action;
 
 }t_sort;
@@ -48,6 +49,14 @@ typedef struct s_personnage{
 
 }t_personnage;
 
+typedef struct s_joueur{
+
+		int numJoueur;
+		int nbPVivant;
+		t_personnage * perso1;
+		t_personnage * perso2;
+
+}t_joueur;
 
 
 
@@ -66,7 +75,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 
 int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj);
 /*fonction d'initialisation (positionnement,création des obstacles) */
-void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2);
+void initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2);
 /* affichage des coordonnées actuelles du personnage */
 void affichage_coord(t_joueur joueur);
 /* affichage des sorts utilisable par le joueur */
