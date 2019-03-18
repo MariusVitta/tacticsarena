@@ -11,12 +11,20 @@
  * retourne : 1 si le déplacement a bien eu lieu
  */
 
-int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
+int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
-	int i, j, g, dist=j1->s1.portee,car=0;
+	int i, j, g,car=0;
 	char choix;
 
+    t_personnage * temp;
+    if(numero_perso == 1 ){
+        temp = j1.perso1;
+    }
+    else{
+        temp = j1.perso2;
+    }
+    int dist=temp->s1.portee;
 
 	/* recopie matrice dans la matrice point qui affiche la portee */
 
@@ -27,12 +35,12 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 	}
 
 
-	i = j1->coord.y;
-	j = j1->coord.x - dist ;
+	i = temp->coord.y;
+	j = temp->coord.x - dist ;
 	//affiche la porter vers le haut
 	for( ; i >= 0  && ( dist >= 0 ) ; i--, dist--){
-		j = j1->coord.x - dist ;
-		for( ;(j <= j1->coord.x + dist) ; j++){
+		j = temp->coord.x - dist ;
+		for( ;(j <= temp->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
 					//verifie si il y a un obstacle ou un joueur à l'emplacement
@@ -47,18 +55,18 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 		}
 	}
 
-	dist=j1->s1.portee;
-	g = j1->coord.y;
-	j = j1->coord.x - dist ;
+	dist=temp->s1.portee;
+	g = temp->coord.y;
+	j = temp->coord.x - dist ;
 	//affiche la porter vers le bas
 	for( ; g < N  && ( dist >= 0 ) ; g++, dist--){
-		j = j1->coord.x - dist ;
-		for( ;(j <= j1->coord.x + dist) ; j++){
+		j = temp->coord.x - dist ;
+		for( ;(j <= temp->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
 						//ne pas repasser une seconde fois sur la ligne du joueur
-						if(g != j1->coord.y){
+						if(g != temp->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
 						}
@@ -75,32 +83,36 @@ int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj){
 	do{
 			printf("Où souhaitez vous sauter : ");
 			scanf(" %c", &choix);
-	}while((!existe(point, choix, &x, &y)) || (((abs(j1->coord.x-x)+abs(j1->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
+	}while((!existe(point, choix, &x, &y)) || (((abs(temp->coord.x-x)+abs(temp->coord.y-y))>3) || (x<0 || x>=N) || (y<0 || y>=N)) || (map[y][x]!='.'));
 
 
-	j1->coord.x = x;
+	temp->coord.x = x;
 
-	j1->coord.y = y;
+	temp->coord.y = y;
 
 
 
 	if(nbj==1){
-		maj(map,*j1,*j2);
+		maj(map,j1,j2);
 		affichage_map(map);
 	}
 	else{
-		maj(map,*j2,*j1);
+		maj(map,j2,j1);
 		affichage_map(map);
 	}
 
 	return 1;
 }
 
-
-
 /*avec personnage n le nombre de deplacements qu'il reste et nbj le numero du joueur*/
-int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int nbj){
-
+int deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int nbj,int numero_perso ){
+    t_personnage * temp;
+    if(numero_perso == 1 ){
+        temp = j1.perso1;
+    }
+    else{
+        temp = j1.perso2;
+    }
 	char c;
 
 	//while (n > 0) {
@@ -117,12 +129,12 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 		switch (c) {
 			case 'h':
 
-				if(j1->coord.y-1<0 || (map[j1->coord.y-1][j1->coord.x]!='.')){
+				if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.')){
   				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 				else{
-					(j1->coord.y)--;
+					(temp->coord.y)--;
   				printf(" ---- Déplacement en Haut ---- \n" );
 					n--;
 					break;
@@ -130,13 +142,13 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 
 			case 'b':
 
-				if(j1->coord.y+1>=N || (map[j1->coord.y+1][j1->coord.x]!='.')){
+				if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.')){
   				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 
 				else{
-					(j1->coord.y)++;
+					(temp->coord.y)++;
   				printf(" ---- Déplacement en Bas ---- \n" );
 					n--;
 					break;
@@ -144,13 +156,13 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 
 			case 'g':
 
-				if(j1->coord.x-1<0 || (map[j1->coord.y][j1->coord.x-1]!='.')){
+				if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.')){
   				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 
 				else{
-					(j1->coord.x)--;
+					(temp->coord.x)--;
   				printf(" ---- Déplacement à Gauche ---- \n" );
 					n--;
 					break;
@@ -158,13 +170,13 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 
 			case 'd':
 
-				if(j1->coord.x+1>=N || (map[j1->coord.y][j1->coord.x+1]!='.')){
+				if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.')){
   				printf(" ---- Déplacement impossible ---- \n" );
 					break;
 				}
 
 				else{
-					(j1->coord.x)++;
+					(temp->coord.x)++;
   				printf(" ---- Déplacement à Droite ---- \n" );
 					n--;
 					break;
@@ -175,11 +187,11 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 				return n;
 		}
 		if(nbj==1){
-			maj(map,*j1,*j2);
+			maj(map,j1,j2);
 			affichage_map(map);
 		}
 		else{
-			maj(map,*j2,*j1);
+			maj(map,j2,j1);
 			affichage_map(map);
 		}
 	//}

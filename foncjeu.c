@@ -2,27 +2,30 @@
 #include <stdlib.h>
 #include "fonc.h"
 
-int est_mort(t_personnage perso){
-	return (perso.pv <= 0);
+int est_mort(t_personnage * perso){
+	return (perso->pv <= 0);
 }
 
-void maj(char map[N][N], t_personnage perso1, t_personnage perso2){
+void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2){
 	int i, j;
 
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
 			if(map[i][j] != 'o')
 				map[i][j] = '.';
-		}
-
+        }
 	}
 
-	map[perso1.coord.y][perso1.coord.x] = '1';
-	map[perso2.coord.y][perso2.coord.x] = '2';
-
-	int x1 = perso1.coord.x;
-	int y1 = perso1.coord.y;
-
+    /* joueur 1 */
+	map[joueur1.perso1->coord.y][joueur1.perso1->coord.x] = '1';
+    map[joueur1.perso2->coord.y][joueur1.perso2->coord.x] = '3';
+    /* joueur 2*/
+	map[joueur2.perso1->coord.y][joueur2.perso1->coord.x] = '2';
+    map[joueur2.perso2->coord.y][joueur2.perso2->coord.x] = '4';
+    /*
+	int x1 = joueur1.perso1->coord.x;
+	int y1 = joueur1.perso1->coord.y;
+    */
 }
 
 int existe(char mat[N][N], char choix, int * x, int * y){

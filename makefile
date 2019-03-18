@@ -1,4 +1,4 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o coup_zone.o petit_coup.o soin.o double_tape.o attire.o
+OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o coup_zone.o petit_coup.o soin.o double_tape.o
 
 OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o coup_zone.o petit_coup.o soin.o double_tape.o
 

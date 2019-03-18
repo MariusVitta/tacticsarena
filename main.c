@@ -61,10 +61,10 @@ int main(){
         for(num_p = 1 ; num_p <= 2; num_p++){
             printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,num_j,num_p);
             if(num_p == 1){
-                tour(map,joueur1,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                tour(map,joueur1,joueur2,1,num_p); /* tour du personnage 1 du joueur 1 */
             }
             else{
-                tour(map,joueur1,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                tour(map,joueur1,joueur2,1,num_p); /* tour du personnage 1 du joueur 1 */
                 printf("personne 2 joueur 1\n");
             }
             affichage_map(map);
@@ -79,10 +79,10 @@ int main(){
             for(num_p = 1 ; num_p <= 2; num_p++){
                 printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,num_j,num_p);
                 if(num_p == 1){
-                    tour(map,joueur1,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                    tour(map,joueur2,joueur1,2,num_p); /* tour du personnage 1 du joueur 1 */
                 }
                 else{
-                    tour(map,joueur2,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                    tour(map,joueur2,joueur1,2,num_p); /* tour du personnage 2 du joueur 2 */
                 }
                 affichage_map(map);
             }
