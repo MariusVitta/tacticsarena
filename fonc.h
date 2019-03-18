@@ -19,6 +19,7 @@ typedef struct s_sort{
 	int degat;
 	int cd;/* cooldown*/
 	int upt;/*utilisation par tour*/
+    int uptm;
 	int point_action;
 
 }t_sort;
