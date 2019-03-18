@@ -6,6 +6,15 @@ OBJ_PTIT_COUP = fonc.o petit_coup.o init.o foncjeu.o persosorts.o
 
 OBJ_DOUBLE_TAPE = fonc.o double_tape.o init.o foncjeu.o persosorts.o
 
+OBJ_SDL = sdl_test.o fonc.o init.o persosorts.o
+
+SDL_DIR=${HOME}/Documents/Projet/SDL2
+SDLLIB_DIR=${SDL_DIR}/lib
+SDLINC_DIR=${SDL_DIR}/include
+
+LIBS=-L${SDLLIB_DIR} -lSDL2 -lSDL2_ttf -lSDL2_image
+INCLUDES=-I${SDLINC_DIR}
+
 test: $(OBJ) fonc.h
 	gcc $(OBJ) -o test
 
@@ -17,6 +26,9 @@ test_petit_coup: $(OBJ_PTIT_COUP) fonc.h
 
 test_double_tape: $(OBJ_DOUBLE_TAPE) fonc.h
 	gcc $(OBJ_DOUBLE_TAPE) -o $@
+
+sdl_test: $(OBJ_SDL) fonc.h
+	gcc $(OBJ_SDL) -o $@ ${LIBS} ${INCLUDES}
 
 #génération des .o
 main.o: main.c fonc.h
@@ -42,7 +54,10 @@ double_tape.o: double_tape.c fonc.h
 soin.o: soin.c fonc.h
 	gcc -c $<
 
-all: test test_coup_zone test_petit_coup test_double_tape
+sdl_test.o: sdl_test.c fonc.h
+	gcc -c $< ${LIBS} ${INCLUDES}
+
+all: test test_coup_zone test_petit_coup test_double_tape sdl_test
 
 clean:
 	- rm -rf *.o
@@ -50,6 +65,7 @@ clean:
 	- rm test_coup_zone
 	- rm test_petit_coup
 	- rm test_double_tape
+	- rm sdl_test
 
 mrproper: clean
 
