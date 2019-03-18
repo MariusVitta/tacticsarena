@@ -1,5 +1,15 @@
 #define N 11
 
+/*structure d'un effet ( sort s'appliquant sur une durée)*/
+
+typedef struct s_effet{
+
+	char * nom;
+	int cible;
+	int duree;
+
+}t_effet;
+
 /*structure d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
 
 typedef struct s_sort{
@@ -9,7 +19,6 @@ typedef struct s_sort{
 	int degat;
 	int cd;/* cooldown*/
 	int upt;/*utilisation par tour*/
-	int uptm;
 	int point_action;
 
 }t_sort;
@@ -39,14 +48,7 @@ typedef struct s_personnage{
 
 }t_personnage;
 
-typedef struct s_joueur{
 
-		int numJoueur;
-		int nbPVivant;
-		t_personnage perso1;
-		t_personnage perso2;
-
-}t_joueur;
 
 
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
