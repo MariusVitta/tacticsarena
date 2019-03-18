@@ -39,7 +39,14 @@ typedef struct s_personnage{
 
 }t_personnage;
 
+typedef struct s_joueur{
 
+		int numJoueur;
+		int nbPVivant;
+		t_personnage perso1;
+		t_personnage perso2;
+
+}t_joueur;
 
 
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
