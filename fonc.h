@@ -1,5 +1,15 @@
 #define N 11
 
+/*structure d'un effet ( sort s'appliquant sur une durée)*/
+
+typedef struct s_effet{
+
+	char * nom;
+	int cible;
+	int duree;
+
+}t_effet;
+
 /*structure d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
 
 typedef struct s_sort{
@@ -9,7 +19,6 @@ typedef struct s_sort{
 	int degat;
 	int cd;/* cooldown*/
 	int upt;/*utilisation par tour*/
-	int uptm;
 	int point_action;
 
 }t_sort;
@@ -38,13 +47,12 @@ typedef struct s_personnage{
 	t_sort s1,s2,s3,s4;
 
 }t_personnage;
-
 typedef struct s_joueur{
 
 		int numJoueur;
 		int nbPVivant;
-		t_personnage perso1;
-		t_personnage perso2;
+		t_personnage * perso1;
+		t_personnage * perso2;
 
 }t_joueur;
 
@@ -64,7 +72,7 @@ int deplacement(t_personnage * j1,t_personnage * j2,char map[N][N],int  n ,int n
 
 int saut(t_personnage * j1,t_personnage * j2,char map[N][N],int nbj);
 /*fonction d'initialisation (positionnement,création des obstacles) */
-void initialisation(char matriceJeu[N][N],t_personnage * perso1,t_personnage * perso2);
+void initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2);
 /* affichage des coordonnées actuelles du personnage */
 void affichage_coord(t_personnage perso);
 /* affichage des sorts utilisable par le joueur */

@@ -1,5 +1,7 @@
 OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o coup_zone.o petit_coup.o soin.o double_tape.o
 
+OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o coup_zone.o petit_coup.o soin.o double_tape.o test_init.o
+
 OBJ_COUP_ZONE = fonc.o coup_zone.o init.o foncjeu.o persosorts.o
 
 OBJ_PTIT_COUP = fonc.o petit_coup.o init.o foncjeu.o persosorts.o
@@ -15,8 +17,11 @@ SDLINC_DIR=${SDL_DIR}/include
 LIBS=-L${SDLLIB_DIR} -lSDL2 -lSDL2_ttf -lSDL2_image
 INCLUDES=-I${SDLINC_DIR}
 
-test: $(OBJ) fonc.h
-	gcc $(OBJ) -o test
+main: $(OBJ) fonc.h
+	gcc $(OBJ) -o $@
+
+test_init: $(OBJ_INIT) fonc.h
+	gcc $(OBJ_INIT) -o $@
 
 test_coup_zone: $(OBJ_COUP_ZONE) fonc.h
 	gcc $(OBJ_COUP_ZONE) -o test_coup_zone
@@ -53,15 +58,18 @@ double_tape.o: double_tape.c fonc.h
 	gcc -c $<
 soin.o: soin.c fonc.h
 	gcc -c $<
+test_init.o: test_init.c fonc.h
+	gcc -c $<
 
 sdl_test.o: sdl_test.c fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
-all: test test_coup_zone test_petit_coup test_double_tape sdl_test
+all: main test_coup_zone test_petit_coup test_double_tape sdl_test test_init
 
 clean:
 	- rm -rf *.o
-	- rm test
+	- rm main
+	- rm test_init
 	- rm test_coup_zone
 	- rm test_petit_coup
 	- rm test_double_tape
