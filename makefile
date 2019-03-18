@@ -19,7 +19,6 @@ INCLUDES=-I${SDLINC_DIR}
 
 main: $(OBJ) fonc.h
 	gcc $(OBJ) -o $@
-
 test_init: $(OBJ_INIT) fonc.h
 	gcc $(OBJ_INIT) -o $@
 
@@ -58,7 +57,7 @@ double_tape.o: double_tape.c fonc.h
 	gcc -c $<
 soin.o: soin.c fonc.h
 	gcc -c $<
-test_init.o: test_init.c fonc.h
+test_init.o :test_init.c fonc.h
 	gcc -c $<
 
 sdl_test.o: sdl_test.c fonc.h
