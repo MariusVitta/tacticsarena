@@ -8,74 +8,102 @@ char map[N][N];
 int main(){
 
 	int i, j, classe1, classe2,nb_tour = 1,mort1 = 0,mort2 = 0;
-    int num_j = 1;
-	t_personnage personnage1,personnage2;
+    int num_j = 1,num_p = 1;
+    t_joueur joueur1,joueur2;
 
-	do{
-		printf("Joueur 1: choisir une classe\n");
+	do{ /* choix personnage du joueur 1 */
+		printf("Joueur 1: choisir une classe personnage 1 et classe personnage 2\n");
 		printf("[1] : Guerrier\n");
-		printf("[2] : Archer\nChoix:");
+		printf("[2] : Archer\nChoix personnage 1: ");
 		scanf("%d",&classe1);
+        printf("Choix personnage 2: ");
+        scanf("%d",&classe2);
 
-		if((classe1 != 1)&&(classe1 != 2))
+		if((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2) )
 			printf("Vous devez taper 1 ou 2\n");
 
-	}while((classe1 != 1)&&(classe1 != 2));
+	}while((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2));
+    joueur1.perso1 = malloc(sizeof(t_personnage));
+    joueur1.perso2 = malloc(sizeof(t_personnage));
+    creer_perso(classe1,joueur1.perso1);
+	creer_perso(classe2,joueur1.perso2);
+    joueur1.numJoueur = 1;
+    joueur1.nbPVivant = 2;
 
-	do{
-		printf("Joueur 2: choisir une classe\n");
+    /* choix des personnages du joueur 2 */
+    do{
+		printf("Joueur 2: choisir une classe personnage 1 et classe personnage 2\n");
 		printf("[1] : Guerrier\n");
-		printf("[2] : Archer\nChoix:");
+		printf("[2] : Archer\nChoix personnage 1: ");
+		scanf("%d",&classe1);
+        printf("Choix personnage 2: ");
+        scanf("%d",&classe2);
 
-
-		scanf("%d",&classe2);
-
-		if((classe2 != 1)&&(classe2 != 2))
+		if((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2) )
 			printf("Vous devez taper 1 ou 2\n");
 
-	}while((classe2 != 1)&&(classe2 != 2));
+	}while((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2));
 
-	personnage1 = creer_perso(classe1,&personnage1);
-	personnage2 = creer_perso(classe2,&personnage2);
-    personnage1.pv = 10;
-    personnage2.pv = 5;
+    joueur2.perso1 = malloc(sizeof(t_personnage));
+    joueur2.perso2 = malloc(sizeof(t_personnage));
+	creer_perso(classe1,joueur2.perso1 );
+	creer_perso(classe2,joueur2.perso2);
+    joueur2.numJoueur = 2;
+    joueur2.nbPVivant = 2;
 
-	initialisation(map,&personnage1,&personnage2);
+
+	initialisation(map,&joueur1,&joueur2);
     printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
     affichage_map(map);
 
     /* boucle principale du jeu */
-    while(!est_mort(personnage1) && !est_mort(personnage2)){
-        printf("[Tour numéro:%i][Tour du joueur %i]\n\n",nb_tour,num_j);
-        tour(map,&personnage1,&personnage2,1);
-        affichage_map(map);
-        num_j++;
-				//verifie si les personnages sont vivant au ( refaire a chaque fin de tour )
-        mort1 = est_mort(personnage1);
-				mort2= est_mort(personnage2);
-        /* si le personnage 1 est mort on effectue pas le tour du joueur */
-        if(!mort1 && !mort2){
-            printf("[Tour numéro:%i][Tour du joueur %i]\n\n",nb_tour,num_j);
-            tour(map,&personnage2,&personnage1,2);
+    while(!est_mort(joueur1.perso1) && !est_mort(joueur2.perso1)){
+        for(num_p = 1 ; num_p <= 2; num_p++){
+            printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,num_j,num_p);
+            if(num_p == 1){
+                tour(map,joueur1,joueur2,1); /* tour du personnage 1 du joueur 1 */
+            }
+            else{
+                tour(map,joueur1,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                printf("personne 2 joueur 1\n");
+            }
             affichage_map(map);
         }
+        num_j++;
+
+        //verifie si les personnages sont vivant au ( refaire a chaque fin de tour )
+        mort1 = est_mort(joueur1.perso1);
+		mort2= est_mort(joueur2.perso1);
+        /* si le personnage 1 est mort on effectue pas le tour du joueur */
+        if(!mort1 && !mort2){
+            for(num_p = 1 ; num_p <= 2; num_p++){
+                printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,num_j,num_p);
+                if(num_p == 1){
+                    tour(map,joueur1,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                }
+                else{
+                    tour(map,joueur2,joueur2,1); /* tour du personnage 1 du joueur 1 */
+                }
+                affichage_map(map);
+            }
+        }
 				//verifie si les personnages sont vivant
-				mort1 = est_mort(personnage1);
-				mort2= est_mort(personnage2);
+                mort1 = est_mort(joueur1.perso1);
+        		mort2= est_mort(joueur2.perso1);
         if( !mort1 && !mort2 ){
 		          printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
-		          affichage_coord(personnage2);
-		          affichage_coord(personnage1);
+		          affichage_coord(joueur1);
+		          affichage_coord(joueur2);
         }
         num_j--;
         nb_tour++;
    }
    printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
 
-	if(est_mort(personnage1))
-		printf("Le personnage '%s' est mort\n", personnage1.nom);
-	else if(est_mort(personnage2))
-		printf("Le personnage '%s' est mort\n", personnage1.nom);
+	if(est_mort(joueur1.perso1))
+		printf("Le personnage '%s' est mort\n", joueur1.perso1->nom);
+	else if(est_mort(joueur2.perso1))
+		printf("Le personnage '%s' est mort\n", joueur2.perso1->nom);
 
 	return 0;
 }
