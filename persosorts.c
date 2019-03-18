@@ -12,7 +12,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		saut.degat=0;
 		saut.point_action=1;
 		saut.cd=0;
-		saut.upt=1;
+		saut.uptm=1;
 
 		t_sort soin;
 		soin.nom="Soin";
@@ -20,7 +20,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		soin.degat=6;
 		soin.point_action=1;
 		soin.cd=0;
-		soin.upt=2;
+		soin.uptm=2;
 
 		t_sort ptitcoup;
 		ptitcoup.nom="Ptitcoup";
@@ -28,7 +28,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		ptitcoup.degat=10;
 		ptitcoup.point_action=1;
 		ptitcoup.cd=0;
-		ptitcoup.upt=2;
+		ptitcoup.uptm=2;
 
 		t_sort groscoup;
 		groscoup.nom="Groscoup";
@@ -36,7 +36,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		groscoup.degat=25;
 		groscoup.point_action=2;
 		groscoup.cd=0;
-		groscoup.upt=1;
+		groscoup.uptm=1;
 
 		perso->nom="Guerrier";
 		perso->pv=60;
@@ -58,7 +58,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		diago.degat=14;
 		diago.point_action=2;
 		diago.cd=0;
-		diago.upt=1;
+		diago.uptm=1;
 
 		t_sort ligne;
 		ligne.nom="Ligne";
@@ -66,7 +66,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		ligne.degat=14;
 		ligne.point_action=2;
 		ligne.cd=0;
-		ligne.upt=1;
+		ligne.uptm=1;
 
 		t_sort doubletape;
 		doubletape.nom="Doubletape";
@@ -74,7 +74,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		doubletape.degat=6;
 		doubletape.point_action=1;
 		doubletape.cd=0;
-		doubletape.upt=2;
+		doubletape.uptm=2;
 
 		t_sort coupzone;
 		coupzone.nom="Coupzone";
@@ -82,7 +82,7 @@ t_personnage creer_perso(int classe,t_personnage * perso){
 		coupzone.degat=12;
 		coupzone.point_action=2;
 		coupzone.cd=0;
-		coupzone.upt=1;
+		coupzone.uptm=1;
 
 		perso->nom="Archer";
 		perso->pv=55;

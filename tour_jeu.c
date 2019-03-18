@@ -12,22 +12,26 @@
  */
 int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
     /* variable qui compte le nombre de déplacement max possible par personnage*/
-    j1->pm=3;
+    int pm=j1->pm;
     int choix = 0;
+    j1->s1.upt=j1->s1.uptm;
+    j1->s2.upt=j1->s2.uptm;
+    j1->s3.upt=j1->s3.uptm;
+    j1->s4.upt=j1->s4.uptm;
     /* variable qui compte le nombre de points d'actions max du personnage 1 */
     int point_action = j1->pa;
     /* tant que le joueur ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
-    while(choix != 3 /*|| (j1->pm > 0 && point_action > 0)*/){
+    while(choix != 3 /*|| (pm > 0 && point_action > 0)*/){
         do{
-            printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ? [nombre de points d'actions:%i]\n[3]:Passer son tour\nchoix:",j1->pm,point_action);
+            printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ? [nombre de points d'actions:%i]\n[3]:Passer son tour\nchoix:",pm,point_action);
             scanf("%i",&choix );
         }
         while(choix < 1 || choix > 3);
 
         switch(choix){
             case 1:
-                if(j1->pm > 0 ){
-                    j1->pm = deplacement(j1,j2,map,j1->pm,nb_j);
+                if(pm > 0 ){
+                    pm = deplacement(j1,j2,map,pm,nb_j);
                 }
                 else{
                     printf("\n ---- Vous avez utilisé tous vos points de déplacements ----\n\n");
@@ -44,6 +48,7 @@ int tour(char map[N][N],t_personnage * j1,t_personnage * j2,int nb_j ){
                     if(!(strcmp("Guerrier",j1->nom))){
                         switch(choix){
                             case 1:
+
                                 if (j1->s1.point_action <= point_action && j1->s1.upt > 0 ) {
                                     saut(j1,j2,map,nb_j);point_action -= j1->s1.point_action ; j1->s1.upt-=1;
                                 }
