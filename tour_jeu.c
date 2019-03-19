@@ -11,15 +11,23 @@
  * renvoie vrai lors que le tour de jeu du personnage est finie ou lorsqu'il passe son tour
  */
 int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_perso ){
+	t_personnage * temp;
+    if(numero_perso == 1 ){
+        temp = joueur1.perso1;
+    }
+    else{
+        temp = joueur1.perso2;
+    }
+
     /* variable qui compte le nombre de déplacement max possible par personnage*/
-    int pm=joueur1.perso1->pm;
+    int pm=temp->pm;
     int choix = 0;
-    joueur1.perso1->s1.upt=joueur1.perso1->s1.uptm;
-    joueur1.perso1->s2.upt=joueur1.perso1->s2.uptm;
-    joueur1.perso1->s3.upt=joueur1.perso1->s3.uptm;
-    joueur1.perso1->s4.upt=joueur1.perso1->s4.uptm;
+    temp->s1.upt=temp->s1.uptm;
+    temp->s2.upt=temp->s2.uptm;
+    temp->s3.upt=temp->s3.uptm;
+    temp->s4.upt=temp->s4.uptm;
     /* variable qui compte le nombre de points d'actions max du personnage 1 */
-    int point_action = joueur1.perso1->pa;
+    int point_action = temp->pa;
     /* tant que le joueur ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
     while(choix != 3 /*|| (pm > 0 && point_action > 0)*/){
         do{
@@ -41,18 +49,18 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                 if(point_action > 0){
                     do{
                         /*affichage de la liste des sorts utilisable par le personnage actuel*/
-                        sort_uti(*(joueur1.perso1));
+                        sort_uti(*(temp));
                         scanf("%i",&choix );
                     }
                     while(choix < 1 || choix > 4);
-                    if(!(strcmp("Guerrier",joueur1.perso1->nom))){
+                    if(!(strcmp("Guerrier",temp->nom))){
                         switch(choix){
                             case 1:
 
-                                if (joueur1.perso1->s1.point_action <= point_action && joueur1.perso1->s1.upt > 0 ) {
-                                    saut(joueur1,joueur2,map,nb_j,numero_perso);point_action -= joueur1.perso1->s1.point_action ; joueur1.perso1->s1.upt-=1;
+                                if (temp->s1.point_action <= point_action && temp->s1.upt > 0 ) {
+                                    saut(joueur1,joueur2,map,nb_j,numero_perso);point_action -= temp->s1.point_action ; temp->s1.upt-=1;
                                 }
-                                else if(joueur1.perso1->s1.upt == 0){
+                                else if(temp->s1.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -60,10 +68,10 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                                 }
                                 break;
                             case 2:
-                                if (joueur1.perso1->s2.point_action <= point_action && joueur1.perso1->s2.upt > 0 ) {
-                                    soin(joueur1.perso1);point_action -= joueur1.perso1->s2.point_action ;joueur1.perso1->s2.upt-=1;
+                                if (temp->s2.point_action <= point_action && temp->s2.upt > 0 ) {
+                                    soin(temp);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
                                 }
-                                else if(joueur1.perso1->s2.upt == 0){
+                                else if(temp->s2.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -71,12 +79,12 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                                 }
                                 break;
                             case 3:
-                                if (joueur1.perso1->s3.point_action <= point_action && joueur1.perso1->s3.upt > 0 ) {
-                                    petit_coup(map,joueur1.perso1,joueur2.perso1);point_action -= joueur1.perso1->s3.point_action ;joueur1.perso1->s3.upt-=1;
+                                if (temp->s3.point_action <= point_action && temp->s3.upt > 0 ) {
+                                    petit_coup(map,temp,joueur2.perso1);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
 
                                 }
-                                else if(joueur1.perso1->s3.upt == 0){
+                                else if(temp->s3.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -84,11 +92,11 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                                 }
                                 break;
                             case 4:
-                                if (joueur1.perso1->s4.point_action <= point_action && joueur1.perso1->s4.upt > 0 ) {
-                                    grosCoup(map,joueur1.perso1,joueur2.perso1);point_action -= joueur1.perso1->s4.point_action ;joueur1.perso1->s4.upt-=1;
+                                if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
+                                    grosCoup(map,temp,joueur2.perso1);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
 
                                 }
-                                else if(joueur1.perso1->s4.upt == 0){
+                                else if(temp->s4.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -98,15 +106,15 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                             }
 
                     }
-                    else if(!(strcmp("Archer",joueur1.perso1->nom))){
+                    else if(!(strcmp("Archer",temp->nom))){
                         switch(choix){
                             case 1:
-                                if (joueur1.perso1->s1.point_action <= point_action && joueur1.perso1->s1.upt > 0 ) {
-                                    diago(map,joueur1.perso1,joueur2.perso1);
-                                    point_action -= joueur1.perso1->s1.point_action ;joueur1.perso1->s1.upt-=1;
+                                if (temp->s1.point_action <= point_action && temp->s1.upt > 0 ) {
+                                    diago(map,temp,joueur2.perso1);
+                                    point_action -= temp->s1.point_action ;temp->s1.upt-=1;
 
                                 }
-                                else if(joueur1.perso1->s1.upt == 0){
+                                else if(temp->s1.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -114,11 +122,11 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                                 }
                                 break;
                             case 2:
-                                if (joueur1.perso1->s2.point_action <=  point_action && joueur1.perso1->s2.upt > 0 ) {
-                                    ligne(map,joueur1.perso1,joueur2.perso1);point_action -= joueur1.perso1->s2.point_action ;joueur1.perso1->s2.upt-=1;
+                                if (temp->s2.point_action <=  point_action && temp->s2.upt > 0 ) {
+                                    ligne(map,temp,joueur2.perso1);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
 
                                 }
-                                else if(joueur1.perso1->s2.upt == 0){
+                                else if(temp->s2.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -126,11 +134,11 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                                 }
                                 break;
                             case 3:
-                                if (joueur1.perso1->s3.point_action <=  point_action && joueur1.perso1->s3.upt > 0 ) {
-                                    double_tape(map,joueur1.perso1,joueur2.perso1);point_action -= joueur1.perso1->s3.point_action ;joueur1.perso1->s3.upt-=1;
+                                if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
+                                    double_tape(map,temp,joueur2.perso1);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
                                 }
-                                else if(joueur1.perso1->s3.upt == 0){
+                                else if(temp->s3.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{
@@ -138,11 +146,11 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
                                 }
                                 break;
                             case 4:
-                                if (joueur1.perso1->s4.point_action <= point_action && joueur1.perso1->s4.upt > 0 ) {
+                                if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
 
-                                    coup_zone(map,joueur1.perso1,joueur2.perso1);point_action -= joueur1.perso1->s4.point_action ;joueur1.perso1->s4.upt-=1;
+                                    coup_zone(map,temp,joueur2.perso1);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
                                 }
-                                else if(joueur1.perso1->s4.upt == 0){
+                                else if(temp->s4.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
                                 }
                                 else{

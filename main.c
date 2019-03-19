@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include "fonc.h"
 
+#define NB_PERSONNAGES 2
 
 char map[N][N];
 
 int main(){
 
 	int i, j, classe1, classe2,nb_tour = 1,mort1 = 0,mort2 = 0;
-    int num_j = 1,num_p = 1;
+    int indice_joueur = 1,numero_personnage = 1;
     t_joueur joueur1,joueur2;
 
 	do{ /* choix personnage du joueur 1 */
@@ -28,7 +29,7 @@ int main(){
     creer_perso(classe1,joueur1.perso1);
 	creer_perso(classe2,joueur1.perso2);
     joueur1.numJoueur = 1;
-    joueur1.nbPVivant = 2;
+    joueur1.nbPVivant = NB_PERSONNAGES;
 
     /* choix des personnages du joueur 2 */
     do{
@@ -43,13 +44,13 @@ int main(){
 			printf("Vous devez taper 1 ou 2\n");
 
 	}while((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2));
-
+	
     joueur2.perso1 = malloc(sizeof(t_personnage));
     joueur2.perso2 = malloc(sizeof(t_personnage));
 	creer_perso(classe1,joueur2.perso1 );
 	creer_perso(classe2,joueur2.perso2);
     joueur2.numJoueur = 2;
-    joueur2.nbPVivant = 2;
+    joueur2.nbPVivant = NB_PERSONNAGES;
 
 
 	initialisation(map,&joueur1,&joueur2);
@@ -58,44 +59,52 @@ int main(){
 
     /* boucle principale du jeu */
     while(!est_mort(joueur1.perso1) && !est_mort(joueur2.perso1)){
-        for(num_p = 1 ; num_p <= 2; num_p++){
-            printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,num_j,num_p);
-            if(num_p == 1){
-                tour(map,joueur1,joueur2,1,num_p); /* tour du personnage 1 du joueur 1 */
+        for(numero_personnage = 1 ; numero_personnage <= NB_PERSONNAGES; numero_personnage++){
+            printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,indice_joueur,numero_personnage);
+            if(numero_personnage == 1){
+                tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 1 du joueur 1 */
             }
             else{
-                tour(map,joueur1,joueur2,1,num_p); /* tour du personnage 1 du joueur 1 */
+                tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 1 du joueur 1 */
                 printf("personne 2 joueur 1\n");
             }
             affichage_map(map);
         }
-        num_j++;
+        indice_joueur++;
 
         //verifie si les personnages sont vivant au ( refaire a chaque fin de tour )
         mort1 = est_mort(joueur1.perso1);
 		mort2= est_mort(joueur2.perso1);
         /* si le personnage 1 est mort on effectue pas le tour du joueur */
         if(!mort1 && !mort2){
-            for(num_p = 1 ; num_p <= 2; num_p++){
-                printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,num_j,num_p);
-                if(num_p == 1){
-                    tour(map,joueur2,joueur1,2,num_p); /* tour du personnage 1 du joueur 1 */
+            for(numero_personnage = 1 ; numero_personnage <= NB_PERSONNAGES; numero_personnage++){
+                printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,indice_joueur,numero_personnage);
+                if(numero_personnage == 1){
+                    tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 1 du joueur 1 */
                 }
                 else{
-                    tour(map,joueur2,joueur1,2,num_p); /* tour du personnage 2 du joueur 2 */
+                    tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 2 du joueur 2 */
                 }
                 affichage_map(map);
             }
         }
-				//verifie si les personnages sont vivant
-                mort1 = est_mort(joueur1.perso1);
-        		mort2= est_mort(joueur2.perso1);
+
+		/* gestion des morts */
+		if(numero_personnage == 1 ){
+	        mort1 = est_mort(joueur1.perso1);
+			mort2= est_mort(joueur2.perso1);
+	    }
+	    else{
+			mort1 = est_mort(joueur1.perso2);
+	        mort2= est_mort(joueur2.perso2);
+	    }
+
         if( !mort1 && !mort2 ){
-		          printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
-		          affichage_coord(joueur1);
-		          affichage_coord(joueur2);
+			printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
+			affichage_coord(joueur1);
+			affichage_coord(joueur2);
         }
-        num_j--;
+        indice_joueur--;
         nb_tour++;
    }
    printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
