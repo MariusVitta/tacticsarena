@@ -7,7 +7,7 @@ void bigshaq(char map[N][N], t_personnage * perso1, t_personnage * perso2){
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
 	char choix;
-	int degat[4]={8,16,32,128}
+	int degat[4]={8,16,32,128};
 /*copie plan jeu dans la matrice point*/
 
 	for(i = 0; i < N; i++){

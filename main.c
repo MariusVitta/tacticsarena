@@ -44,7 +44,7 @@ int main(){
 			printf("Vous devez taper 1 ou 2\n");
 
 	}while((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2));
-	
+
     joueur2.perso1 = malloc(sizeof(t_personnage));
     joueur2.perso2 = malloc(sizeof(t_personnage));
 	creer_perso(classe1,joueur2.perso1 );
@@ -65,8 +65,7 @@ int main(){
                 tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 1 du joueur 1 */
             }
             else{
-                tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 1 du joueur 1 */
-                printf("personne 2 joueur 1\n");
+                tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 2 du joueur 1 */
             }
             affichage_map(map);
         }
@@ -80,7 +79,7 @@ int main(){
             for(numero_personnage = 1 ; numero_personnage <= NB_PERSONNAGES; numero_personnage++){
                 printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,indice_joueur,numero_personnage);
                 if(numero_personnage == 1){
-                    tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 1 du joueur 1 */
+                    tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 1 du joueur 2 */
                 }
                 else{
                     tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 2 du joueur 2 */
