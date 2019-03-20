@@ -20,7 +20,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
     else{
         temp = joueur1.perso2;
     }
-
+            
     /* variable qui compte le nombre de déplacement max possible par personnage*/
     int pm=temp->pm;
     int choix = 0;
