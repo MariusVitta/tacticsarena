@@ -70,10 +70,6 @@ void affichage_map(char map[N][N]);
 int est_mort(t_personnage *);
 /* mise à jour de la carte suite à une déplacement d'un joueur */
 void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2);
-/* fonction déplacement case par case pour le joueur */
-int deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int nbj,int numero_perso );
-
-int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso );
 /*fonction d'initialisation (positionnement,création des obstacles) */
 void initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2);
 /* affichage des coordonnées actuelles du personnage */
@@ -82,21 +78,18 @@ void affichage_coord(t_joueur joueur);
 void sort_uti(t_personnage perso);
 /*fonction de tour de jeu (se déplacer,utiliser un sort, passer son tour) */
 int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_perso );
-
-void diago(char map[N][N], t_personnage * perso1, t_personnage * perso2);
-
-void coup_zone(char map[N][N],t_personnage *j1,t_personnage *j2);
-
-void double_tape(char map[N][N],t_personnage *j1,t_personnage  * j2);
-
-void petit_coup(char map[N][N],t_personnage * j1,t_personnage  * j2);
-
-
-
-void ligne(char map[N][N], t_personnage * perso1, t_personnage * perso2);
-
-void grosCoup(char map[N][N], t_personnage * perso1, t_personnage * perso2);
-
-void soin(t_personnage * j1);
-
+/* fonction qui teste si la case ciblé existe sur la carte temporaire et retourne les coordonnées de la case ciblée */
 int existe(char mat[N][N], char choix, int * x, int * y);
+
+
+/* sorts */
+void diago(char map[N][N], t_personnage * perso1,t_joueur j2);
+void coup_zone(char map[N][N],t_personnage *j1,t_joueur j2);
+void double_tape(char map[N][N],t_personnage *j1,t_joueur j2);
+void petit_coup(char map[N][N],t_personnage * j1,t_joueur j2);
+void ligne(char map[N][N], t_personnage * perso1,t_joueur j2);
+void grosCoup(char map[N][N], t_personnage * perso1, t_joueur j2);
+void soin(t_personnage * j1);
+int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso );
+/* fonction déplacement case par case pour le joueur */
+int deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int nbj,int numero_perso );

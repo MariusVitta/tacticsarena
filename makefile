@@ -1,6 +1,6 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o coup_zone.o petit_coup.o soin.o double_tape.o
+OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o
 
-OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o coup_zone.o petit_coup.o soin.o double_tape.o
+OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o
 
 OBJ_COUP_ZONE = fonc.o coup_zone.o init.o foncjeu.o persosorts.o
 
@@ -66,7 +66,6 @@ test_init.o :test_init.c fonc.h
 	gcc -c $<
 attire.o :attire.c fonc.h
 	gcc -c $<
-
 sdl_test.o: sdl_test.c fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
@@ -85,4 +84,4 @@ clean:
 mrproper: clean
 
 tests :
-	./test
+	./main
