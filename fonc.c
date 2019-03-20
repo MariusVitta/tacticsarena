@@ -89,6 +89,6 @@ void affichage_map(char map[N][N]){
 
 void affichage_coord(t_joueur joueur){
 	printf("Joueur %i : \n", joueur.numJoueur);
-	printf("- Coordonnées %s : x = %i et y = %i\n", joueur.perso1->nom, joueur.perso1->coord.x, joueur.perso1->coord.y);
-    printf("- Coordonnées %s : x = %i et y = %i\n", joueur.perso2->nom, joueur.perso2->coord.x, joueur.perso2->coord.y);
+	printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", joueur.perso1->nom, joueur.perso1->coord.x, joueur.perso1->coord.y,joueur.perso1->pv);
+    printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", joueur.perso2->nom, joueur.perso2->coord.x, joueur.perso2->coord.y,joueur.perso1->pv);
 }

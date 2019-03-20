@@ -160,7 +160,113 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 }
                                 break;
                         }
+                    }
+                    else if(!(strcmp("Tank",temp->nom))){
+                        switch(choix){
+                            case 1:
+                                if (temp->s1.point_action <= point_action && temp->s1.upt > 0 ) {
+                                    armure(temp);
+                                    point_action -= temp->s1.point_action ;temp->s1.upt-=1;
 
+                                }
+                                else if(temp->s1.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                            case 2:
+                                if (temp->s2.point_action <=  point_action && temp->s2.upt > 0 ) {
+                                    attire(map, temp, joueur2.perso1);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
+
+                                }
+                                else if(temp->s2.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                            case 3:
+                                if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
+                                    chenchen(map,temp,joueur2.perso1);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    choix=0;
+                                }
+                                else if(temp->s3.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                            case 4:
+                                if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
+
+                                    bigshaq(map,temp,joueur2.perso1);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
+                                }
+                                else if(temp->s4.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                        }
+
+                    }
+                    else if(!(strcmp("Druide",temp->nom))){
+                        switch(choix){
+                            case 1:
+                                if (temp->s1.point_action <= point_action && temp->s1.upt > 0 ) {
+                                    felin(temp);
+                                    point_action -= temp->s1.point_action ;temp->s1.upt-=1;
+
+                                }
+                                else if(temp->s1.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                            case 2:
+                                if (temp->s2.point_action <=  point_action && temp->s2.upt > 0 ) {
+                                    chouette(temp);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
+
+                                }
+                                else if(temp->s2.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                            case 3:
+                                if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
+                                    /* Fuego*/;point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    choix=0;
+                                }
+                                else if(temp->s3.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                            case 4:
+                                if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
+
+                                    /* Revitalisation */;point_action -= temp->s4.point_action ;temp->s4.upt-=1;
+                                }
+                                else if(temp->s4.upt == 0){
+                                    printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+                                }
+                                else{
+                                    printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+                                }
+                                break;
+                        }
                     }
                 }
                 else{
