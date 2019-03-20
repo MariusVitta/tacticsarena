@@ -7,10 +7,10 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include<strings.h>
+#include<string.h>
 
 //#define SERVEURNAME "192.168.1.106" // adresse IP de mon serveur
-#define SERVEURNAME "172.18.31.41" // adresse IP de mon serveur
+#define SERVEURNAME "172.18.41.119" // adresse IP de mon serveur
 
 #define QUITTER "QUITTER"
 
@@ -66,7 +66,7 @@ int main (  int argc, char** argv )
 
 	//Spécification de l'adresse du socket : type / port
 	serveur_addr.sin_family = AF_INET;
-	serveur_addr.sin_port = htons(30000);  //<-- fonction de convertion pour le port 
+	serveur_addr.sin_port = htons(30000);  //<-- fonction de convertion pour le port
 	//serveur_addr.sin_addr.s_addr = inet_addr(SERVEURNAME); //<-- connection local ( trouve l'ip )
 
 
