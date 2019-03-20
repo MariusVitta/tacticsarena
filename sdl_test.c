@@ -258,7 +258,7 @@ void SDL_afficher_map(char map[N][N]){
 
 	for(i = 0; i < N; i++){
 		for(j = N-1; j >= 0 ; j--){
-			
+
 			if(map[i][j] == 'o'){
 				if(!SDL_RenderCopy(renderer, obstacle, NULL, &recobstacle));
 					//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
@@ -919,14 +919,14 @@ int main (int argc, char** argv){
 
 	SDL_initialisation(map,&joueur1,&joueur2);
 	//initialisation(map,&joueur1,&joueur2);
-	/*int nb = 3;
+	int nb = 3;
 	if(nb > 0)
 		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);
 	if(nb > 0)
 		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);
 	if(nb > 0)
-		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);*/
-	SDL_saut(joueur1, joueur2, map, 1, 1);
+		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);
+	//SDL_saut(joueur1, joueur2, map, 1, 1);
 	SDL_afficher_map(map);
 	//int x, y;
 	if( window )
