@@ -1,4 +1,4 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o
+OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o
 
 OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o
 
@@ -19,7 +19,7 @@ test_init: $(OBJ_INIT) fonc.h
 	gcc $(OBJ_INIT) -o $@
 test_attire: $(OBJ_ATTIRE) fonc.h
 	gcc $(OBJ_ATTIRE) -o $@
-
+#executable SDL
 sdl_test: $(OBJ_SDL) fonc.h
 	gcc $(OBJ_SDL) -o $@ ${LIBS} ${INCLUDES}
 
@@ -42,6 +42,15 @@ test_init.o :test_init.c fonc.h
 	gcc -c $<
 attire.o :attire.c fonc.h
 	gcc -c $<
+bigshaq.o :bigshaq.c fonc.h
+	gcc -c $<
+chenchen.o :chenchen.c fonc.h
+	gcc -c $<
+sortseffet.o :sortseffet.c fonc.h
+	gcc -c $<
+effets.o :effets.c fonc.h
+	gcc -c $<
+#SDL
 sdl_test.o: sdl_test.c fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
