@@ -141,6 +141,49 @@ void creer_perso(int classe,t_personnage * perso){
 		perso->s4=bigshaq;
 
 	}
+	if(classe==4){
+
+		t_sort felin;
+		felin.nom="Transformation Felin";
+		felin.portee=0;
+		felin.point_action=1;
+		felin.cd=2;
+		felin.uptm=1;
+
+		t_sort chouette;
+		chouette.nom="Transformation Chouette";
+		chouette.portee=15;
+		chouette.point_action=1;
+		chouette.cd=0;
+		chouette.uptm=1;
+
+		t_sort fuego;
+		fuego.nom="Fuego";
+		fuego.portee=2;
+		fuego.degat=10;
+		fuego.point_action=1;
+		fuego.cd=0;
+		fuego.uptm=1;
+
+		t_sort revitalisation;
+		revitalisation.nom="Revitalisation";
+		revitalisation.portee=1;
+		revitalisation.degat=0;
+		revitalisation.point_action=2;
+		revitalisation.cd=0;
+		revitalisation.uptm=1;
+
+		perso->nom="Druide";
+		perso->pv=60;
+		perso->pv_max=60;
+		perso->pa=2;
+		perso->pm=3;
+		perso->s1=felin;
+		perso->s2=chouette;
+		perso->s3=fuego;
+		perso->s4=revitalisation;
+
+	}
 
 	//return *perso;
 }
