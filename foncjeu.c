@@ -533,7 +533,7 @@ void coup_zone(char map[N][N],t_personnage * j1, t_joueur j2){
 
 	//ligne verticale
 	for(i=y-l,j=x;i!=y+(l+1);i++){
-		if(j=x && i=y){
+		if(i!=y){
         if((point[i][j] == '4') || (point[i][j] == '3')){ /* si ce sont les personnages 2 des joueurs 1 ou 2* qui sont touchés */
             j2.perso2->pv -= j1->s3.degat;
     				printf("%s touché.\nPoint de vie : %i\n", j2.perso2->nom, j2.perso2->pv);
