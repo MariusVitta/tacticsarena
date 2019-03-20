@@ -90,9 +90,9 @@ int existe(char mat[N][N], char choix, int * x, int * y);
 void creer_effet(t_personnage * p,int effet_voulu,int x,int y);
 
 /* sorts */
-void armure(t_personnage *p,);
-void felin(t_personnage *p,);
-void chouette(t_personnage *p,);
+void armure(t_personnage *p);
+void felin(t_personnage *p);
+void chouette(t_personnage *p);
 void diago(char map[N][N], t_personnage * perso1,t_joueur j2);
 void coup_zone(char map[N][N],t_personnage *j1,t_joueur j2);
 void double_tape(char map[N][N],t_personnage *j1,t_joueur j2);
