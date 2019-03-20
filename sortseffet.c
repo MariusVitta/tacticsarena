@@ -4,9 +4,7 @@
 
 
 void armure(t_personnage *p){
-
   creer_effet(p,1,p->coord.x,p->coord.y);
-
 }
 
 void felin(t_personnage *p){

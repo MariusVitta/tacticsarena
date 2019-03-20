@@ -159,19 +159,19 @@ void creer_perso(int classe,t_personnage * perso){
 
 		t_sort fuego;
 		fuego.nom="Fuego";
-		fuego.portee=2;
-		fuego.degat=10;
-		fuego.point_action=1;
+		fuego.portee=4;
+		fuego.degat=9;
+		fuego.point_action=2;
 		fuego.cd=0;
 		fuego.uptm=1;
 
 		t_sort revitalisation;
 		revitalisation.nom="Revitalisation";
-		revitalisation.portee=1;
-		revitalisation.degat=0;
+		revitalisation.portee=2;
+		revitalisation.degat=8;
 		revitalisation.point_action=2;
 		revitalisation.cd=0;
-		revitalisation.uptm=1;
+		revitalisation.uptm=2;
 
 		perso->nom="Druide";
 		perso->pv=60;
