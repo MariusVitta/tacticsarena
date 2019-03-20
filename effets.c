@@ -25,13 +25,13 @@ void creer_effet(t_personnage * p,int effet_voulu,int x,int y){
         p->effets.e3.cible.y = y;
       break;
     case (4):
-        p->effets.e4.nom = "chouette";
+        p->effets.e4.nom = "felin";
         p->effets.e4.duree = 100;
         p->effets.e4.cible.x = x;
         p->effets.e4.cible.y = y;
       break;
     case (5):
-        p->effets.e4.nom = "arbre";
+        p->effets.e4.nom = "chouette";
         p->effets.e4.duree = 100;
         p->effets.e4.cible.x = x;
         p->effets.e4.cible.y = y;

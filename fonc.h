@@ -1,15 +1,5 @@
 #define N 11
 
-/*structure d'un effet ( sort s'appliquant sur une durée)*/
-
-typedef struct s_effet{
-
-	char * nom;
-	int cible;
-	int duree;
-
-}t_effet;
-
 /*structure d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
 
 typedef struct s_sort{
@@ -35,6 +25,21 @@ typedef struct s_coordonnees{
 }t_coordonnees;
 
 
+typedef struct s_effet{
+
+	char * nom;
+	int duree;
+	t_coordonnees cible;
+
+}t_effet;
+
+
+typedef struct s_liste_effet{
+
+	t_effet e1,e2,e3,e4;
+
+}t_liste_effet;
+
 /*structure d'un personnage ayant un nom,une position x/y, des points de vie, des points d'actions lui permettant d'utiliser ses sorts et 4sorts*/
 
 typedef struct s_personnage{
@@ -45,6 +50,7 @@ typedef struct s_personnage{
 	int pa;
 	int pm;
 	t_coordonnees coord;
+	t_liste_effet effets;
 	t_sort s1,s2,s3,s4;
 
 }t_personnage;
@@ -81,8 +87,12 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_pe
 /* fonction qui teste si la case ciblé existe sur la carte temporaire et retourne les coordonnées de la case ciblée */
 int existe(char mat[N][N], char choix, int * x, int * y);
 
+void creer_effet(t_personnage * p,int effet_voulu,int x,int y);
 
 /* sorts */
+void armure(t_personnage *p,);
+void felin(t_personnage *p,);
+void chouette(t_personnage *p,);
 void diago(char map[N][N], t_personnage * perso1,t_joueur j2);
 void coup_zone(char map[N][N],t_personnage *j1,t_joueur j2);
 void double_tape(char map[N][N],t_personnage *j1,t_joueur j2);
