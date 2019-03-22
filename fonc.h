@@ -72,8 +72,10 @@ void creer_perso(int,t_personnage *);
 void affichage_sort(t_personnage);
 /* affichage de la matrice */
 void affichage_map(char map[N][N]);
+/* fonction qui retourne le caractère du personnage i du joueur n */
+char carac_perso(int indice_joueur,int numero_personnage);
 /* fonction booleenne qui renvoie vrai si la vie du personnage est inférieur ou égale à zéro */
-int est_mort(t_personnage *);
+int est_mort(t_joueur * joueur, int numero_personnage);
 /* mise à jour de la carte suite à une déplacement d'un joueur */
 void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2);
 /*fonction d'initialisation (positionnement,création des obstacles) */
@@ -86,6 +88,8 @@ void sort_uti(t_personnage perso);
 int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_perso );
 /* fonction qui teste si la case ciblé existe sur la carte temporaire et retourne les coordonnées de la case ciblée */
 int existe(char mat[N][N], char choix, int * x, int * y);
+/* fonction qui verifie si le joueur passé en paramètre n'a plus de personnages */
+int partie_finie(t_joueur joueur);
 
 void creer_effet(t_personnage * p,int effet_voulu,int x,int y);
 

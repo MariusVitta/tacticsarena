@@ -54,7 +54,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                         sort_uti(*(temp));
                         scanf("%i",&choix );
                     }
-                    while(choix < 1 || choix > 4);
+                    while(choix < 1 || choix > 5);
                     if(!(strcmp("Guerrier",temp->nom))){
                         switch(choix){
                             case 1:
@@ -105,6 +105,8 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
                                 break;
+							case 5: printf(" ---- Vous n'avez utilisé aucun sort,vous ne perdez aucun point d'action ----\n\n");
+								break;
                             }
 
                     }
@@ -159,6 +161,8 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
                                 break;
+							case 5: printf(" ---- Vous n'avez utilisé aucun sort,vous ne perdez aucun point d'action ----\n\n");
+								break;
                         }
                     }
                     else if(!(strcmp("Tank",temp->nom))){
@@ -212,6 +216,8 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
                                 break;
+							case 5: printf(" ---- Vous n'avez utilisé aucun sort,vous ne perdez aucun point d'action ----\n\n");
+								break;
                         }
 
                     }
@@ -266,6 +272,8 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                     printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
                                 }
                                 break;
+							case 5: printf(" ---- Vous n'avez utilisé aucun sort,vous ne perdez aucun point d'action ----\n\n");
+								break;
                         }
                     }
                 }

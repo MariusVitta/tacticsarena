@@ -55,3 +55,4 @@ void creer_effet(t_personnage * p,int effet_voulu,int x,int y){
 
       break;
   }
+}

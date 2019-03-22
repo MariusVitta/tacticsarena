@@ -4,10 +4,43 @@
 
 /*
  * fonction pour tester si un personnage est mort ou pas
- * return  0 ou 1
+ * paramètre joueur: struct joueur
+ * paramètre numero_personnage: personnage n du joueur dont on veut tester la mort
+ * retourne 1 si le personnage n°numero_personnage du joueur est encore en vie
  */
-int est_mort(t_personnage * perso){
-	return (perso->pv <= 0);
+int est_mort(t_joueur * joueur, int numero_personnage){
+	int bool = 0;
+	switch(numero_personnage){
+		case 1:
+				if(joueur->perso1->pv <= 0 && joueur->perso1->pv >-50){
+					/* on check qu'il soit mort puis on lui mets un nombre de points de vie suffisament petit
+					 * pour pas qu'il soit reconsideré comme mort de nouveau dans les autres fonctions
+					 faisant appel est_mort();
+					 */
+					joueur->nbPVivant--;
+					joueur->perso1->pv =-100;
+					bool = 1;
+				}
+				break;
+		case 2:
+				if(joueur->perso2->pv <= 0 && joueur->perso2->pv >-50){
+					joueur->nbPVivant--;
+					joueur->perso2->pv =-100;
+					bool = 1;
+				}
+				break;
+	}
+
+	return bool;
+}
+
+
+/*
+ * Fonction qui vérifie si le joueur joueur possède encore des personnages
+ * retourne 1 si le joueur a encore des personnages vivants
+ */
+int partie_finie(t_joueur joueur){
+	return (joueur.nbPVivant > 0);
 }
 
 /*
@@ -24,17 +57,17 @@ void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2){
 	}
 
     /* joueur 1 */
-    if(!est_mort(joueur1.perso1)){
+    if(!est_mort(&joueur1,1)){
 	       map[joueur1.perso1->coord.y][joueur1.perso1->coord.x] = '1';
     }
-    if(!est_mort(joueur1.perso2)){
+    if(!est_mort(&joueur1,2)){
         map[joueur1.perso2->coord.y][joueur1.perso2->coord.x] = '3';
     }
     /* joueur 2*/
-    if(!est_mort(joueur2.perso1)){
+    if(!est_mort(&joueur2,1)){
 	   map[joueur2.perso1->coord.y][joueur2.perso1->coord.x] = '2';
     }
-    if(!est_mort(joueur2.perso2)){
+    if(!est_mort(&joueur2,2)){
         map[joueur2.perso2->coord.y][joueur2.perso2->coord.x] = '4';
     }
 }

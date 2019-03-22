@@ -1,4 +1,4 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o
+OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o attire.o bigshaq.o sortseffet.o effets.o chenchen.o
 
 OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o
 
@@ -42,6 +42,15 @@ test_init.o :test_init.c fonc.h
 	gcc -c $<
 attire.o :attire.c fonc.h
 	gcc -c $<
+bigshaq.o :bigshaq.c fonc.h
+	gcc -c $<
+sortseffet.o :sortseffet.c fonc.h
+	gcc -c $<
+effets.o :effets.c fonc.h
+	gcc -c $<
+chenchen.o :chenchen.c fonc.h
+	gcc -c $<
+
 sdl_test.o: sdl_test.c fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
