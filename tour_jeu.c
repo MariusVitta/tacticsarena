@@ -12,13 +12,13 @@
  * la fonction demande au personne s'il souhaite effectuer un déplacement/utiliser un ou des sort(s)/passer son tour et ne rien faire
  * renvoie vrai lors que le tour de jeu du personnage est finie ou lorsqu'il passe son tour
  */
-int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int numero_perso ){
+int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int numero_joueur,int numero_perso ){
 	t_personnage * temp;
     if(numero_perso == 1 ){
-        temp = joueur1.perso1;
+        temp = joueur1->perso1;
     }
     else{
-        temp = joueur1.perso2;
+        temp = joueur1->perso2;
     }
 
     /* variable qui compte le nombre de déplacement max possible par personnage*/
@@ -82,7 +82,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 break;
                             case 3:
                                 if (temp->s3.point_action <= point_action && temp->s3.upt > 0 ) {
-                                    petit_coup(map,temp,joueur2,numero_joueur);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    petit_coup(map,temp,*joueur2,numero_joueur);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
 
                                 }
@@ -95,7 +95,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 break;
                             case 4:
                                 if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
-                                    grosCoup(map,temp,joueur2,numero_joueur);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
+                                    grosCoup(map,temp,*joueur2,numero_joueur);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
 
                                 }
                                 else if(temp->s4.upt == 0){
@@ -114,7 +114,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                         switch(choix){
                             case 1:
                                 if (temp->s1.point_action <= point_action && temp->s1.upt > 0 ) {
-                                    diago(map,temp,joueur2,numero_joueur);
+                                    diago(map,temp,*joueur2,numero_joueur);
                                     point_action -= temp->s1.point_action ;temp->s1.upt-=1;
 
                                 }
@@ -127,7 +127,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 break;
                             case 2:
                                 if (temp->s2.point_action <=  point_action && temp->s2.upt > 0 ) {
-                                    ligne(map,temp,joueur2,numero_joueur);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
+                                    ligne(map,temp,*joueur2,numero_joueur);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
 
                                 }
                                 else if(temp->s2.upt == 0){
@@ -139,7 +139,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 break;
                             case 3:
                                 if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
-                                    double_tape(map,temp,joueur2,numero_joueur);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    double_tape(map,temp,*joueur2,numero_joueur);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
                                 }
                                 else if(temp->s3.upt == 0){
@@ -152,7 +152,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                             case 4:
                                 if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
 
-                                    coup_zone(map,temp,joueur2,numero_joueur);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
+                                    coup_zone(map,temp,*joueur2,numero_joueur);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
                                 }
                                 else if(temp->s4.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
@@ -182,7 +182,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 break;
                             case 2:
                                 if (temp->s2.point_action <=  point_action && temp->s2.upt > 0 ) {
-                                    attire(map, temp, joueur2.perso1);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
+                                    /*attire(map, temp, joueur2->perso1)*/;point_action -= temp->s2.point_action ;temp->s2.upt-=1;
 
                                 }
                                 else if(temp->s2.upt == 0){
@@ -194,7 +194,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                                 break;
                             case 3:
                                 if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
-                                    chenchen(map,temp,joueur2.perso1);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    /*chenchen(map,temp,joueur2->perso1)*/;point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
                                 }
                                 else if(temp->s3.upt == 0){
@@ -207,7 +207,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                             case 4:
                                 if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
 
-                                    bigshaq(map,temp,joueur2.perso1);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
+                                    /*bigshaq(map,temp,joueur2->perso1)*/;point_action -= temp->s4.point_action ;temp->s4.upt-=1;
                                 }
                                 else if(temp->s4.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
@@ -286,6 +286,7 @@ int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_joueur,int 
                 printf("\n ---- Vous avez passé votre tour ---- \n\n");break;
 
         }
+		maj(map,joueur1,joueur2);
     }
     return 1;
 }

@@ -11,7 +11,7 @@
  * retourne : 1 si le déplacement a bien eu lieu
  */
 
-int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso){
+int saut(t_joueur * j1,t_joueur * j2,char map[N][N],int nbj,int numero_perso){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g,car=0;
@@ -19,10 +19,10 @@ int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso){
 
     t_personnage * temp;
     if(numero_perso == 1 ){
-        temp = j1.perso1;
+        temp = j1->perso1;
     }
     else{
-        temp = j1.perso2;
+        temp = j1->perso2;
     }
     int dist=temp->s1.portee;
 
@@ -105,17 +105,15 @@ int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso){
 }
 
 /*avec personnage n le nombre de deplacements qu'il reste et nbj le numero du joueur*/
-int deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int nbj,int numero_perso ){
+int deplacement(t_joueur * j1,t_joueur * j2,char map[N][N],int  n ,int nbj,int numero_perso ){
     t_personnage * temp;
     if(numero_perso == 1 ){
-        temp = j1.perso1;
+        temp = j1->perso1;
     }
     else{
-        temp = j1.perso2;
+        temp = j1->perso2;
     }
 	char c;
-
-	//while (n > 0) {
 
 		do{
 		printf("Choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
@@ -194,7 +192,6 @@ int deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int nbj,int numer
 			maj(map,j2,j1);
 			affichage_map(map);
 		}
-	//}
 
 	return n;
 }
