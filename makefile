@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o
-=======
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o attire.o bigshaq.o sortseffet.o effets.o chenchen.o
->>>>>>> 07a0ab859c12dc614534bd001dd3148df20ba3bd
 
 OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o
 
@@ -48,22 +44,13 @@ attire.o :attire.c fonc.h
 	gcc -c $<
 bigshaq.o :bigshaq.c fonc.h
 	gcc -c $<
-<<<<<<< HEAD
 chenchen.o :chenchen.c fonc.h
 	gcc -c $<
-=======
->>>>>>> 07a0ab859c12dc614534bd001dd3148df20ba3bd
 sortseffet.o :sortseffet.c fonc.h
 	gcc -c $<
 effets.o :effets.c fonc.h
 	gcc -c $<
-<<<<<<< HEAD
 #SDL
-=======
-chenchen.o :chenchen.c fonc.h
-	gcc -c $<
-
->>>>>>> 07a0ab859c12dc614534bd001dd3148df20ba3bd
 sdl_test.o: sdl_test.c fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
