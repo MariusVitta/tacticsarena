@@ -29,7 +29,7 @@ int main(){
     creer_perso(classe1,joueur1.perso1);
 	creer_perso(classe2,joueur1.perso2);
     joueur1.numJoueur = 1;
-    joueur1.nbPVivant = NB_PERSONNAGES;
+    joueur1.nbPersoVivant = NB_PERSONNAGES;
 
     /* choix des personnages du joueur 2 */
     do{
@@ -50,68 +50,74 @@ int main(){
 	creer_perso(classe1,joueur2.perso1 );
 	creer_perso(classe2,joueur2.perso2);
     joueur2.numJoueur = 2;
-    joueur2.nbPVivant = NB_PERSONNAGES;
+    joueur2.nbPersoVivant = NB_PERSONNAGES;
 
 
 	initialisation(map,&joueur1,&joueur2);
     printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
-    affichage_map(map);
+	joueur1.perso1->coord.x = joueur1.perso1->coord.y = 5;
+	joueur1.perso2->coord.x = joueur1.perso2->coord.y = 4;
+	joueur2.perso1->coord.x = joueur2.perso1->coord.y = 6;
+	joueur2.perso2->coord.x = 5;
+	joueur2.perso2->coord.y = 4;
+	maj(map,&joueur1,&joueur2);
+	affichage_map(map);
+
+	joueur1.perso1->pv = 1;
+	joueur1.perso2->pv = 1;
+	joueur2.perso1->pv = 1;
+	joueur2.perso2->pv = 1;
+
 
     /* boucle principale du jeu */
-    while(!est_mort(joueur1.perso1) && !est_mort(joueur2.perso1)){
+    while(!partie_finie(joueur1) && !partie_finie(joueur2)){
         for(numero_personnage = 1 ; numero_personnage <= NB_PERSONNAGES; numero_personnage++){
-            printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,indice_joueur,numero_personnage);
-            if(numero_personnage == 1){
-                tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 1 du joueur 1 */
+            printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{%c}\n\n",nb_tour,indice_joueur,numero_personnage,carac_perso(indice_joueur,numero_personnage));
+			/* si le personnage est mort on ne le fais plus jouer */
+			if(numero_personnage == 1 && !est_mort(&joueur1,numero_personnage)){
+                tour(map,&joueur1,&joueur2,1,numero_personnage); /* tour du personnage 1 du joueur 1 */
             }
-            else{
-                tour(map,joueur1,joueur2,1,numero_personnage); /* tour du personnage 2 du joueur 1 */
+            else if(!est_mort(&joueur1,numero_personnage) && !partie_finie(joueur2)){
+                tour(map,&joueur1,&joueur2,1,numero_personnage); /* tour du personnage 2 du joueur 1 */
             }
+			maj(map,&joueur1,&joueur2);
             affichage_map(map);
         }
         indice_joueur++;
 
-        //verifie si les personnages sont vivant au ( refaire a chaque fin de tour )
-        mort1 = est_mort(joueur1.perso1);
-		mort2= est_mort(joueur2.perso1);
-        /* si le personnage 1 est mort on effectue pas le tour du joueur */
-        if(!mort1 && !mort2){
+		printf("perso 1 : %i\n",joueur1.nbPersoVivant);
+		printf("perso 2 : %i\n",joueur2.nbPersoVivant);
+
+        /* on effectue pas le tour du joueur 2 si le joueur 2 à plus de personnages ou si joueur 2 a plus de personnage */
+		if(!partie_finie(joueur1) && (!est_mort(&joueur2,1)|| !est_mort(&joueur2,2)) ){
             for(numero_personnage = 1 ; numero_personnage <= NB_PERSONNAGES; numero_personnage++){
-                printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]\n\n",nb_tour,indice_joueur,numero_personnage);
-                if(numero_personnage == 1){
-                    tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 1 du joueur 2 */
+                printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{%c}\n\n",nb_tour,indice_joueur,numero_personnage,carac_perso(indice_joueur,numero_personnage));
+				/* si le personnage est mort on ne le fais plus jouer */
+				if(numero_personnage == 1 && !est_mort(&joueur2,numero_personnage)){
+                    tour(map,&joueur2,&joueur1,2,numero_personnage); /* tour du personnage 1 du joueur 2 */
                 }
-                else{
-                    tour(map,joueur2,joueur1,2,numero_personnage); /* tour du personnage 2 du joueur 2 */
+                else if(!est_mort(&joueur2,numero_personnage)&& !partie_finie(joueur1)){
+                    tour(map,&joueur2,&joueur1,2,numero_personnage); /* tour du personnage 2 du joueur 2 */
                 }
+				maj(map,&joueur1,&joueur2);
                 affichage_map(map);
             }
         }
 
-		/* gestion des morts */
-		if(numero_personnage == 1 ){
-	        mort1 = est_mort(joueur1.perso1);
-			mort2= est_mort(joueur2.perso1);
-	    }
-	    else{
-			mort1 = est_mort(joueur1.perso2);
-	        mort2= est_mort(joueur2.perso2);
-	    }
-
-        if( !mort1 && !mort2 ){
-			printf("===================================================\n\tAFFICHAGE COORDONNEES\n===================================================\n");
+        if(!partie_finie(joueur1) || !partie_finie(joueur2)){
+			printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
 			affichage_coord(joueur1);
 			affichage_coord(joueur2);
         }
         indice_joueur--;
         nb_tour++;
    }
-   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n");
+   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
 
-	if(est_mort(joueur1.perso1))
-		printf("Le personnage '%s' est mort\n", joueur1.perso1->nom);
-	else if(est_mort(joueur2.perso1))
-		printf("Le personnage '%s' est mort\n", joueur2.perso1->nom);
+	if(partie_finie(joueur1))
+		printf("Le joueur 1 a perdu \n");
+	else if(partie_finie(joueur2))
+		printf("Le joueur 2 a perdu\n");
 
 	return 0;
 }

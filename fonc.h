@@ -58,7 +58,7 @@ typedef struct s_personnage{
 typedef struct s_joueur{
 
 		int numJoueur;
-		int nbPVivant;
+		int nbPersoVivant;
 		t_personnage * perso1;
 		t_personnage * perso2;
 
@@ -72,10 +72,12 @@ void creer_perso(int,t_personnage *);
 void affichage_sort(t_personnage);
 /* affichage de la matrice */
 void affichage_map(char map[N][N]);
+/* fonction qui retourne le caractère du personnage i du joueur n */
+char carac_perso(int indice_joueur,int numero_personnage);
 /* fonction booleenne qui renvoie vrai si la vie du personnage est inférieur ou égale à zéro */
-int est_mort(t_personnage *);
+int est_mort(t_joueur * joueur, int numero_personnage);
 /* mise à jour de la carte suite à une déplacement d'un joueur */
-void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2);
+void maj(char map[N][N], t_joueur * joueur1, t_joueur * joueur2);
 /*fonction d'initialisation (positionnement,création des obstacles) */
 void initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2);
 /* affichage des coordonnées actuelles du personnage */
@@ -83,9 +85,11 @@ void affichage_coord(t_joueur joueur);
 /* affichage des sorts utilisable par le joueur */
 void sort_uti(t_personnage perso);
 /*fonction de tour de jeu (se déplacer,utiliser un sort, passer son tour) */
-int tour(char map[N][N],t_joueur joueur1,t_joueur joueur2,int nb_j,int numero_perso );
+int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nb_j,int numero_perso );
 /* fonction qui teste si la case ciblé existe sur la carte temporaire et retourne les coordonnées de la case ciblée */
 int existe(char mat[N][N], char choix, int * x, int * y);
+/* fonction qui verifie si le joueur passé en paramètre n'a plus de personnages */
+int partie_finie(t_joueur joueur);
 
 void creer_effet(t_personnage * p,int effet_voulu,int x,int y);
 
@@ -103,6 +107,6 @@ void petit_coup(char map[N][N],t_personnage * perso1,t_joueur j2,int numj);
 void ligne(char map[N][N], t_personnage * perso1,t_joueur j2,int numj);
 void grosCoup(char map[N][N], t_personnage * perso1, t_joueur j2,int numj);
 void soin(t_personnage * perso1);
-int saut(t_joueur j1,t_joueur j2,char map[N][N],int nbj,int numero_perso );
+int saut(t_joueur * j1,t_joueur * j2,char map[N][N],int nbj,int numero_perso );
 /* fonction déplacement case par case pour le joueur */
-int deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int nbj,int numero_perso );
+int deplacement(t_joueur * j1,t_joueur * j2,char map[N][N],int  n ,int nbj,int numero_perso );

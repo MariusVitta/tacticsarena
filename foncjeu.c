@@ -4,17 +4,58 @@
 
 /*
  * fonction pour tester si un personnage est mort ou pas
- * return  0 ou 1
+ * paramètre joueur: struct joueur
+ * paramètre numero_personnage: personnage n du joueur dont on veut tester la mort
+ * retourne 1 si le personnage n°numero_personnage du joueur est encore en vie
  */
-int est_mort(t_personnage * perso){
-	return (perso->pv <= 0);
+int est_mort(t_joueur * joueur, int numero_personnage){
+	int bool = 0;
+	/* le personnage est deja mort */
+	if(joueur->perso1->pv == -100 && numero_personnage == 1){
+		return 1;
+	}
+	if(joueur->perso2->pv == -100 && numero_personnage == 2){
+		return 1;
+	}
+	/*sinon s'il vient de mourir */
+	switch(numero_personnage){
+		case 1:
+				if(joueur->perso1->pv >-50 && joueur->perso1->pv <= 0 ){
+					/* on check qu'il soit mort puis on lui mets un nombre de points de vie suffisament petit
+					 * pour pas qu'il soit reconsideré comme mort de nouveau dans les autres fonctions
+					 faisant appel est_mort();
+					 */
+					joueur->nbPersoVivant--;
+					joueur->perso1->pv =-100;
+					bool = 1;
+				}
+				break;
+		case 2:
+				if(joueur->perso2->pv >-50 && joueur->perso2->pv <= 0){
+					joueur->nbPersoVivant--;
+					joueur->perso2->pv =-100;
+					bool = 1;
+				}
+				break;
+	}
+
+	return bool;
+}
+
+
+/*
+ * Fonction qui vérifie si le joueur joueur possède encore des personnages
+ * retourne 1 si le joueur a plus de personnages vivants
+ */
+int partie_finie(t_joueur joueur){
+	return (joueur.nbPersoVivant == 0);
 }
 
 /*
  * Fonction de mise à jour de l'affichage de la map
  *  paramètre joueur1,joueur2 : utilisé afin d'obtenir les coordonnées de tout les persos
  */
-void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2){
+void maj(char map[N][N], t_joueur * joueur1, t_joueur * joueur2){
 	int i, j;
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
@@ -24,18 +65,18 @@ void maj(char map[N][N], t_joueur joueur1, t_joueur joueur2){
 	}
 
     /* joueur 1 */
-    if(!est_mort(joueur1.perso1)){
-	       map[joueur1.perso1->coord.y][joueur1.perso1->coord.x] = '1';
+    if(!est_mort(joueur1,1)){
+	    map[joueur1->perso1->coord.y][joueur1->perso1->coord.x] = '1';
     }
-    if(!est_mort(joueur1.perso2)){
-        map[joueur1.perso2->coord.y][joueur1.perso2->coord.x] = '3';
+    if(!est_mort(joueur1,2)){
+        map[joueur1->perso2->coord.y][joueur1->perso2->coord.x] = '3';
     }
     /* joueur 2*/
-    if(!est_mort(joueur2.perso1)){
-	   map[joueur2.perso1->coord.y][joueur2.perso1->coord.x] = '2';
+    if(!est_mort(joueur2,1)){
+	   map[joueur2->perso1->coord.y][joueur2->perso1->coord.x] = '2';
     }
-    if(!est_mort(joueur2.perso2)){
-        map[joueur2.perso2->coord.y][joueur2.perso2->coord.x] = '4';
+    if(!est_mort(joueur2,2)){
+        map[joueur2->perso2->coord.y][joueur2->perso2->coord.x] = '4';
     }
 }
 
@@ -83,7 +124,7 @@ int existe(char mat[N][N], char choix, int * x, int * y){
  * paramètre t_personnage * perso1: personnage qui attaque
  * paramètre t_joueur j2: personnage qui subit les dégats
  */
-void grosCoup(char map[N][N], t_personnage * perso1, t_joueur j2,int numj){
+void grosCoup(char map[N][N], t_personnage * perso1, t_joueur  j2,int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
