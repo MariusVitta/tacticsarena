@@ -91,3 +91,4 @@ void fuego(char map[N][N],t_personnage * j1, t_joueur j2){
 				break;
 		}
 	}
+}
