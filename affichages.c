@@ -94,6 +94,37 @@ void affichage_coord(t_joueur joueur){
     printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", joueur.perso2->nom, joueur.perso2->coord.x, joueur.perso2->coord.y,joueur.perso2->pv);
 	printf("\n");
 }
+
+/*
+ * Fonction de mise à jour de l'affichage de la map
+ *  paramètre joueur1,joueur2 : utilisé afin d'obtenir les coordonnées de tout les persos
+ */
+void maj(char map[N][N], t_joueur * joueur1, t_joueur * joueur2){
+	int i, j;
+	for(i = 0; i < N; i++){
+		for(j = 0; j < N; j++){
+			if(map[i][j] != 'o')
+				map[i][j] = '.';
+        }
+	}
+
+    /* joueur 1 */
+    if(!est_mort(joueur1,1)){
+	    map[joueur1->perso1->coord.y][joueur1->perso1->coord.x] = '1';
+    }
+    if(!est_mort(joueur1,2)){
+        map[joueur1->perso2->coord.y][joueur1->perso2->coord.x] = '3';
+    }
+    /* joueur 2*/
+    if(!est_mort(joueur2,1)){
+	   map[joueur2->perso1->coord.y][joueur2->perso1->coord.x] = '2';
+    }
+    if(!est_mort(joueur2,2)){
+        map[joueur2->perso2->coord.y][joueur2->perso2->coord.x] = '4';
+    }
+}
+
+
 /*
  * Fonction qui retourne le caractère correspondant au personnage d'indice: numero_personnage du joueur : indice_joueur
  */

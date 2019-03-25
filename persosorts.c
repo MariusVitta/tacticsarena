@@ -4,10 +4,14 @@
 
 /*création de la classe choisie par l'utilisateur*/
 t_personnage * creer_perso(int classe){
+<<<<<<< HEAD
 
 	t_personnage *perso = malloc(sizeof(t_personnage));
 
 
+=======
+    t_personnage * perso = malloc(sizeof(t_personnage));
+>>>>>>> 85433c509f566f99e638a5e1641e2ae13aa8e1b7
 	if(classe==1){
 		t_sort saut;
 		saut.nom="Saut";

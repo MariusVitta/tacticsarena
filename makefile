@@ -1,10 +1,10 @@
-OBJ = main.o init.o fonc.o persosorts.o foncjeu.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o
+OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o fin_partie.o
 
-OBJ_INIT = init.o fonc.o persosorts.o foncjeu.o test_init.o tour_jeu.o deplacement.o
+OBJ_INIT = init.o affichages.o persosorts.o sorts.o test_init.o tour_jeu.o deplacement.o
 
-OBJ_ATTIRE = fonc.o attire.o init.o foncjeu.o persosorts.o
+OBJ_ATTIRE = affichages.o attire.o init.o sorts.o persosorts.o
 
-OBJ_SDL = sdl_test.o fonc.o init.o persosorts.o
+OBJ_SDL = sdl_test.o affichages.o init.o persosorts.o
 
 SDL_DIR=${HOME}/Documents/Projet/SDL2
 SDLLIB_DIR=${SDL_DIR}/lib
@@ -28,11 +28,11 @@ main.o: main.c fonc.h
 	gcc -c $<
 init.o: init.c fonc.h
 	gcc -c $<
-fonc.o: fonc.c fonc.h
+affichages.o: affichages.c fonc.h
 	gcc -c $<
 persosorts.o: persosorts.c fonc.h
 	gcc -c $<
-foncjeu.o: foncjeu.c fonc.h
+sorts.o: sorts.c fonc.h
 	gcc -c $<
 deplacement.o: deplacement.c fonc.h
 	gcc -c $<
@@ -49,6 +49,8 @@ chenchen.o :chenchen.c fonc.h
 sortseffet.o :sortseffet.c fonc.h
 	gcc -c $<
 effets.o :effets.c fonc.h
+	gcc -c $<
+fin_partie.o : fin_partie.c fonc.h
 	gcc -c $<
 #SDL
 sdl_test.o: sdl_test.c fonc.h
