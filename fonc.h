@@ -67,7 +67,7 @@ typedef struct s_joueur{
 
 
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
-void creer_perso(int,t_personnage *);
+t_personnage * creer_perso(int);
 /*affichage de tout les sorts du personnage choisi pour le joueur*/
 void affichage_sort(t_personnage);
 /* affichage de la matrice */
