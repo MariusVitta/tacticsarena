@@ -62,13 +62,32 @@ void fuego(char map[N][N],t_personnage * j1, t_joueur j2){
 			scanf(" %c", &choix);
 	}while(!existe(point, choix, &x, &y));
 
-    //réduction des points de vies après le coup
-	if((map[y][x] == '4') || (map[y][x] == '3')){ /* si ce sont les personnages 2 des joueurs 1 ou 2* qui sont touchés */
-        j2.perso2->pv -= j1->s3.degat;
-		printf("%s touché.\nPoint de vie : %i\n", j2.perso2->nom, j2.perso2->pv);
+	if(numj==2){
+		switch (map[y][x]){
+
+			case '1' :
+					j1.perso1->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", j1.perso1->nom, j1.perso1->pv);
+				break;
+
+			case '3' :
+					j1.perso2->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", j1.perso2->nom, j1.perso2->pv);
+				break;
+		}
 	}
-    else if((map[y][x] == '2') || (map[y][x] == '1')){
-        j2.perso1->pv -= j1->s3.degat;
-        printf("%s touché.\nPoint de vie : %i\n", j2.perso1->nom, j2.perso1->pv);
-    }
-}
+
+	else if(numj==1){
+		switch (map[y][x]){
+
+			case '2' :
+					j2.perso1->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", j2.perso1->nom, j2.perso1->pv);
+				break;
+
+			case '4' :
+					j2.perso2->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", j2.perso2->nom, j2.perso2->pv);
+				break;
+		}
+	}
