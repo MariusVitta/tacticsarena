@@ -59,7 +59,7 @@ void revitalisation(char map[N][N],t_personnage * j1, t_joueur j1) {
 
 	int x = 0, y = 0;
 	do{
-			printf("Où souhaitez vous taper : ");
+			printf("Où souhaitez vous soigner : ");
 			scanf(" %c", &choix);
 	}while(!existe(point, choix, &x, &y));
 
@@ -67,13 +67,13 @@ void revitalisation(char map[N][N],t_personnage * j1, t_joueur j1) {
     switch (map[y][x]){
 
       case '2' :
-          j1.perso1->pv += perso1->s4.degat;
-          printf("%s touché.\nPoint de vie : %i\n", j1.perso1->nom, j1.perso1->pv);
+          j2.perso1->pv += perso1->s4.degat;
+          printf("%s touché.\nPoint de vie : %i\n", j2.perso1->nom, j2.perso1->pv);
         break;
 
       case '4' :
-          j1.perso2->pv += perso1->s4.degat;
-          printf("%s touché.\nPoint de vie : %i\n", j1.perso2->nom, j1.perso2->pv);
+          j2.perso2->pv += perso1->s4.degat;
+          printf("%s touché.\nPoint de vie : %i\n", j2.perso2->nom, j2.perso2->pv);
         break;
     }
   }
