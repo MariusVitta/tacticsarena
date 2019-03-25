@@ -29,20 +29,41 @@ char map[N][N];
 
 typedef enum {CASE_GRISE, CASE_BLEUE, OBSTACLE, J1, J2}t_type_case;
 
-typedef struct s_borne{
-	int borne1;
-	int borne2;
-}t_borne;
+typedef struct s_coord{
+	int x, y;
+}t_coord;
 
 typedef struct s_case {
 	t_type_case type;
 	int i;
 	int j;
-	t_borne largeur;
-	t_borne hauteur;
+	t_coord a;
+	t_coord b;
+	t_coord c;
+	t_coord d;
 }t_case;
 
 t_case SDL_map[N * N];
+
+int eq_sup(t_coord b1, t_coord b2, int x, int y){
+	float d;
+	float m = (b1.x - b2.x)/(b1.y - b2.y);
+	float b = b2.y - (m * b2.x);
+
+	printf("y = %i et m(x) + b = %.1f\n", y, (m*x) + b);
+	return y > ((m*x) + b);
+
+}
+
+int eq_inf(t_coord b1, t_coord b2, int x, int y){
+	float d;
+	float m = (b1.x - b2.x)/(b1.y - b2.y);
+	float b = b2.y - (m * b2.x);
+
+	printf("y = %i et m(x) + b = %.1f\n", y, (m*x) + b);
+	return y < ((m*x) + b);
+
+}
 
 /* Verifie s'il est possible d'acceder à une case*/
 int acces_possible(int x, int y, int * ymap, int * xmap){
@@ -50,20 +71,29 @@ int acces_possible(int x, int y, int * ymap, int * xmap){
 	int i;
 
 	for(i = 0; i < N*N; i++){
+
 		if(SDL_map[i].type == OBSTACLE){
-			if((x >= SDL_map[i].largeur.borne1 && x <= SDL_map[i].largeur.borne2) && (y >= SDL_map[i].hauteur.borne1 && y <= SDL_map[i].hauteur.borne2))
+			if((x >= SDL_map[i].a.x && x <= SDL_map[i].c.x) && (y >= SDL_map[i].b.y && y <= SDL_map[i].d.y))
+			//if(eq_inf(SDL_map[i].a, SDL_map[i].b, x, y) && eq_inf(SDL_map[i].d, SDL_map[i].c, x, y) && eq_sup(SDL_map[i].a, SDL_map[i].d, x, y) && eq_sup(SDL_map[i].b, SDL_map[i].c, x, y))
+				//printf("x1 obs = %i - x2 = %i\ny1 = %i - y2 = %i\n", SDL_map[i].largeur.borne1,SDL_map[i].largeur.borne2,SDL_map[i].hauteur.borne1,SDL_map[i].hauteur.borne2 );
 				return 0;
+
 		}
 
 		else if(SDL_map[i].type == CASE_GRISE){
-			if((x >= SDL_map[i].largeur.borne1 && x <= SDL_map[i].largeur.borne2) && (y >= SDL_map[i].hauteur.borne1 && y <= SDL_map[i].hauteur.borne2))
+			if((x >= SDL_map[i].a.x && x <= SDL_map[i].c.x) && (y >= SDL_map[i].b.y && y <= SDL_map[i].d.y))
+			//if(eq_inf(SDL_map[i].a, SDL_map[i].b, x, y) && eq_inf(SDL_map[i].d, SDL_map[i].c, x, y) && eq_sup(SDL_map[i].a, SDL_map[i].d, x, y) && eq_sup(SDL_map[i].b, SDL_map[i].c, x, y))
+				//printf("x1 case p = %i - x2 = %i\ny1 = %i - y2 = %i\n", SDL_map[i].largeur.borne1,SDL_map[i].largeur.borne2,SDL_map[i].hauteur.borne1,SDL_map[i].hauteur.borne2 );
 				return 0;
+
 		}
 
 		else if(SDL_map[i].type == CASE_BLEUE){
-			if((x >= SDL_map[i].largeur.borne1 && x <= SDL_map[i].largeur.borne2) && (y >= SDL_map[i].hauteur.borne1 && y <= SDL_map[i].hauteur.borne2)){
+			if((x >= SDL_map[i].a.x && x <= SDL_map[i].c.x) && (y >= SDL_map[i].b.y && y <= SDL_map[i].d.y)){
+			//if(eq_inf(SDL_map[i].a, SDL_map[i].b, x, y) && eq_inf(SDL_map[i].d, SDL_map[i].c, x, y) && eq_sup(SDL_map[i].a, SDL_map[i].d, x, y) && eq_sup(SDL_map[i].b, SDL_map[i].c, x, y)){
 				* ymap = SDL_map[i].i;
 				* xmap = SDL_map[i].j;
+				//printf("x1 case bleue = %i - x2 = %i\ny1 = %i - y2 = %i\n", SDL_map[i].largeur.borne1,SDL_map[i].largeur.borne2,SDL_map[i].hauteur.borne1,SDL_map[i].hauteur.borne2 );
 				return 1;
 			}
 		}
@@ -266,10 +296,18 @@ void SDL_afficher_map(char map[N][N]){
 				SDL_map[k].i = i;
 				SDL_map[k].j = j;
 				SDL_map[k].type = OBSTACLE;
-				SDL_map[k].largeur.borne1 = reccase_n.x;
-				SDL_map[k].largeur.borne2 = reccase_n.x + w;
-				SDL_map[k].hauteur.borne1 = reccase_n.y;
-				SDL_map[k].hauteur.borne2 = reccase_n.y + ho;
+				SDL_map[k].a.x = reccase_n.x;
+				SDL_map[k].a.y = reccase_n.y + (h/2);
+
+				SDL_map[k].c.x = reccase_n.x + w;
+				SDL_map[k].c.y = reccase_n.y + (h/2);
+
+				SDL_map[k].b.y = reccase_n.y;
+				SDL_map[k].b.x = reccase_n.x + (w/2);
+
+				SDL_map[k].d.y = reccase_n.y + ho;
+				SDL_map[k].d.x = reccase_n.x + (w/2);
+
 				k++;
 			}
 
@@ -279,10 +317,17 @@ void SDL_afficher_map(char map[N][N]){
 				SDL_map[k].i = i;
 				SDL_map[k].j = j;
 				SDL_map[k].type = CASE_BLEUE;
-				SDL_map[k].largeur.borne1 = reccase_n.x;
-				SDL_map[k].largeur.borne2 = reccase_n.x + w;
-				SDL_map[k].hauteur.borne1 = reccase_n.y;
-				SDL_map[k].hauteur.borne2 = reccase_n.y + h;
+				SDL_map[k].a.x = reccase_n.x;
+				SDL_map[k].a.y = reccase_n.y + (h/2);
+
+				SDL_map[k].c.x = reccase_n.x + w;
+				SDL_map[k].c.y = reccase_n.y + (h/2);
+
+				SDL_map[k].b.y = reccase_n.y;
+				SDL_map[k].b.x = reccase_n.x + (w/2);
+
+				SDL_map[k].d.y = reccase_n.y + h;
+				SDL_map[k].d.x = reccase_n.x + (w/2);
 				k++;
 			}
 
@@ -298,10 +343,17 @@ void SDL_afficher_map(char map[N][N]){
 				SDL_map[k].i = i;
 				SDL_map[k].j = j;
 				SDL_map[k].type = CASE_GRISE;
-				SDL_map[k].largeur.borne1 = reccase_n.x;
-				SDL_map[k].largeur.borne2 = reccase_n.x + w;
-				SDL_map[k].hauteur.borne1 = reccase_n.y;
-				SDL_map[k].hauteur.borne2 = reccase_n.y + h;
+				SDL_map[k].a.x = reccase_n.x;
+				SDL_map[k].a.y = reccase_n.y + (h/2);
+
+				SDL_map[k].c.x = reccase_n.x + w;
+				SDL_map[k].c.y = reccase_n.y + (h/2);
+
+				SDL_map[k].b.y = reccase_n.y;
+				SDL_map[k].b.x = reccase_n.x + (w/2);
+
+				SDL_map[k].d.y = reccase_n.y + h;
+				SDL_map[k].d.x = reccase_n.x + (w/2);
 
 				if (map[i][j] == '2'){
 
@@ -685,6 +737,7 @@ int SDL_deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int num_j,int
 			if(e.type == SDL_MOUSEBUTTONDOWN){
 				x = e.button.x;
 				y = e.button.y;
+				printf("x = %i et y = %i\n", x, y);
 			}
 		}
 
@@ -839,7 +892,7 @@ int SDL_saut(t_joueur j1,t_joueur j2,char map[N][N],int num_j,int numero_perso){
 int main (int argc, char** argv){
 
 
-	/*char map[N][N] = {{'.','.','.','.','.','.','.','.','.','.','.'},
+	char map[N][N] = {{'.','.','.','.','.','.','.','.','.','.','.'},
 
 				{'.','.','.','.','.','.','.','.','.','o','A'},
 
@@ -861,7 +914,7 @@ int main (int argc, char** argv){
 
 				{'.','A','.','.','.','.','.','.','.','.','.'}};
 
-			*/	int i, j, classe1, classe2,nb_tour = 1,mort1 = 0,mort2 = 0;
+				int i, j, classe1, classe2,nb_tour = 1,mort1 = 0,mort2 = 0;
 			    int num_j = 1,choix;
 				t_joueur joueur1,joueur2;
 
@@ -926,9 +979,15 @@ int main (int argc, char** argv){
 		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);
 	if(nb > 0)
 		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);
-	//SDL_saut(joueur1, joueur2, map, 1, 1);
+	//SDL_saut(joueur1, joueur2, map, 1, 1);*/
+	int x = 0, y = 0;
 	SDL_afficher_map(map);
-	//int x, y;
+
+	if(eq_sup(SDL_map[0].b, SDL_map[0].c, 193, 370))
+		printf("***********OK**********\n");
+	else
+		printf("***********KO**********\n");
+
 	if( window )
 	{
 		int running = 1;
@@ -952,6 +1011,8 @@ int main (int argc, char** argv){
 					break;*/
 
 					case SDL_MOUSEBUTTONDOWN:
+						x = e.button.x;
+						y = e.button.y;
 						printf("\t x = %i et y = %i\n", e.button.x, e.button.y);
 						//map[0][0] = '1';
 					break;
@@ -966,10 +1027,10 @@ int main (int argc, char** argv){
 		fprintf(stderr,"Erreur de création de la fenêtre: %s\n",SDL_GetError());
 
 	/*	int l = 0;
-	for(int i = 0; i < N*N; i++)
+	for(int i = 0; i < N*N; i++){
+		if(SDL_map[i].type == OBSTACLE)
 		printf("case %i - %i : \n - LARGEUR: borne 1: %i borne %i\n - HAUTEUR: borne 1: %i borne 2 : %i\n", SDL_map[i].i, SDL_map[i].j, SDL_map[i].largeur.borne1, SDL_map[i].largeur.borne2, SDL_map[i].hauteur.borne1, SDL_map[i].hauteur.borne2);
-	*/
-
+	}*/
 	SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
