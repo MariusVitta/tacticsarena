@@ -592,7 +592,7 @@ void coup_zone(char map[N][N],t_personnage * perso1, t_joueur j2,int numj){
 	//ligne horizontale
 	for(i=y,j=x-l;j!=x+(l+1);j++){
 		if(numj==1){
-			switch (map[y][x]){
+			switch (map[i][j]){
 
 				case '2' :
 						j2.perso1->pv -= perso1->s4.degat;
@@ -607,7 +607,7 @@ void coup_zone(char map[N][N],t_personnage * perso1, t_joueur j2,int numj){
 		}
 
 		if(numj==2){
-			switch (map[y][x]){
+			switch (map[i][j]){
 
 				case '1' :
 						j2.perso1->pv -= perso1->s4.degat;
@@ -626,7 +626,7 @@ void coup_zone(char map[N][N],t_personnage * perso1, t_joueur j2,int numj){
 	for(i=y-l,j=x;i!=y+(l+1);i++){
 		if(i!=y){
 			if(numj==1){
-				switch (map[y][x]){
+				switch (map[i][j]){
 
 					case '2' :
 							j2.perso1->pv -= perso1->s4.degat;
@@ -641,7 +641,7 @@ void coup_zone(char map[N][N],t_personnage * perso1, t_joueur j2,int numj){
 			}
 
 			if(numj==2){
-				switch (map[y][x]){
+				switch (map[i][j]){
 
 					case '1' :
 							j2.perso1->pv -= perso1->s4.degat;

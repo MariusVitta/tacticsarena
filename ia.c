@@ -7,6 +7,7 @@ int tour_ordi_opti(int nb);
 int tour_joueur_opti(int nb);
 int coup_ordi_opti(int nb,char c);
 
+
 int coup_gagnant(t_personnage *j1,t_personnage *j2){
 
   if(!(strcmp("Guerrier",j1->nom))){
@@ -30,7 +31,7 @@ int coup_gagnant(t_personnage *j1,t_personnage *j2){
  * fonction recursive qui teste de prévoir le coup optimal que l'ordinateur pourrait effectuer
  * retourne le meilleur coup s'il existe ou le maximum des coups
  */
-int tour_ordi_opti(int nb){
+int tour_ordi_opti(int nb,t_personnage perso){
 	int i, score;
 	int max = -2;
 	if((nb + M) >= N){
@@ -47,9 +48,11 @@ int tour_ordi_opti(int nb){
     return max;
 }
 /*
- *fonction recursive qui teste de prévoir le coup optimal que le joueur pourrait effectuer
+ * fonction recursive qui teste de prévoir le coup optimal que le joueur pourrait effectuer
+ * paramètre nb: sort n°1
+ * paramètre joueur:
  */
-int tour_joueur_opti(int nb){
+int tour_joueur_opti(int nb,t_personnage perso){
 	int i, score;
 	int min = 2;
 	if((nb + M) >= N){

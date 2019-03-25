@@ -182,7 +182,7 @@ int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int numero_joueur,
                                 break;
                             case 2:
                                 if (temp->s2.point_action <=  point_action && temp->s2.upt > 0 ) {
-                                    /*attire(map, temp, joueur2->perso1)*/;point_action -= temp->s2.point_action ;temp->s2.upt-=1;
+                                    attire(map, temp, joueur2->perso1);point_action -= temp->s2.point_action ;temp->s2.upt-=1;
 
                                 }
                                 else if(temp->s2.upt == 0){
@@ -194,7 +194,7 @@ int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int numero_joueur,
                                 break;
                             case 3:
                                 if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
-                                    /*chenchen(map,temp,joueur2->perso1)*/;point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    chenchen(map,temp,joueur2->perso1);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
                                 }
                                 else if(temp->s3.upt == 0){
@@ -207,7 +207,7 @@ int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int numero_joueur,
                             case 4:
                                 if (temp->s4.point_action <= point_action && temp->s4.upt > 0 ) {
 
-                                    /*bigshaq(map,temp,joueur2->perso1)*/;point_action -= temp->s4.point_action ;temp->s4.upt-=1;
+                                    bigshaq(map,temp,joueur2->perso1);point_action -= temp->s4.point_action ;temp->s4.upt-=1;
                                 }
                                 else if(temp->s4.upt == 0){
                                     printf(" ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
@@ -250,7 +250,7 @@ int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int numero_joueur,
                                 break;
                             case 3:
                                 if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
-                                    /* Fuego*/;point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    fuego(map,temp,*joueur2);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
                                 }
                                 else if(temp->s3.upt == 0){

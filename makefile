@@ -1,4 +1,4 @@
-OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o fin_partie.o
+OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o fin_partie.o fuego.o
 
 OBJ_INIT = init.o affichages.o persosorts.o sorts.o test_init.o tour_jeu.o deplacement.o
 
@@ -51,6 +51,8 @@ sortseffet.o :sortseffet.c fonc.h
 effets.o :effets.c fonc.h
 	gcc -c $<
 fin_partie.o : fin_partie.c fonc.h
+	gcc -c $<
+fuego.o : fuego.c fonc.h
 	gcc -c $<
 #SDL
 sdl_test.o: sdl_test.c fonc.h
