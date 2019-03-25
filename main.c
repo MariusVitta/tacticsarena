@@ -24,10 +24,9 @@ int main(){
 			printf("Vous devez taper 1 ou 2\n");
 
 	}while((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2));
-    joueur1.perso1 = malloc(sizeof(t_personnage));
-    joueur1.perso2 = malloc(sizeof(t_personnage));
-    creer_perso(classe1,joueur1.perso1);
-	creer_perso(classe2,joueur1.perso2);
+
+		joueur1.perso1 = creer_perso(classe1);
+		joueur1.perso2 = creer_perso(classe2);
     joueur1.numJoueur = 1;
     joueur1.nbPersoVivant = NB_PERSONNAGES;
 
@@ -45,10 +44,8 @@ int main(){
 
 	}while((classe1 != 1)&&(classe1 != 2) || (classe2 != 1)&&(classe2 != 2));
 
-    joueur2.perso1 = malloc(sizeof(t_personnage));
-    joueur2.perso2 = malloc(sizeof(t_personnage));
-	creer_perso(classe1,joueur2.perso1 );
-	creer_perso(classe2,joueur2.perso2);
+		joueur2.perso1 = creer_perso(classe1);
+		joueur2.perso2 = creer_perso(classe2);
     joueur2.numJoueur = 2;
     joueur2.nbPersoVivant = NB_PERSONNAGES;
 
