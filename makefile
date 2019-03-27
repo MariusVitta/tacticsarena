@@ -4,7 +4,7 @@ OBJ_INIT = init.o affichages.o persosorts.o sorts.o test_init.o tour_jeu.o depla
 
 OBJ_ATTIRE = affichages.o attire.o init.o sorts.o persosorts.o
 
-OBJ_SDL = sdl_test.o affichages.o init.o persosorts.o
+OBJ_SDL = sdl_main.o sdl_affichage.o sdl_fenetre.o sdl_outils.o sdl_jeu.o sdl_sorts.o fonc.o init.o persosorts.o foncjeu.o
 
 SDL_DIR=${HOME}/Documents/Projet/SDL2
 SDLLIB_DIR=${SDL_DIR}/lib
@@ -20,7 +20,7 @@ test_init: $(OBJ_INIT) fonc.h
 test_attire: $(OBJ_ATTIRE) fonc.h
 	gcc $(OBJ_ATTIRE) -o $@
 #executable SDL
-sdl_test: $(OBJ_SDL) fonc.h
+sdl_main: $(OBJ_SDL) sdl_fonc.h fonc.h
 	gcc $(OBJ_SDL) -o $@ ${LIBS} ${INCLUDES}
 
 #génération des .o
@@ -54,18 +54,37 @@ fin_partie.o : fin_partie.c fonc.h
 	gcc -c $<
 fuego.o : fuego.c fonc.h
 	gcc -c $<
-#SDL
-sdl_test.o: sdl_test.c fonc.h
+
+# SDL
+
+sdl_main.o: sdl_main.c sdl_fonc.h fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
-all: main sdl_test test_init test_attire
+sdl_affichage.o: sdl_affichage.c sdl_fonc.h fonc.h
+	gcc -c $< ${LIBS} ${INCLUDES}
+
+sdl_fenetre.o:	sdl_fenetre.c sdl_fonc.h fonc.h
+	 gcc -c $< ${LIBS} ${INCLUDES}
+
+sdl_outils.o: sdl_outils.c sdl_fonc.h fonc.h
+	gcc -c $< ${LIBS} ${INCLUDES}
+
+sdl_jeu.o: sdl_jeu.c sdl_fonc.h fonc.h
+	gcc -c $< ${LIBS} ${INCLUDES}
+
+sdl_sorts.o: sdl_sorts.c sdl_fonc.h fonc.h
+	gcc -c $< ${LIBS} ${INCLUDES}
+
+#SDL
+
+all: main sdl_main test_init test_attire
 
 clean:
 	- rm -rf *.o
 	- rm main
 	- rm test_init
 	- rm test_attire
-	- rm sdl_test
+	- rm sdl_main
 
 mrproper: clean
 
