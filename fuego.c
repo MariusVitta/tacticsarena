@@ -70,13 +70,13 @@ void fuego(char map[N][N],t_personnage * perso1, t_joueur j2,int numj){
 		switch (map[y][x]){
 
 			case '1' :
-					perso1->perso1->pv -= perso1->s3.degat;
-					printf("%s touché.\nPoint de vie : %i\n", perso1->perso1->nom, perso1->perso1->pv);
+					perso1->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", perso1->nom, perso1->pv);
 				break;
 
 			case '3' :
-					perso1->perso2->pv -= perso1->s3.degat;
-					printf("%s touché.\nPoint de vie : %i\n", perso1->perso2->nom, perso1->perso2->pv);
+					perso1->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", perso1->nom, perso1->pv);
 				break;
 		}
 	}
@@ -85,13 +85,13 @@ void fuego(char map[N][N],t_personnage * perso1, t_joueur j2,int numj){
 		switch (map[y][x]){
 
 			case '2' :
-					j2->perso1->pv -= perso1->s3.degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					j2.perso1->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", j2.perso1->nom, j2.perso1->pv);
 				break;
 
 			case '4' :
-					j2->perso2->pv -= perso1->s3.degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					j2.perso2->pv -= perso1->s3.degat;
+					printf("%s touché.\nPoint de vie : %i\n", j2.perso2->nom, j2.perso2->pv);
 				break;
 		}
 	}

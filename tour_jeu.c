@@ -250,7 +250,7 @@ int tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int numero_joueur,
                                 break;
                             case 3:
                                 if (temp->s3.point_action <=  point_action && temp->s3.upt > 0 ) {
-                                    fuego(map,temp,*joueur2);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
+                                    fuego(map,temp,*joueur2,numero_joueur);point_action -= temp->s3.point_action ;temp->s3.upt-=1;
                                     choix=0;
                                 }
                                 else if(temp->s3.upt == 0){

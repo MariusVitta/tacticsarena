@@ -1,4 +1,5 @@
 #define N 11
+#define NB_SORTS 4
 
 /*structure d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
 
@@ -96,7 +97,7 @@ void creer_effet(t_personnage * p,int effet_voulu,int x,int y);
 /* sorts */
 void armure(t_personnage *p);
 void felin(t_personnage *p);
-void fuego(char map[N][N],t_personnage * perso1, t_joueur j2,int numj)
+void fuego(char map[N][N],t_personnage * perso1, t_joueur j2,int numj);
 void chouette(t_personnage *p);
 void attire(char map[N][N], t_personnage * perso1, t_personnage * perso2);
 void chenchen(char map[N][N],t_personnage * j1,t_personnage  * j2);
