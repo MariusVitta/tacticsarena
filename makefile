@@ -6,6 +6,8 @@ OBJ_ATTIRE = affichages.o attire.o init.o sorts.o persosorts.o
 
 OBJ_SDL = sdl_main.o sdl_affichage.o sdl_fenetre.o sdl_outils.o sdl_jeu.o sdl_sorts.o fonc.o init.o persosorts.o foncjeu.o
 
+OBJ_ORDI = affichages.o persosorts.o fonctions_ordi.o fin_partie.o
+
 SDL_DIR=${HOME}/Documents/Projet/SDL2
 SDLLIB_DIR=${SDL_DIR}/lib
 SDLINC_DIR=${SDL_DIR}/include
@@ -19,6 +21,8 @@ test_init: $(OBJ_INIT) fonc.h
 	gcc $(OBJ_INIT) -o $@
 test_attire: $(OBJ_ATTIRE) fonc.h
 	gcc $(OBJ_ATTIRE) -o $@
+test_ordi: $(OBJ_ORDI) fonc.h
+	gcc $(OBJ_ORDI) -o $@
 #executable SDL
 sdl_main: $(OBJ_SDL) sdl_fonc.h fonc.h
 	gcc $(OBJ_SDL) -o $@ ${LIBS} ${INCLUDES}
@@ -54,6 +58,8 @@ fin_partie.o : fin_partie.c fonc.h
 	gcc -c $<
 fuego.o : fuego.c fonc.h
 	gcc -c $<
+fonctions_ordi.: fonctions_ordi.c fonc.h
+	gcc -c $<
 
 # SDL
 
@@ -77,7 +83,7 @@ sdl_sorts.o: sdl_sorts.c sdl_fonc.h fonc.h
 
 #SDL
 
-all: main sdl_main test_init test_attire
+all: main sdl_main test_init test_attire test_ordi
 
 clean:
 	- rm -rf *.o
@@ -85,6 +91,7 @@ clean:
 	- rm test_init
 	- rm test_attire
 	- rm sdl_main
+	- test_ordi
 
 mrproper: clean
 
