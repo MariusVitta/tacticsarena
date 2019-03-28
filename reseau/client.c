@@ -10,7 +10,7 @@
 #include<string.h>
 
 //#define SERVEURNAME "192.168.1.106" // adresse IP de mon serveur
-#define SERVEURNAME "172.18.41.119" // adresse IP de mon serveur
+//#define SERVEURNAME "172.18.41.119" // adresse IP de mon serveur
 
 #define QUITTER "QUITTER"
 
@@ -26,6 +26,7 @@ char menu(){
 
 void envoyer_message(int to_server_socket){
 	char msg[200], buffer[512];
+	memset(buffer, 0, sizeof(buffer));
 	printf("quel est votre message : ");
 	scanf(" %[^\n]s", buffer);
 	sprintf(msg, "MSG %s", buffer);
@@ -33,7 +34,7 @@ void envoyer_message(int to_server_socket){
 	// lecture de la réponse
 	memset(buffer, 0, sizeof(buffer));
 	recv(to_server_socket,buffer,512,0);
-	printf("[client] reponse du serveur : '%s'\n", buffer);
+	printf("Reponse du serveur : '%s'\n", buffer);
 }
 
 void quitter(int to_server_socket){
@@ -48,6 +49,8 @@ int main (  int argc, char** argv )
 	long hostAddr;
 	char buffer[512];
 	int to_server_socket;
+	//on recupère ici l'adresse du serveur passer en parametre
+	char * SERVEURNAME = argv[1];
 
 	// vérifie si il y a erreur lors de la récupération de l'adresse
 	bzero(&serveur_addr,sizeof(serveur_addr));
@@ -80,15 +83,21 @@ int main (  int argc, char** argv )
 		printf("Impossible de se connecter au serveur\n");
 	  	exit(0);
 	}
-	/* envoie de données et reception */
-	send(to_server_socket,"BONJOUR",7,0);
-	memset(buffer, 0, sizeof(buffer));
-	recv(to_server_socket,buffer,512, 0);
-	printf("[client] %s [du serveur]\n", buffer);
 
     /* Un menu pour faire differentes actions */
 	char choix;
 	do {
+
+		/* En attente de son tour */
+		memset(buffer, 0, sizeof(buffer));
+
+		do{
+			memset(buffer, 0, sizeof(buffer));
+			printf(" BUFFER  : '%s'\n",buffer);
+			recv(to_server_socket,buffer,512, 0);
+			printf("serveur : %s \n", buffer);
+		}while(strncmp("Cest votre tour", buffer,512) != 0);
+
 		choix = menu();
 		switch(choix){
 			case 'm':

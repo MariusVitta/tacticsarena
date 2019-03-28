@@ -9,7 +9,8 @@
 #include <signal.h>
 #include <unistd.h>
 
-//voir man socket;
+
+#define N 10
 
 char buffer[512];
 
@@ -57,13 +58,13 @@ void view_ip()
 int main ( void )
 {
 	int ma_socket;
-	int client_socket;
+	int client_socket[N];
 	struct sockaddr_in mon_address, client_address;
 	unsigned int mon_address_longueur, lg;
 	bzero(&mon_address,sizeof(mon_address));
 	mon_address.sin_port = htons(30000);
 	mon_address.sin_family = AF_INET;
-	mon_address.sin_addr.s_addr = htonl(INADDR_ANY); // mettre ladresse ip ici a la place de INADRR_ANY
+	mon_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	char *hostname = "localhost";
     char ip[100];
@@ -85,32 +86,47 @@ int main ( void )
 	/* accept la connexion */
 	mon_address_longueur = sizeof(client_address);
 
-    /* on attend que le client se connecte */
-	client_socket = accept(ma_socket,
-                         (struct sockaddr *)&client_address,
-                         &mon_address_longueur);
+  /* on attend que les clients se connecte */
+	int nb_client=0,nb_joueur=3;
+	while (nb_client < nb_joueur) {
+		printf("En attente de connection\n");
+		client_socket[nb_client] = accept(ma_socket,(struct sockaddr *)&client_address,&mon_address_longueur);
+		nb_client++;
+		printf("Nb de client connecté : %d\n", nb_client);
+	}
+	printf("tous les joueurs sont ready !\n");
 
-	int quitter=0;
-    while(!quitter)
+	// Boucle de partie
+	int fin_partie=0,i=0;
+    while(!fin_partie)
 	{
 		memset(buffer, 0, sizeof(buffer));
-		lg = recv(client_socket, buffer, 512,0);
 
-		if(strncmp("MSG", buffer, 3)==0){
-			printf("[serveur] message reçu : '%s'\n",buffer+4);
-			printf("[serveur] envoi de la réponse ");
-			sprintf(buffer,"REPONSE DU SERVEUR");
-			send(client_socket, buffer, 512, 0);
-		} else if(strncmp("QUITTER", buffer, 7) == 0) {
-			printf("[serveur] déconnexion demandée : '%s'\n",buffer);
-			shutdown(client_socket,2);
-			close(client_socket);
-			quitter=1;
-		} else if(strncmp("BONJOUR", buffer, 7) == 0){
-			printf("[serveur] BONJOUR d'un client\n");
-			send(client_socket, "BONJOUR", 7, 0);
-		} else {
-			printf("[serveur] message inconnu : '%s'\n", buffer);
+		//boucle d'un tour
+		for(int j=0;j < nb_client;j++){
+			memset(buffer, 0, sizeof(buffer));
+			sprintf(buffer,"Cest votre tour");
+			printf(" BUFFER : '%s'\n",buffer);
+			send(client_socket[i], buffer, 512, 0);
+			memset(buffer, 0, sizeof(buffer));
+				lg = recv(client_socket[j], buffer, 512,0);
+				printf("Recu %i octets\n", lg);
+				if(strncmp("MSG", buffer, 3)==0){
+					printf(" message reçu : '%s'\n",buffer+4);
+					sprintf(buffer, buffer+4);
+					i++;
+					//envoyer la réponse à tous
+					for(int i=0;i < nb_client;i++)
+						send(client_socket[i], buffer, 512, 0);
+				}
+				else if(strncmp("QUITTER", buffer, 7) == 0) {
+					printf(" déconnexion demandée : '%s'\n",buffer);
+					shutdown(client_socket[j],2);
+					close(client_socket[j]);
+				}
+				else {
+					printf("[serveur] message inconnu : '%s'\n", buffer);
+				}
 		}
 	}
 	shutdown(ma_socket,2);
