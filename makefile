@@ -1,3 +1,4 @@
+CFLAGS = -lm
 OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o attire.o chenchen.o bigshaq.o sortseffet.o effets.o fin_partie.o fuego.o
 
 OBJ_INIT = init.o affichages.o persosorts.o sorts.o test_init.o tour_jeu.o deplacement.o
@@ -8,12 +9,15 @@ OBJ_SDL = sdl_main.o sdl_affichage.o sdl_fenetre.o sdl_outils.o sdl_jeu.o sdl_so
 
 OBJ_ORDI = affichages.o persosorts.o fonctions_ordi.o fin_partie.o
 
+OBJ_IA = sorts.o ia.o affichages.o persosorts.o fin_partie.o
+
 SDL_DIR=${HOME}/Documents/Projet/SDL2
 SDLLIB_DIR=${SDL_DIR}/lib
 SDLINC_DIR=${SDL_DIR}/include
 
 LIBS=-L${SDLLIB_DIR} -lSDL2 -lSDL2_ttf -lSDL2_image
 INCLUDES=-I${SDLINC_DIR}
+
 
 main: $(OBJ) fonc.h
 	gcc $(OBJ) -o $@
@@ -23,6 +27,9 @@ test_attire: $(OBJ_ATTIRE) fonc.h
 	gcc $(OBJ_ATTIRE) -o $@
 test_ordi: $(OBJ_ORDI) fonc.h
 	gcc $(OBJ_ORDI) -o $@
+test_ia: $(OBJ_IA) fonc.h
+	gcc $(OBJ_IA) -o $@  $(CFLAGS)
+
 #executable SDL
 sdl_main: $(OBJ_SDL) sdl_fonc.h fonc.h
 	gcc $(OBJ_SDL) -o $@ ${LIBS} ${INCLUDES}
@@ -60,7 +67,10 @@ fuego.o : fuego.c fonc.h
 	gcc -c $<
 fonctions_ordi.: fonctions_ordi.c fonc.h
 	gcc -c $<
-
+ia.o: ia.c fonc.h
+	gcc -c $<
+#%.o: %.c fonc.h
+#	gcc -c $<
 # SDL
 
 sdl_main.o: sdl_main.c sdl_fonc.h fonc.h
@@ -92,6 +102,7 @@ clean:
 	- rm test_attire
 	- rm sdl_main
 	- test_ordi
+	- test_ia
 
 mrproper: clean
 

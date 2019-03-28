@@ -25,23 +25,24 @@ int fonction_evalution(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur 
 
 
     switch (indice_sort){
-        case 1: portee = temp.s1.portee;break;
-        case 2: portee = temp.s2.portee;break;
-        case 3: portee = temp.s3.portee;break;
-        case 4: portee = temp.s4.portee;break;
+        case 1: portee = temp->s1.portee;break;
+        case 2: portee = temp->s2.portee;break;
+        case 3: portee = temp->s3.portee;break;
+        case 4: portee = temp->s4.portee;break;
     }
+	printf("portee = %i, indice_sort = %i\n",portee,indice_sort);
     for(i = 1; i <= NB_PERSONNAGES;i++){
         if(i == 1){
-            carre = pow((double)(temp->x - joueur2.perso1->x),2) + pow((double)(temp->y - joueur2.perso1->y),2);
+            carre = pow((double)(temp->coord.x - joueur2.perso1->coord.x),2) + pow((double)(temp->coord.y - joueur2.perso1->coord.y),2);
             distance = sqrt((double)carre);
-            if(distance == portee){
+            if(distance <= portee){
                 return 1;
             }
         }
         else{
-            carre = pow((double)(temp->x - joueur2.perso2->x),2) + pow((double)(temp->y - joueur2.perso2->y),2);
+            carre = pow((double)(temp->coord.x - joueur2.perso2->coord.x),2) + pow((double)(temp->coord.y - joueur2.perso2->coord.y),2);
             distance = sqrt((double)carre);
-            if(distance == portee){
+            if(distance <= portee){
                 return 1;
             }
         }
@@ -105,6 +106,7 @@ int coup_ordi_opti(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_p
         if( score > max){
 			max = score;
             imax = i;
+			printf("imax = %i\n",imax );
 		}
 	}
 	return imax; /* on retourne l'indice du sort */
@@ -114,28 +116,28 @@ int coup_ordi_opti(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_p
 int main() {
     int i = 0;
     t_joueur joueur1,joueur2;
-    joueur1.perso1 = creer_perso(classe1);
-	joueur1.perso2 = creer_perso(classe2);
+    joueur1.perso1 = creer_perso(1);
+	joueur1.perso2 = creer_perso(2);
     joueur1.numJoueur = 1;
     joueur1.nbPersoVivant = NB_PERSONNAGES;
-    joueur2.perso1 = creer_perso(classe1);
-	joueur2.perso2 = creer_perso(classe2);
+    joueur2.perso1 = creer_perso(2);
+	joueur2.perso2 = creer_perso(1);
     joueur2.numJoueur = 2;
     joueur2.nbPersoVivant = NB_PERSONNAGES;
 
-    joueur1.perso1->x = 11;
-    joueur1.perso1->y = 5;
-    joueur2.perso1->x = 11;
-    joueur2.perso1->y = 6;
+    joueur1.perso1->coord.x = 11;
+    joueur1.perso1->coord.y = 5;
+    joueur2.perso1->coord.x = 1;
+    joueur2.perso1->coord.y = 5;
 
 
-	i = coup_ordi_opti(map,joueur1,joueur2,1)
+	i = coup_ordi_opti(map,joueur1,joueur2,1);
     printf("%i\n",i);
     int x1,x2,y1,y2,dist,carre;
     x1 = 11;
     y1 = 5;
-    x2 = 11;
-    y2 = 6;
+    x2 = 1;
+    y2 = 3;
     carre = pow((double)(x1 - x2),2) + pow((double)(y1 - y2),2);
     dist = sqrt((double)carre);
     printf("distance = %i\n",dist);
