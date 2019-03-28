@@ -11,7 +11,7 @@ int SDL_creer_fenetre(){
 
 	/* Création de la fenêtre */
 
-	window = SDL_CreateWindow("Tactics Arena du turfu",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, LARGEUR, HAUTEUR, SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("Necrew Arena",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, LARGEUR, HAUTEUR, SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
 
 	if(!window){
 		fprintf(stderr, "Erreur à la création de la fenetre : %s\n", SDL_GetError());
@@ -40,7 +40,9 @@ void SDL_creer_texture(){
 	SDL_Surface * imgarcher = NULL;
 	SDL_Surface * imgtank = NULL;
 
-	SDL_RWops * r_bg = SDL_RWFromFile("fondn.png", "rb");
+  SDL_Surface * imgchoix_perso = NULL;
+
+	SDL_RWops * r_bg = SDL_RWFromFile("bg.png", "rb");
 	SDL_RWops * r_case_n = SDL_RWFromFile("cn.png", "rb");
 	SDL_RWops * r_case_p = SDL_RWFromFile("cp.png", "rb");
 	SDL_RWops * r_case_c = SDL_RWFromFile("cc.png", "rb");
@@ -49,6 +51,8 @@ void SDL_creer_texture(){
 	SDL_RWops * r_guerrier = SDL_RWFromFile("guerrier.png", "rb");
 	SDL_RWops * r_archer = SDL_RWFromFile("archer.png", "rb");
 	SDL_RWops * r_tank = SDL_RWFromFile("tank.png", "rb");
+
+  SDL_RWops * r_choix_perso = SDL_RWFromFile("carteperso.png", "rb");
 
 	imgbg = IMG_LoadPNG_RW(r_bg);
 	imgcase_n = IMG_LoadPNG_RW(r_case_n);
@@ -59,6 +63,8 @@ void SDL_creer_texture(){
 	imgguerrier = IMG_LoadPNG_RW(r_guerrier);
 	imgarcher = IMG_LoadPNG_RW(r_archer);
 	imgtank = IMG_LoadPNG_RW(r_tank);
+
+  imgchoix_perso = IMG_LoadPNG_RW(r_choix_perso);
 
 	if(!imgbg)
 		fprintf(stderr, "Image background non chargée : %s\n", IMG_GetError());
@@ -71,13 +77,16 @@ void SDL_creer_texture(){
 	if(!imgcase_s)
 		fprintf(stderr, "Image case sélectionnée non chargée : %s\n", IMG_GetError());
 	if(!imgobstacle)
-		fprintf(stderr, "Image obstacle normale non chargée : %s\n", IMG_GetError());
+		fprintf(stderr, "Image obstacle non chargée : %s\n", IMG_GetError());
 	if(!imgguerrier)
-		fprintf(stderr, "Image guerrier normale non chargée : %s\n", IMG_GetError());
+		fprintf(stderr, "Image guerrier non chargée : %s\n", IMG_GetError());
 	if(!imgarcher)
-		fprintf(stderr, "Image archer normale non chargée : %s\n", IMG_GetError());
+		fprintf(stderr, "Image archer non chargée : %s\n", IMG_GetError());
 	if(!imgtank)
-		fprintf(stderr, "Image tank normale non chargée : %s\n", IMG_GetError());
+		fprintf(stderr, "Image tank non chargée : %s\n", IMG_GetError());
+
+  if(!imgchoix_perso)
+  	fprintf(stderr, "Image choix perso non chargée : %s\n", IMG_GetError());
 
 	bg = SDL_CreateTextureFromSurface(renderer, imgbg);
 	case_n = SDL_CreateTextureFromSurface(renderer, imgcase_n);
@@ -89,6 +98,8 @@ void SDL_creer_texture(){
 	archer = SDL_CreateTextureFromSurface(renderer, imgarcher);
 	tank = SDL_CreateTextureFromSurface(renderer, imgtank);
 
+  choix_perso = SDL_CreateTextureFromSurface(renderer, imgchoix_perso);
+
 	SDL_FreeSurface(imgbg);
 	SDL_FreeSurface(imgcase_n);
 	SDL_FreeSurface(imgcase_p);
@@ -99,6 +110,7 @@ void SDL_creer_texture(){
 	SDL_FreeSurface(imgarcher);
 	SDL_FreeSurface(imgtank);
 
+  SDL_FreeSurface(imgchoix_perso);
 	if(!bg)
 		fprintf(stderr, "Texture background non créee : %s\n", SDL_GetError());
 	if(!case_n)
@@ -118,5 +130,7 @@ void SDL_creer_texture(){
 	if(!tank)
 		fprintf(stderr, "Texture archer non créee : %s\n", SDL_GetError());
 
+  if(!choix_perso)
+    fprintf(stderr, "Texture choix perso non créee : %s\n", SDL_GetError());
 
 }

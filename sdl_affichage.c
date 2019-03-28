@@ -1,7 +1,99 @@
 #include "fonc.h"
 #include "sdl_fonc.h"
 
-void SDL_afficher_map(char map[N][N]){
+void SDL_affichage_choix_perso(){
+
+	SDL_Rect recchoix_perso;
+
+	int x = 75, w = (LARGEUR/5) + 5, y = 150, h = (HAUTEUR/2) + 5;
+
+	recchoix_perso.w = w;
+	recchoix_perso.h = h;
+	recchoix_perso.x = x;
+	recchoix_perso.y = y;
+
+	int ximg = recchoix_perso.x + 23, yimg = recchoix_perso.y + 37;
+
+	SDL_choix_p[0].num_choix = 1;
+	SDL_choix_p[0].b.x = ximg;
+	SDL_choix_p[0].b.y = yimg;
+
+	SDL_choix_p[0].a.y = yimg + h - (37*2);
+	SDL_choix_p[0].c.x = ximg + w - (23*2);
+
+	if(!SDL_RenderCopy(renderer, choix_perso, NULL, &recchoix_perso));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+		SDL_Rect recguerrier;
+
+		recguerrier.w = 150;
+		recguerrier.h = 150;
+		recguerrier.x = recchoix_perso.x + 65;
+		recguerrier.y = recchoix_perso.y + 105;
+
+	if(!SDL_RenderCopy(renderer, guerrier, NULL, &recguerrier));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+	recchoix_perso.x = recchoix_perso.x + w + 15;
+	ximg = recchoix_perso.x + 23;
+
+	SDL_choix_p[1].num_choix = 2;
+	SDL_choix_p[1].b.x = ximg;
+	SDL_choix_p[1].b.y = yimg;
+
+	SDL_choix_p[1].a.y = yimg + h - (37*2);
+	SDL_choix_p[1].c.x = ximg + w - (23*2);
+
+	if(!SDL_RenderCopy(renderer, choix_perso, NULL, &recchoix_perso));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+	SDL_Rect recarcher;
+
+	recarcher.w = 145;
+	recarcher.h = 160;
+	recarcher.x = recchoix_perso.x + 50;
+	recarcher.y = recchoix_perso.y + 92;
+
+	if(!SDL_RenderCopy(renderer, archer, NULL, &recarcher));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+	recchoix_perso.x = recchoix_perso.x + w + 15;
+	ximg = recchoix_perso.x + 23;
+
+	SDL_choix_p[2].num_choix = 3;
+	SDL_choix_p[2].b.x = ximg;
+	SDL_choix_p[2].b.y = yimg;
+
+	SDL_choix_p[2].a.y = yimg + h - (37*2);
+	SDL_choix_p[2].c.x = ximg + w - (23*2);
+
+	if(!SDL_RenderCopy(renderer, choix_perso, NULL, &recchoix_perso));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+	SDL_Rect rectank;
+
+	rectank.w = 165;
+	rectank.h = 165;
+	rectank.x = recchoix_perso.x + 50;
+	rectank.y = recchoix_perso.y + 90;
+
+	if(!SDL_RenderCopy(renderer, tank, NULL, &rectank));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+	recchoix_perso.x = recchoix_perso.x + w + 15;
+	ximg = recchoix_perso.x + 23;
+
+	SDL_choix_p[3].num_choix = 4;
+	SDL_choix_p[3].b.x = ximg;
+	SDL_choix_p[3].b.y = yimg;
+
+	SDL_choix_p[3].a.y = yimg + h - (37*2);
+	SDL_choix_p[3].c.x = ximg + w - (23*2);
+
+	if(!SDL_RenderCopy(renderer, choix_perso, NULL, &recchoix_perso));
+		//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+}
+void SDL_afficher_map(char map[N][N], t_joueur j1, t_joueur j2){
 
 	SDL_Rect recbg;
 
@@ -137,46 +229,139 @@ void SDL_afficher_map(char map[N][N]){
 
 					//reccase_s.x = reccase_n.x + 7;
 					//reccase_s.y = reccase_n.y + 7;
-					recarcher.x = reccase_n.x - 32;
-					recarcher.y = reccase_n.y - 70;
+					if(strcmp(j2.perso1->nom, "Archer") == 0){
+						recarcher.x = reccase_n.x - 32;
+						recarcher.y = reccase_n.y - 70;
 
-					//if(!SDL_RenderCopy(renderer, case_s, NULL, &reccase_s));
-						//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+						//if(!SDL_RenderCopy(renderer, case_s, NULL, &reccase_s));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
 
-					if(!SDL_RenderCopy(renderer, archer, NULL, &recarcher));
-						//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+							if(!SDL_RenderCopy(renderer, archer, NULL, &recarcher));
+								//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j2.perso1->nom, "Guerrier") == 0){
+						recguerrier.x = reccase_n.x - 10;
+						recguerrier.y = reccase_n.y - 72;
+
+						if(!SDL_RenderCopy(renderer, guerrier, NULL, &recguerrier));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j2.perso1->nom, "Tank") == 0){
+						rectank.x = reccase_n.x - 20;
+						rectank.y = reccase_n.y - 85;
+
+						if(!SDL_RenderCopy(renderer, tank, NULL, &rectank));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
 
 					SDL_map[k].i = i;
 					SDL_map[k].j = j;
-					SDL_map[k].type = J2;
-
+					SDL_map[k].type = J2P1;
 				}
 
 
 				else if(map[i][j] == '1'){
 
-					recguerrier.x = reccase_n.x - 10;
-					recguerrier.y = reccase_n.y - 72;
+					if(strcmp(j1.perso1->nom, "Archer") == 0){
+						recarcher.x = reccase_n.x - 32;
+						recarcher.y = reccase_n.y - 70;
 
-					if(!SDL_RenderCopy(renderer, guerrier, NULL, &recguerrier));
-						//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+						//if(!SDL_RenderCopy(renderer, case_s, NULL, &reccase_s));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+							if(!SDL_RenderCopy(renderer, archer, NULL, &recarcher));
+								//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j1.perso1->nom, "Guerrier") == 0){
+						recguerrier.x = reccase_n.x - 10;
+						recguerrier.y = reccase_n.y - 72;
+
+						if(!SDL_RenderCopy(renderer, guerrier, NULL, &recguerrier));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j1.perso1->nom, "Tank") == 0){
+						rectank.x = reccase_n.x - 20;
+						rectank.y = reccase_n.y - 85;
+
+						if(!SDL_RenderCopy(renderer, tank, NULL, &rectank));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
 
 					SDL_map[k].i = i;
 					SDL_map[k].j = j;
-					SDL_map[k].type = J2;
+					SDL_map[k].type = J1P1;
 				}
 
 				else if(map[i][j] == '3'){
 
-					rectank.x = reccase_n.x - 20;
-					rectank.y = reccase_n.y - 85;
+					if(strcmp(j1.perso2->nom, "Archer") == 0){
+						recarcher.x = reccase_n.x - 32;
+						recarcher.y = reccase_n.y - 70;
 
-					if(!SDL_RenderCopy(renderer, tank, NULL, &rectank));
-						//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+						//if(!SDL_RenderCopy(renderer, case_s, NULL, &reccase_s));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+							if(!SDL_RenderCopy(renderer, archer, NULL, &recarcher));
+								//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j1.perso2->nom, "Guerrier") == 0){
+						recguerrier.x = reccase_n.x - 10;
+						recguerrier.y = reccase_n.y - 72;
+
+						if(!SDL_RenderCopy(renderer, guerrier, NULL, &recguerrier));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j1.perso2->nom, "Tank") == 0){
+						rectank.x = reccase_n.x - 20;
+						rectank.y = reccase_n.y - 85;
+
+						if(!SDL_RenderCopy(renderer, tank, NULL, &rectank));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
 
 					SDL_map[k].i = i;
 					SDL_map[k].j = j;
-					SDL_map[k].type = J2;
+					SDL_map[k].type = J1P2;
+				}
+
+				else if(map[i][j] == '4'){
+
+					if(strcmp(j2.perso2->nom, "Archer") == 0){
+						recarcher.x = reccase_n.x - 32;
+						recarcher.y = reccase_n.y - 70;
+
+						//if(!SDL_RenderCopy(renderer, case_s, NULL, &reccase_s));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+
+							if(!SDL_RenderCopy(renderer, archer, NULL, &recarcher));
+								//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j2.perso2->nom, "Guerrier") == 0){
+						recguerrier.x = reccase_n.x - 10;
+						recguerrier.y = reccase_n.y - 72;
+
+						if(!SDL_RenderCopy(renderer, guerrier, NULL, &recguerrier));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					else if(strcmp(j2.perso2->nom, "Tank") == 0){
+						rectank.x = reccase_n.x - 20;
+						rectank.y = reccase_n.y - 85;
+
+						if(!SDL_RenderCopy(renderer, tank, NULL, &rectank));
+							//fprintf(stderr, "Texture non copiée : %s\n", SDL_GetError());
+					}
+
+					SDL_map[k].i = i;
+					SDL_map[k].j = j;
+					SDL_map[k].type = J2P2;
 				}
 
 				k++;

@@ -1,6 +1,17 @@
 #include "fonc.h"
 #include "sdl_fonc.h"
 
+int acces_choix_perso(int x, int y, int * classe){
+
+	for(int i = 0; i < NBPERSOS; i++){
+		if(x > SDL_choix_p[i].b.x && y > SDL_choix_p[i].b.y && x < SDL_choix_p[i].c.x && y < SDL_choix_p[i].a.y){
+			* classe = SDL_choix_p[i].num_choix;
+			return 1;
+		}
+	}
+	return 0;
+}
+
 float eq_droite(t_coord p1, t_coord p2, int x){
 
 	float m = ((float)p2.y - (float)p1.y)/((float)p2.x - (float)p1.x);

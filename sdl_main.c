@@ -14,11 +14,12 @@ SDL_Texture * guerrier = NULL;
 SDL_Texture * archer = NULL;
 SDL_Texture * tank = NULL;
 
+SDL_Texture * choix_perso = NULL;
+
 int main (int argc, char** argv){
 
 
 	char map[N][N] = {{'.','.','.','.','.','.','.','.','.','.','.'},
-
 				{'.','.','.','.','.','.','.','.','.','o','A'},
 
 				{'.','.','.','o','.','.','.','.','.','A','.'},
@@ -39,62 +40,16 @@ int main (int argc, char** argv){
 
 				{'.','A','.','.','.','.','.','.','.','.','.'}};
 
-				int i, j, classe1, classe2,nb_tour = 1,mort1 = 0,mort2 = 0;
-			    int num_j = 1,choix;
-				t_joueur joueur1,joueur2;
 
-				do{
-					printf("Joueur 1: choisir une classe personnage 1 et classe personnage 2\n");
-					printf("[1] : Guerrier\n");
-					printf("[2] : Archer\n");
-					printf("[3] : Tank\nChoix personnage 1: ");
-					scanf("%d",&classe1);
-			        printf("Choix personnage 2: ");
-			        scanf("%d",&classe2);
-
-					if((classe1 < 1)&&(classe1 > 3) && (classe2 < 1)&&(classe2 > 3) )
-						printf("Vous devez taper 1 ou 2\n");
-
-				}while((classe1 < 1)&&(classe1 > 3) && (classe2 < 1)&&(classe2 > 3));
-
-			    joueur1.perso1 = malloc(sizeof(t_personnage));
-			    joueur1.perso2 = malloc(sizeof(t_personnage));
-			  	creer_perso(classe1,joueur1.perso1);
-				creer_perso(classe2,joueur1.perso2);
-			    joueur1.numJoueur = 1;
-			    joueur1.nbPVivant = 2;
-
-
-
-					do{
-						printf("Joueur 1: choisir une classe personnage 2 et classe personnage 2\n");
-						printf("[1] : Guerrier\n");
-						printf("[2] : Archer\n");
-						printf("[3] : Tank\nChoix personnage 1: ");
-						scanf("%d",&classe1);
-				        printf("Choix personnage 2: ");
-				        scanf("%d",&classe2);
-
-						if((classe1 < 1)&&(classe1 > 3) && (classe2 < 1)&&(classe2 > 3) )
-							printf("Vous devez taper 1 ou 2\n");
-
-					}while((classe1 < 1)&&(classe1 > 3) && (classe2 < 1)&&(classe2 > 3));
-
-			    joueur2.perso1 = malloc(sizeof(t_personnage));
-			    joueur2.perso2 = malloc(sizeof(t_personnage));
-					creer_perso(classe1,joueur2.perso1 );
-					creer_perso(classe2,joueur2.perso2);
-			    joueur2.numJoueur = 2;
-			    joueur2.nbPVivant = 2;
-
-
-			    /*joueur1.pv = 10;
-			    joueur2.pv = 5;*/
+	t_joueur joueur1,joueur2;
 
 	if(!SDL_creer_fenetre())
 		fprintf(stderr, "Erreur à la création de la fenetre : %s\n", SDL_GetError());
 	SDL_creer_texture();
 
+	//SDL_affichage_choix_perso();
+	//SDL_Delay(5000);
+	SDL_choix_perso(&joueur1, &joueur2);
 	SDL_initialisation(map,&joueur1,&joueur2);
 	//initialisation(map,&joueur1,&joueur2);
 	int nb = 3;
@@ -106,7 +61,7 @@ int main (int argc, char** argv){
 		nb = SDL_deplacement(joueur1, joueur2, map, nb, 1, 1);
 	//SDL_saut(joueur1, joueur2, map, 1, 1);*/
 	int x = 0, y = 0;
-	SDL_afficher_map(map);
+	//SDL_afficher_map(map, joueur1, joueur2);
 
 	if( window )
 	{
@@ -134,11 +89,14 @@ int main (int argc, char** argv){
 						x = e.button.x;
 						y = e.button.y;
 
+						printf("x = %i - y = %i\n", x, y);
+
 					break;
 				}
 			}
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(map);
+			SDL_afficher_map(map, joueur1, joueur2);
+			//SDL_affichage_choix_perso();
 			SDL_RenderPresent(renderer);
 			SDL_Delay(16);
 		}

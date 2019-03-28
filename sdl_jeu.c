@@ -1,6 +1,117 @@
 #include "fonc.h"
 #include "sdl_fonc.h"
 
+void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
+	int i, j, classe;
+	int num_j = 1,choix;
+	int x = 0, y = 0;
+	joueur1->perso1 = malloc(sizeof(t_personnage));
+	joueur1->perso2 = malloc(sizeof(t_personnage));
+	joueur2->perso1 = malloc(sizeof(t_personnage));
+	joueur2->perso2 = malloc(sizeof(t_personnage));
+
+	printf("Joueur 1: choisir une classe personnage 1\n");
+	printf("[1] : Guerrier\n");
+	printf("[2] : Archer\n");
+	printf("[3] : Tank\nChoix personnage 1: ");
+	SDL_RenderClear(renderer);
+	SDL_affichage_choix_perso();
+	SDL_RenderPresent(renderer);
+
+	do{
+		SDL_Event e;
+		while(SDL_PollEvent(&e)){
+			if(e.type == SDL_MOUSEBUTTONDOWN){
+					x = e.button.x;
+					y = e.button.y;
+			}
+		}
+	} while(!acces_choix_perso(x, y, &classe));
+
+	printf("Choix j1 p1 : %i\n", classe);
+	creer_perso(classe,joueur1->perso1);
+
+
+	printf("Joueur 1: choisir une classe personnage 2\n");
+	printf("[1] : Guerrier\n");
+	printf("[2] : Archer\n");
+	printf("[3] : Tank\nChoix personnage 1: ");
+	SDL_RenderClear(renderer);
+	SDL_affichage_choix_perso();
+	SDL_RenderPresent(renderer);
+	x = 0;
+	y = 0;
+	do{
+		SDL_Event e;
+		while(SDL_PollEvent(&e)){
+			if(e.type == SDL_MOUSEBUTTONDOWN){
+					x = e.button.x;
+					y = e.button.y;
+			}
+		}
+	} while(!acces_choix_perso(x, y, &classe));
+
+	printf("Choix j2 p2 : %i\n", classe);
+	creer_perso(classe,joueur1->perso2);
+
+	joueur1->numJoueur = 1;
+	joueur1->nbPVivant = 2;
+
+	printf("Joueur 2: choisir une classe personnage 1\n");
+	printf("[1] : Guerrier\n");
+	printf("[2] : Archer\n");
+	printf("[3] : Tank\nChoix personnage 1: ");
+
+	SDL_RenderClear(renderer);
+	SDL_affichage_choix_perso();
+	SDL_RenderPresent(renderer);
+
+	x = 0;
+	y = 0;
+	do{
+		SDL_Event e;
+		while(SDL_PollEvent(&e)){
+			if(e.type == SDL_MOUSEBUTTONDOWN){
+					x = e.button.x;
+					y = e.button.y;
+			}
+		}
+	} while(!acces_choix_perso(x, y, &classe));
+
+	printf("Choix j2 p1 : %i\n", classe);
+	creer_perso(classe,joueur2->perso1 );
+
+	printf("Joueur 2: choisir une classe personnage 2\n");
+	printf("[1] : Guerrier\n");
+	printf("[2] : Archer\n");
+	printf("[3] : Tank\nChoix personnage 1: ");
+	SDL_RenderClear(renderer);
+	SDL_affichage_choix_perso();
+	SDL_RenderPresent(renderer);
+
+	x = 0;
+	y = 0;
+	do{
+		SDL_Event e;
+		while(SDL_PollEvent(&e)){
+			if(e.type == SDL_MOUSEBUTTONDOWN){
+					x = e.button.x;
+					y = e.button.y;
+			}
+		}
+	} while(!acces_choix_perso(x, y, &classe));
+
+	printf("Choix j2 p2 : %i\n", classe);
+	creer_perso(classe,joueur2->perso2);
+	joueur2->numJoueur = 2;
+	joueur2->nbPVivant = 2;
+
+	SDL_RenderClear(renderer);
+	SDL_affichage_choix_perso();
+	SDL_RenderPresent(renderer);
+	SDL_Delay(1000);
+}
+
 void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2){
 	srand(time(NULL));
 	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2, x = 0, y = 0, coordi = 0, coordj = 0;
@@ -26,7 +137,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 			printf("\n[A]{x=%i y=%i}\n[B]{x=%i y=%i}\n[C]{x=%i y=%i}\n",x1,y1,x1-2,y1-1,x1+2,y1-1);
 
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 
 			do{
@@ -56,7 +167,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 			//printf("ifonc = %i et jfonc = %i\n", coordi, coordj);
 			matriceJeu[coordi][coordj] = 'x';
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 			SDL_Delay(100);
 
@@ -66,7 +177,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 
 			coordj = 0;
@@ -92,7 +203,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 			//printf("ifonc = %i et jfonc = %i\n", coordi, coordj);
 			matriceJeu[coordi][coordj] = 'x';
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 			SDL_Delay(100);
             matriceJeu[coordi][coordj] = '3';
@@ -120,7 +231,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 			printf("\n[D]{x=%i y=%i}\n[E]{x=%i y=%i}\n[F]{x=%i y=%i}\n",x2 ,y2 ,x2 -2,y2+1,x2+2,y2+1);
 
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 
 
@@ -140,7 +251,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 			matriceJeu[coordi][coordj] = 'x';
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 			SDL_Delay(100);
 
@@ -149,7 +260,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 			joueur2->perso1->coord.y = coordi;
 
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 
 			coordj = 0;
@@ -168,7 +279,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 			matriceJeu[coordi][coordj] = 'x';
 			SDL_RenderClear(renderer);
-			SDL_afficher_map(matriceJeu);
+			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
 			SDL_RenderPresent(renderer);
 			SDL_Delay(100);
 			matriceJeu[coordi][coordj] = '4';
@@ -176,11 +287,11 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 			joueur2->perso2->coord.y = coordi;
 
 			if(matriceJeu[y2][x2]!= '2' && matriceJeu[y2][x2]!= '4')
-            		matriceJeu[y2][x2]='.';
-            if(matriceJeu[y2+1][x2-2]!='2' && matriceJeu[y2+1][x2-2]!= '4')
-            		matriceJeu[y2+1][x2-2]='.';
-            if(matriceJeu[y2 +1][x2 + 2]!='2' && matriceJeu[y2 +1][x2 + 2]!= '2')
-            		matriceJeu[y2 +1][x2 + 2]='.';
+            	matriceJeu[y2][x2]='.';
+      if(matriceJeu[y2+1][x2-2]!='2' && matriceJeu[y2+1][x2-2]!= '4')
+            	matriceJeu[y2+1][x2-2]='.';
+      if(matriceJeu[y2 +1][x2 + 2]!='2' && matriceJeu[y2 +1][x2 + 2]!= '4')
+            	matriceJeu[y2 +1][x2 + 2]='.';
 
 		}
 
@@ -294,7 +405,7 @@ int SDL_deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int num_j,int
 	affichage_map(point);
 	affichage_map(map);
 	SDL_RenderClear(renderer);
-	SDL_afficher_map(point);
+	SDL_afficher_map(point, j1, j2);
 	SDL_RenderPresent(renderer);
 
 	do{
@@ -306,12 +417,11 @@ int SDL_deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int num_j,int
 				printf("x = %i et y = %i\n", x, y);
 			}
 		}
-
 	} while(!acces_possible(x, y, &coordi, &coordj));
 
 	point[coordi][coordj] = 'x';
 	SDL_RenderClear(renderer);
-	SDL_afficher_map(point);
+	SDL_afficher_map(point, j1, j2);
 	SDL_RenderPresent(renderer);
 	SDL_Delay(100);
 
@@ -330,13 +440,13 @@ int SDL_deplacement(t_joueur j1,t_joueur j2,char map[N][N],int  n ,int num_j,int
 		affichage_map(point);
 		affichage_map(map);
 		SDL_RenderClear(renderer);
-		SDL_afficher_map(map);
+		SDL_afficher_map(map, j1, j2);
 		SDL_RenderPresent(renderer);
 	}
 	else{
 		maj(map,j2,j1);
 		SDL_RenderClear(renderer);
-		SDL_afficher_map(map);
+		SDL_afficher_map(map, j1, j2);
 		SDL_RenderPresent(renderer);
 	}
 

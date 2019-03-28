@@ -68,7 +68,7 @@ int SDL_saut(t_joueur j1,t_joueur j2,char map[N][N],int num_j,int numero_perso){
 
 	/* affichage */
 	SDL_RenderClear(renderer);
-	SDL_afficher_map(point);
+	SDL_afficher_map(point, j1, j2);
 	SDL_RenderPresent(renderer);
 
 	int x = 0, y = 0;
@@ -86,7 +86,7 @@ int SDL_saut(t_joueur j1,t_joueur j2,char map[N][N],int num_j,int numero_perso){
 
 	point[coordi][coordj] = 'x';
 	SDL_RenderClear(renderer);
-	SDL_afficher_map(point);
+	SDL_afficher_map(point, j1, j2);
 	SDL_RenderPresent(renderer);
 	SDL_Delay(100);
 
@@ -100,13 +100,13 @@ int SDL_saut(t_joueur j1,t_joueur j2,char map[N][N],int num_j,int numero_perso){
 	if(num_j==1){
 		maj(map,j1,j2);
 		SDL_RenderClear(renderer);
-		SDL_afficher_map(map);
+		SDL_afficher_map(map, j1, j2);
 		SDL_RenderPresent(renderer);
 	}
 	else{
 		maj(map,j2,j1);
 		SDL_RenderClear(renderer);
-		SDL_afficher_map(map);
+		SDL_afficher_map(map, j1, j2);
 		SDL_RenderPresent(renderer);
 	}
 
