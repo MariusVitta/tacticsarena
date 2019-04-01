@@ -101,8 +101,8 @@ clean:
 	- rm test_init
 	- rm test_attire
 	- rm sdl_main
-	- test_ordi
-	- test_ia
+	- rm test_ordi
+	- rm test_ia
 
 mrproper: clean
 

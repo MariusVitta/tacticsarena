@@ -13,40 +13,50 @@ int tour_joueur_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur jo
 int coup_ordi_opti(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage);
 int fonction_evalution(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage);
 
+/*
+ * Fonction d'évalutation pour le MinMax retourne soit un entier supérieur ou égale à  soit un négatif
+ * paramètre indice_sort: sort actuel que l'on soit tester
+ * return : entier
+ */
 int fonction_evalution(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage){
     int portee = 0,i;
     t_personnage * temp;
+    /* choix du personnage du joueur 1 */
     if(numero_personnage == 1)
         temp = joueur1.perso1;
     else
         temp = joueur1.perso2;
     int distance,carre;
 
-
-
+    //recupération de la portée selon le sort
     switch (indice_sort){
         case 1: portee = temp->s1.portee;break;
         case 2: portee = temp->s2.portee;break;
         case 3: portee = temp->s3.portee;break;
         case 4: portee = temp->s4.portee;break;
     }
-	printf("portee = %i, indice_sort = %i\n",portee,indice_sort);
+
+	//printf("portee = %i, indice_sort = %i\n",portee,indice_sort);
     for(i = 1; i <= NB_PERSONNAGES;i++){
         if(i == 1){
+            /* test du sort sur le premier perso de l'adversaire */
             carre = pow((double)(temp->coord.x - joueur2.perso1->coord.x),2) + pow((double)(temp->coord.y - joueur2.perso1->coord.y),2);
             distance = sqrt((double)carre);
+            /* si distance entre les deux personages est plus petites que la portée du sort on retourne la portée du sort*/
             if(distance <= portee){
-                return 1;
+                return portee;
             }
         }
         else{
+            /* test du sort sur le deuxième perso de l'adversaire */
             carre = pow((double)(temp->coord.x - joueur2.perso2->coord.x),2) + pow((double)(temp->coord.y - joueur2.perso2->coord.y),2);
             distance = sqrt((double)carre);
             if(distance <= portee){
-                return 1;
+                return portee;
             }
         }
     }
+    return (distance - portee);
 }
 
 /*
@@ -54,14 +64,18 @@ int fonction_evalution(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur 
  * retourne le meilleur coup s'il existe ou le maximum des coups
  */
 int tour_ordi_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage){
-	int i, score;
+	int i, score,eval;
 	int max = -2;
-	if(fonction_evalution(indice_sort,map,joueur1,joueur2,numero_personnage)){/* fonction evaluation */
-		return 1;
-	}
+    eval = fonction_evalution(indice_sort,map,joueur1,joueur2,numero_personnage);
+    printf("eval ordi : %i\n",eval );
+	if(eval >=0)/* fonction evaluation */
+		return eval;
 	else{
 		for(i=1 ;i < NB_SORTS; i++){
-			score = tour_joueur_opti(i,map,joueur1,joueur2,numero_personnage);
+            if(numero_personnage == 1)
+                score = tour_joueur_opti(i,map,joueur1,joueur2,numero_personnage);
+            else
+                score = tour_joueur_opti(i,map,joueur1,joueur2,numero_personnage);
 			if( score > max){
 				max = score;
 			}
@@ -75,20 +89,23 @@ int tour_ordi_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joue
  * paramètre joueur:
  */
 int tour_joueur_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage){
-	int i, score;
+	int i, score,eval;;
 	int min = 2;
-	if(fonction_evalution(indice_sort,map,joueur1,joueur2,numero_personnage)){/* fonction evaluation */
-		return -1;
-	}
-    for(i=1 ;i < NB_SORTS; i++){
-        if(numero_personnage == 1)
-            score = tour_ordi_opti(i,map,joueur2,joueur1,numero_personnage);
-        else
-            score = tour_ordi_opti(i,map,joueur2,joueur1,numero_personnage);
-        if( score < min){
-			min = score;
-		}
-	}
+    eval = fonction_evalution(indice_sort,map,joueur1,joueur2,numero_personnage);
+    printf("eval joueur :%i\n",eval );
+	if(eval >=0) /* fonction evaluation */
+		return eval;
+    else{
+        for(i=1 ;i < NB_SORTS; i++){
+            if(numero_personnage == 1)
+                score = tour_ordi_opti(i,map,joueur2,joueur1,numero_personnage);
+            else
+                score = tour_ordi_opti(i,map,joueur2,joueur1,numero_personnage);
+            if( score < min){
+    			min = score;
+    		}
+    	}
+    }
     return min;
 }
 /*
@@ -103,10 +120,11 @@ int coup_ordi_opti(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_p
         // on joue le coup
         // renvoyer le max des scores
         score = tour_joueur_opti(i,map,joueur1,joueur2,numero_personnage);
+        printf("====== SCORE APRES TOUR JOUEUR : %i ===== \n\n",score );
         if( score > max){
 			max = score;
             imax = i;
-			printf("imax = %i\n",imax );
+			printf("imax = %i,max = %i,score = %i\n",imax,max,score );
 		}
 	}
 	return imax; /* on retourne l'indice du sort */
@@ -128,16 +146,16 @@ int main() {
     joueur1.perso1->coord.x = 11;
     joueur1.perso1->coord.y = 5;
     joueur2.perso1->coord.x = 1;
-    joueur2.perso1->coord.y = 5;
+    joueur2.perso1->coord.y = 7;
 
 
 	i = coup_ordi_opti(map,joueur1,joueur2,1);
-    printf("%i\n",i);
+    printf("meilleur coup : {%i}\n",i);
     int x1,x2,y1,y2,dist,carre;
     x1 = 11;
     y1 = 5;
-    x2 = 1;
-    y2 = 3;
+    x2 = 11;
+    y2 = 7;
     carre = pow((double)(x1 - x2),2) + pow((double)(y1 - y2),2);
     dist = sqrt((double)carre);
     printf("distance = %i\n",dist);
