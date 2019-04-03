@@ -3,8 +3,8 @@
 #include "fonc.h"
 
 /*création de la classe choisie par l'utilisateur*/
-void creer_perso(int classe,t_personnage * perso){
-
+t_personnage * creer_perso(int classe){
+    t_personnage * perso = malloc(sizeof(t_personnage));
 	if(classe==1){
 		t_sort saut;
 		saut.nom="Saut";
@@ -185,5 +185,5 @@ void creer_perso(int classe,t_personnage * perso){
 
 	}
 
-	//return *perso;
+	return perso;
 }
