@@ -25,7 +25,7 @@ typedef struct s_sort{
 	int upt;/*utilisation par tour*/
   int uptm;
 	int point_action;
-	void (*sort)(char map[N][N], t_personnage * , t_joueur *,t_joueur *,int,int,int);
+	void (*sort)(char map[N][N], t_personnage * , t_joueur *,t_joueur *,int,int,int,int);
 
 }t_sort;
 
@@ -101,7 +101,7 @@ void creer_effet(t_personnage *,int ,int ,int );
 
 void suppr_sort(t_sort ** );
 void suppr_perso(t_personnage ** );
-void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_joueur* ,t_joueur* ,int,int ,int);
+void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_joueur* ,t_joueur* ,int,int ,int,int);
 t_sort * creation_sorts(t_sort * sorts[]);
 t_personnage * creation_classes(t_personnage * persos[],t_sort * sorts[]);
 t_sort * copie_sort(t_sort * sort);
@@ -111,22 +111,22 @@ t_personnage * copie_perso(t_personnage * );
 
 
 /* sorts */
-void armure  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void felin  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void chouette  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void attire  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void chenchen  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void bigshaq  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void diago  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void coup_zone  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void double_tape  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void petit_coup  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void ligne  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );;
-void grosCoup  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void soin  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void saut  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void fuego  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
-void revitalisation  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int );
+void armure  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void felin  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void chouette  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void attire  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void chenchen  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void bigshaq  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void diago  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void coup_zone  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void double_tape  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void petit_coup  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void ligne  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );;
+void grosCoup  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void soin  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void saut  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void fuego  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
+void revitalisation  (char map[N][N], t_personnage * ,t_joueur *, t_joueur *,int ,int ,int ,int );
 
 /* fonction déplacement case par case pour le joueur */
 int deplacement(t_joueur * j1,t_joueur * j2,char map[N][N],int ,int  );

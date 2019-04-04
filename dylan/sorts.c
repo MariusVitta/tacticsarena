@@ -13,7 +13,7 @@
 *										Sorts du guerrier												 *
 *************************************************************/
 
-void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
  char point[N][N];/*matrice affichant les possibilités de jeu*/
  int i, j, g,dist = portee,car=0;
@@ -87,7 +87,7 @@ void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
 
 
 
- if(j1->numJoueur == 1){
+ if(numj == 1){
    maj(map,j1,j2);
    affichage_map(map);
  }
@@ -103,14 +103,14 @@ void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
  * Fonction qui regarde la vie au personnage perso1
  * paramètre perso1: personnage1 que l'on souhaite soigner
  */
-void soin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
-  printf("Le guerrier a %d points de vie\n",perso1->pv);
-  if(perso1->pv+degat <= perso1->pv_max)
-    perso1->pv += degat;
-  else
-    perso1->pv = perso1->pv_max;
+void soin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
-  printf("Le guerrier se soigne de %d et a maintenant %d points de vie sur %d\n",degat,perso1->pv,perso1->pv_max);
+  if(j1->perso1->pv+degat <= j1->perso1->pv_max)
+    j1->perso1->pv += degat;
+  else
+    j1->perso1->pv = j1->perso1->pv_max;
+
+  printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
 }
 
 /*
@@ -118,10 +118,10 @@ void soin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
  * paramètre t_personnage * perso1: personnage qui attaque
  * paramètre t_joueur j2: personnage qui subit les dégats
  */
-void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
-	char point[N][N];/*matrice affichant les possibilités de jeu*/
-	int i, j, g, dist=portee,car=0;
+  char point[N][N];/*matrice affichant les possibilités de jeu*/
+	int i, j, g, dist = portee,car=0;
 	char choix;
 
 	/* recopie matrice dans la matrice point qui affiche la portee */
@@ -151,7 +151,7 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur *
 		}
 	}
 
-	dist=portee;
+	dist = portee;
 	g = perso1->coord.y;
 	j = perso1->coord.x - dist ;
 	//affiche la portée vers le bas
@@ -182,35 +182,37 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur *
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-		if(j1->numJoueur==1){
-			switch (map[y][x]){
 
-				case '2' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
-					break;
 
-			 	case '4' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
-			  	break;
-			}
-		}
+    if(numj==1){
+  		switch (map[y][x]){
 
-		if(j1->numJoueur==2){
-			switch (map[y][x]){
+  			case '2' :
+  					j2->perso1->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+  				break;
 
-				case '1' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
-					break;
+  		 	case '4' :
+  					j2->perso2->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+  		  	break;
+  		}
+  	}
 
-				case '3' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
-				 	break;
-			}
-		}
+  	if(numj==2){
+  		switch (map[y][x]){
+
+  			case '1' :
+  					j2->perso1->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+  				break;
+
+  			case '3' :
+  					j2->perso2->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+  			 	break;
+  		}
+  	}
 }
 
 
@@ -221,7 +223,7 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur *
  * paramètre t_personnage * perso1: personnage qui attaque
  * paramètre t_joueur j2: personnage qui subit les dégats
  */
-void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -274,7 +276,7 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 	}while(!existe(point, choix, &x, &y));
 
 
-	if(j1->numJoueur==1){
+	if(numj==1){
 		switch (map[y][x]){
 
 			case '2' :
@@ -289,7 +291,7 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 		}
 	}
 
-	if(j1->numJoueur==2){
+	if(numj==2){
 		switch (map[y][x]){
 
 			case '1' :
@@ -321,7 +323,7 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
  * paramètre t_joueur j2: personnage qui subit les dégats
  */
 
-void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -375,7 +377,7 @@ void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-		if(j1->numJoueur==1){
+		if(numj==1){
 			switch (map[y][x]){
 
 				case '2' :
@@ -390,7 +392,7 @@ void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 			}
 		}
 
-		if(j1->numJoueur==2){
+		if(numj==2){
 			switch (map[y][x]){
 
 				case '1' :
@@ -412,7 +414,7 @@ void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
   * paramètre t_personnage * perso1: personnage qui attaque
   * paramètre t_joueur j2: personnage qui subit les dégats
   */
-void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -465,7 +467,7 @@ void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-		if(j1->numJoueur == 1){
+		if(numj == 1){
 			switch (map[y][x]){
 
 				case '2' :
@@ -480,7 +482,7 @@ void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 			}
 		}
 
-		if(j1->numJoueur == 2){
+		if(numj == 2){
 			switch (map[y][x]){
 
 				case '1' :
@@ -501,7 +503,7 @@ void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
  * paramètre t_personnage * perso1: personnage qui attaque
  * paramètre t_joueur j2: personnage qui subit les dégats
  */
-void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car = 0;
@@ -566,7 +568,7 @@ void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur 
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-	if(j1->numJoueur==1){
+	if(numj==1){
 		switch (map[y][x]){
 
 			case '2' :
@@ -581,7 +583,7 @@ void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur 
 		}
 	}
 
-	if(j1->numJoueur==2){
+	if(numj==2){
 		switch (map[y][x]){
 
 			case '1' :
@@ -598,7 +600,7 @@ void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur 
 }
 
 
-void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -667,7 +669,7 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 	int l=1;
 	//ligne horizontale
 	for(i=y,j=x-l;j!=x+(l+1);j++){
-		if(j1->numJoueur==1){
+		if(numj==1){
 			switch (map[i][j]){
 
 				case '2' :
@@ -682,7 +684,7 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 			}
 		}
 
-		if(j1->numJoueur==2){
+		if(numj==2){
 			switch (map[i][j]){
 
 				case '1' :
@@ -701,7 +703,7 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 	//ligne verticale
 	for(i=y-l,j=x;i!=y+(l+1);i++){
 		if(i!=y){
-			if(j1->numJoueur==1){
+			if(numj==1){
 				switch (map[i][j]){
 
 					case '2' :
@@ -716,7 +718,7 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 				}
 			}
 
-			if(j1->numJoueur==2){
+			if(numj==2){
 				switch (map[i][j]){
 
 					case '1' :
@@ -738,11 +740,11 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 *										Sorts du Tank												     *
 *************************************************************/
 
-void armure (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void armure (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,1,perso1->coord.x,perso1->coord.y);
 }
 
-void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -795,7 +797,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-		if(j1->numJoueur==1){
+		if(numj==1){
 			switch (map[y][x]){
 
 				case '2' :
@@ -870,7 +872,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 			}
 	  }
 
-		if(j1->numJoueur==2){
+		if(numj==2){
 			switch (map[y][x]){
 
         case '1' :
@@ -946,7 +948,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 		}
 }
 
-void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1011,7 +1013,7 @@ void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-	if(j1->numJoueur==1){
+	if(numj==1){
 		switch (map[y][x]){
 
 			case '2' :
@@ -1026,7 +1028,7 @@ void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 		}
 	}
 
-	if(j1->numJoueur==2){
+	if(numj==2){
 		switch (map[y][x]){
 
 			case '1' :
@@ -1042,7 +1044,7 @@ void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 	}
 }
 
-void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -1096,7 +1098,7 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1
 	}while(!existe(point, choix, &x, &y));
 
     //réduction des points de vies après le coup
-	if(j1->numJoueur==1){
+	if(numj==1){
 		switch (map[y][x]){
 
 			case '2' :
@@ -1125,7 +1127,7 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1
       }
 	}
 
-  if(j1->numJoueur==2){
+  if(numj==2){
   	switch (map[y][x]){
 
       case '1' :
@@ -1157,15 +1159,15 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1
 
 
 
-void felin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void felin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,4,perso1->coord.x,perso1->coord.y);
 }
 
-void chouette (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void chouette (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,5,perso1->coord.x,perso1->coord.y);
 }
 
-void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1229,7 +1231,7 @@ void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 			scanf(" %c", &choix);
 	}while(!existe(point, choix, &x, &y));
 
-	if(j1->numJoueur==2){
+	if(numj==2){
 		switch (map[y][x]){
 
 			case '1' :
@@ -1244,7 +1246,7 @@ void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 		}
 	}
 
-	else if(j1->numJoueur==1){
+	else if(numj==1){
 		switch (map[y][x]){
 
 			case '2' :
@@ -1260,7 +1262,7 @@ void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 	}
 }
 
-void revitalisation (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee){
+void revitalisation (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1325,32 +1327,49 @@ void revitalisation (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joue
 			scanf(" %c", &choix);
 	}while(!existe(point, choix, &x, &y));
 
-  if(j1->numJoueur==2){
+  if(numj==2){
     switch (map[y][x]){
 
       case '2' :
-          j2->perso1->pv += degat;
-          printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+          if(j1->perso1->pv+degat <= j1->perso1->pv_max)
+            j1->perso1->pv += degat;
+          else
+            j1->perso1->pv = j1->perso1->pv_max;
+
+          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
         break;
 
       case '4' :
-          j2->perso2->pv += degat;
-          printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+          if(j1->perso2->pv+degat <= j1->perso2->pv_max)
+            j1->perso2->pv += degat;
+          else
+            j1->perso2->pv = j1->perso2->pv_max;
+
+          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
         break;
     }
   }
 
-  else if(j1->numJoueur==1){
+  else if(numj==1){
     switch (map[y][x]){
 
       case '1' :
-          j2->perso1->pv += degat;
-          printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+
+          if(j1->perso1->pv+degat <= j1->perso1->pv_max)
+            j1->perso1->pv += degat;
+          else
+            j1->perso1->pv = j1->perso1->pv_max;
+
+          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
         break;
 
       case '3' :
-          j2->perso2->pv += degat;
-          printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+          if(j1->perso2->pv+degat <= j1->perso2->pv_max)
+            j1->perso2->pv += degat;
+          else
+            j1->perso2->pv = j1->perso2->pv_max;
+
+          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
         break;
     }
   }

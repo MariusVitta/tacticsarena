@@ -29,9 +29,9 @@ void suppr_perso(t_personnage ** perso){
 }
 
 
-void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_joueur* ,t_joueur* ,int,int ,int){
+void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_joueur* ,t_joueur* ,int,int ,int,int ){
 
-	void (*fonc )(char [N][N], t_personnage * ,  t_joueur* ,t_joueur* ,int, int,int);
+	void (*fonc )(char [N][N], t_personnage * ,  t_joueur* ,t_joueur* ,int, int,int,int);
 
 
 	switch (id_sort) {

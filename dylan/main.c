@@ -79,50 +79,58 @@ int main(){
 	maj(map,joueur1,joueur2);
 	affichage_map(map);
 
-    /* boucle principale du jeu */
-    while(!partie_finie(joueur1) && !partie_finie(joueur2)){
-        for(nump = 1 ; nump <= NB_PERSONNAGES; nump++){
-            printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_joueur,nump,carac_perso(indice_joueur,nump));
+  for(nump = 1, indice_joueur = 1;(partie_finie(joueur1) && partie_finie(joueur2)) && nump <= NB_PERSONNAGES;){
+
+
 			/* si le personnage est mort on ne le fais plus jouer */
-			if(nump == 1 && !est_mort(joueur1,nump)){
-                tour(map,joueur1,joueur2,nump); /* tour du personnage 1 du joueur 1 */
-            }
-            else if(!est_mort(joueur1,nump) && !partie_finie(joueur2)){
-                tour(map,joueur1,joueur2,nump); /* tour du personnage 2 du joueur 1 */
-            }
-			maj(map,joueur1,joueur2);
-            affichage_map(map);
-        }
-        indice_joueur++;
+			if(indice_joueur == 1){
+				printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_joueur,nump,carac_perso(indice_joueur,nump));
 
-		printf("perso 1 : %i\n",joueur1->nbPersoVivant);
-		printf("perso 2 : %i\n",joueur2->nbPersoVivant);
+				if(nump == 1 && !est_mort(tab[indice_joueur],nump))
+					tour(map,joueur1,joueur2,nump);
 
-        /* on effectue pas le tour du joueur 2 si le joueur 2 à plus de personnages ou si joueur 2 a plus de personnage */
-		if(!partie_finie(joueur1) && (!est_mort(joueur2,1)|| !est_mort(joueur2,2)) ){
-            for(nump = 1 ; nump <= NB_PERSONNAGES; nump++){
-                printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_joueur,nump,carac_perso(indice_joueur,nump));
-				/* si le personnage est mort on ne le fais plus jouer */
-				if(nump == 1 && !est_mort(joueur2,nump)){
-                    tour(map,joueur2,joueur1,nump); /* tour du personnage 1 du joueur 2 */
-                }
-                else if(!est_mort(joueur2,nump)&& !partie_finie(joueur1)){
-                    tour(map,joueur2,joueur1,nump); /* tour du personnage 2 du joueur 2 */
-                }
+				else if(nump == 2 && !est_mort(tab[indice_joueur],nump))
+					tour(map,joueur1,joueur2,nump);
+
+				indice_joueur++;
+
 				maj(map,joueur1,joueur2);
-                affichage_map(map);
-            }
-        }
+				affichage_map(map);
+			}
 
-        if(!partie_finie(joueur1) || !partie_finie(joueur2)){
-			printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
-			affichage_coord(joueur1);
-			affichage_coord(joueur2);
-        }
-        indice_joueur--;
-        nb_tour++;
-   }
-   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
+
+			if(indice_joueur == 2){
+				printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_joueur,nump,carac_perso(indice_joueur,nump));
+				if(nump == 1 && !est_mort(tab[indice_joueur],nump)){
+					tour(map,joueur2,joueur1,nump);
+					indice_joueur--;
+				}
+				else if(nump == 2 && !est_mort(tab[indice_joueur],nump))
+					tour(map,joueur2,joueur1,nump);
+
+
+
+				maj(map,joueur1,joueur2);
+				affichage_map(map);
+			}
+
+
+
+			if((partie_finie(joueur1) || partie_finie(joueur2))&& indice_joueur == 2 && nump == 2){
+				printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
+				affichage_coord(joueur1);
+				affichage_coord(joueur2);
+				indice_joueur--;
+				nb_tour++;
+			}
+			if (nump == 2)
+				nump --;
+
+			else
+				nump ++;
+  }
+
+  printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
 
 	if(partie_finie(joueur1))
 		printf("Le joueur 1 a perdu \n");

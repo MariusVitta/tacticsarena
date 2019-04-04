@@ -21,7 +21,7 @@ int est_mort(t_joueur * joueur, int nump){
 	/*sinon s'il vient de mourir */
 	switch(nump){
 		case 1:
-				if(joueur->perso1->pv >-50 && joueur->perso1->pv <= 0 ){
+				if(joueur->perso1->pv <= 0 ){
 					/* on check qu'il soit mort puis on lui mets un nombre de points de vie suffisament petit
 					 * pour pas qu'il soit reconsideré comme mort de nouveau dans les autres fonctions
 					 faisant appel est_mort();
@@ -33,7 +33,7 @@ int est_mort(t_joueur * joueur, int nump){
 				}
 				break;
 		case 2:
-				if(joueur->perso2->pv >-50 && joueur->perso2->pv <= 0){
+				if(joueur->perso2->pv <= 0){
 					joueur->nbPersoVivant--;
 					joueur->perso2->pv =-1;
                     printf(" Le %s du joueur %i est mort ",joueur->perso2->nom,joueur->numJoueur);
@@ -50,5 +50,5 @@ int est_mort(t_joueur * joueur, int nump){
  * retourne 1 si le joueur a plus de personnages vivants
  */
 int partie_finie(t_joueur * joueur){
-	return (joueur->nbPersoVivant == 0);
+	return (joueur->nbPersoVivant);
 }

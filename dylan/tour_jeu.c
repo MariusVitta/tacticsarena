@@ -25,7 +25,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
 
     /* variable qui compte le nombre de déplacement max possible par personnage*/
     int pm=temp->pm;
-    int choix = 0;
+    int choix_action = 0,choix_sort =0;
     temp->sorts[0]->upt=temp->sorts[0]->uptm;
     temp->sorts[1]->upt=temp->sorts[1]->uptm;
     temp->sorts[2]->upt=temp->sorts[2]->uptm;
@@ -35,14 +35,14 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
     int point_action = temp->pa;
 
     /* tant que le joueur ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
-    while(choix != 3 /*|| (pm > 0 && point_action > 0)*/){
+    while(choix_action != 3 /*|| (pm > 0 && point_action > 0)*/){
         do{
             printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ? [nombre de points d'actions:%i]\n[3]:Passer son tour\nchoix:",pm,point_action);
-            scanf("%i",&choix );
+            scanf("%i",&choix_action );
         }
-        while(choix < 1 || choix > 3);
+        while(choix_action < 1 || choix_action > 3);
 
-        switch(choix){
+        switch(choix_action){
             case 1:
 
                 if(pm > 0 ){
@@ -59,16 +59,16 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                     do{
                         /*affichage de la liste des sorts utilisable par le personnage actuel*/
                         sort_uti(temp);
-                        scanf("%i",&choix );
+                        scanf("%i",&choix_sort );
                     }
-                    while(choix < 1 || choix > MAX_NB_SORT+1);
+                    while(choix_sort < 1 || choix_sort > MAX_NB_SORT+1);
 
-                    switch(choix){
+                    switch(choix_sort){
 
 											  case 1:
 
                             if (temp->sorts[0]->point_action <= point_action && temp->sorts[0]->upt > 0 ) {
-                                temp->sorts[0]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[0]->degat,temp->sorts[0]->portee);
+																temp->sorts[0]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[0]->degat,temp->sorts[0]->portee,joueur1->numJoueur);
 																point_action -= temp->sorts[0]->point_action ;
 																temp->sorts[0]->upt-=1;
                             }
@@ -83,8 +83,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                         case 2:
 
                           	if (temp->sorts[1]->point_action <= point_action && temp->sorts[1]->upt > 0 ) {
-                                temp->sorts[1]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[1]->degat,temp->sorts[0]->portee);
-																point_action -= temp->sorts[0]->point_action ;
+                                temp->sorts[1]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[1]->degat,temp->sorts[1]->portee,joueur1->numJoueur);
 																temp->sorts[1]->upt-=1;
                             }
                             else if(temp->sorts[1]->upt == 0){
@@ -98,7 +97,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                         case 3:
 
                             if (temp->sorts[2]->point_action <= point_action && temp->sorts[2]->upt > 0 ) {
-                                temp->sorts[2]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[0]->degat,temp->sorts[2]->portee);
+																temp->sorts[2]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[2]->degat,temp->sorts[2]->portee,joueur1->numJoueur);
 																point_action -= temp->sorts[2]->point_action ;
 																temp->sorts[2]->upt-=1;
 
@@ -114,7 +113,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                         case 4:
 
 														if (temp->sorts[3]->point_action <= point_action && temp->sorts[3]->upt > 0 ) {
-														temp->sorts[3]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[3]->degat,temp->sorts[3]->portee);
+														temp->sorts[3]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[3]->degat,temp->sorts[3]->portee,joueur1->numJoueur);
 														point_action -= temp->sorts[3]->point_action ;
 														temp->sorts[3]->upt-=1;
 
