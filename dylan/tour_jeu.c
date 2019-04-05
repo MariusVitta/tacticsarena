@@ -5,22 +5,22 @@
 
 /* fonction de gestion d'un tour de jeu
  * paramètre map : carte de jeu
- * paramètre joueur1: personnage actif pendant le tour jeu
- * paramètre joueur2: personnage passif durant le tour de jeu
- * paramètre numj: numéro du joueur qui joue actuellement
+ * paramètre equipe1: personnage actif pendant le tour jeu
+ * paramètre equipe2: personnage passif durant le tour de jeu
+ * paramètre numj: numéro du equipe qui joue actuellement
  * paramètre nump: numéro du %numj actuellement
  * la fonction demande au personne s'il souhaite effectuer un déplacement/utiliser un ou des sort(s)/passer son tour et ne rien faire
  * renvoie vrai lors que le tour de jeu du personnage est finie ou lorsqu'il passe son tour
  */
-void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
+void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump ){
 
 		t_personnage * temp;
 
 		if(nump == 1 ){
-        temp = joueur1->perso1;
+        temp = equipe1->perso1;
     }
     else{
-        temp = joueur1->perso2;
+        temp = equipe1->perso2;
     }
 
     /* variable qui compte le nombre de déplacement max possible par personnage*/
@@ -34,7 +34,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
     /* variable qui compte le nombre de points d'actions max du personnage 1 */
     int point_action = temp->pa;
 
-    /* tant que le joueur ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
+    /* tant que le equipe ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
     while(choix_action != 3 /*|| (pm > 0 && point_action > 0)*/){
         do{
             printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ? [nombre de points d'actions:%i]\n[3]:Passer son tour\nchoix:",pm,point_action);
@@ -46,7 +46,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
             case 1:
 
                 if(pm > 0 ){
-                    pm = deplacement(joueur1,joueur2,map,pm,nump);
+                    pm = deplacement(equipe1,equipe2,map,pm,nump);
                 }
                 else{
                     printf("\n ---- Vous avez utilisé tous vos points de déplacements ----\n\n");
@@ -68,7 +68,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
 											  case 1:
 
                             if (temp->sorts[0]->point_action <= point_action && temp->sorts[0]->upt > 0 ) {
-																temp->sorts[0]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[0]->degat,temp->sorts[0]->portee,joueur1->numJoueur);
+																temp->sorts[0]->sort(map,temp,equipe2,equipe1,nump,temp->sorts[0]->degat,temp->sorts[0]->portee,equipe1->numEquipe);
 																point_action -= temp->sorts[0]->point_action ;
 																temp->sorts[0]->upt-=1;
                             }
@@ -83,7 +83,8 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                         case 2:
 
                           	if (temp->sorts[1]->point_action <= point_action && temp->sorts[1]->upt > 0 ) {
-                                temp->sorts[1]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[1]->degat,temp->sorts[1]->portee,joueur1->numJoueur);
+                                temp->sorts[1]->sort(map,temp,equipe2,equipe1,nump,temp->sorts[1]->degat,temp->sorts[1]->portee,equipe1->numEquipe);
+																point_action -= temp->sorts[1]->point_action ;
 																temp->sorts[1]->upt-=1;
                             }
                             else if(temp->sorts[1]->upt == 0){
@@ -97,7 +98,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                         case 3:
 
                             if (temp->sorts[2]->point_action <= point_action && temp->sorts[2]->upt > 0 ) {
-																temp->sorts[2]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[2]->degat,temp->sorts[2]->portee,joueur1->numJoueur);
+																temp->sorts[2]->sort(map,temp,equipe2,equipe1,nump,temp->sorts[2]->degat,temp->sorts[2]->portee,equipe1->numEquipe);
 																point_action -= temp->sorts[2]->point_action ;
 																temp->sorts[2]->upt-=1;
 
@@ -113,7 +114,7 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                         case 4:
 
 														if (temp->sorts[3]->point_action <= point_action && temp->sorts[3]->upt > 0 ) {
-														temp->sorts[3]->sort(map,temp,joueur2,joueur1,nump,temp->sorts[3]->degat,temp->sorts[3]->portee,joueur1->numJoueur);
+														temp->sorts[3]->sort(map,temp,equipe2,equipe1,nump,temp->sorts[3]->degat,temp->sorts[3]->portee,equipe1->numEquipe);
 														point_action -= temp->sorts[3]->point_action ;
 														temp->sorts[3]->upt-=1;
 
@@ -131,7 +132,10 @@ void tour(char map[N][N],t_joueur * joueur1,t_joueur * joueur2,int nump ){
                     }
 
                 }
+								case 3:
+									printf("\n ---- Vous avez passé votre tour ---- \n\n");
+										break;
         }
-        maj(map,joueur1,joueur2);
+        maj(map,equipe1,equipe2);
     }
 }

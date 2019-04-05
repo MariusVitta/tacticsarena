@@ -13,7 +13,7 @@
 *										Sorts du guerrier												 *
 *************************************************************/
 
-void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void saut (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
  char point[N][N];/*matrice affichant les possibilités de jeu*/
  int i, j, g,dist = portee,car=0;
@@ -37,7 +37,7 @@ void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
    for( ;(j <= perso1->coord.x + dist) ; j++){
      if(j>=0){
        if(j<N){
-         //verifie si il y a un obstacle ou un joueur à l'emplacement
+         //verifie si il y a un obstacle ou un equipe à l'emplacement
          if(point[i][j] == '.'){
            point[i][j] = 'A' + car;
            car++;
@@ -60,7 +60,7 @@ void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
      if(j>=0){
        if(j<N){
          if(point[g][j] == '.'){
-           //ne pas repasser une seconde fois sur la ligne du joueur
+           //ne pas repasser une seconde fois sur la ligne du equipe
            if(g != perso1->coord.y){
                point[g][j] = 'A' + car;
                car ++;
@@ -103,7 +103,7 @@ void saut (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
  * Fonction qui regarde la vie au personnage perso1
  * paramètre perso1: personnage1 que l'on souhaite soigner
  */
-void soin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void soin (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
   if(j1->perso1->pv+degat <= j1->perso1->pv_max)
     j1->perso1->pv += degat;
@@ -116,9 +116,9 @@ void soin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,in
 /*
  * Fonction qui effectue un sort d'un rayon "portee" autour du personnage
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_joueur j2: personnage qui subit les dégats
+ * paramètre t_equipe j2: personnage qui subit les dégats
  */
-void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void petit_coup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -141,7 +141,7 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur *
 		for( ;(j <= perso1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					//verifie si il y a un obstacle ou un joueur à l'emplacement
+					//verifie si il y a un obstacle ou un equipe à l'emplacement
 					if(point[i][j] == '.'){
 						point[i][j] = 'A' + car;
 						car++;
@@ -161,7 +161,7 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur *
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
-						//ne pas repasser une seconde fois sur la ligne du joueur
+						//ne pas repasser une seconde fois sur la ligne du equipe
 						if(g != perso1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -221,9 +221,9 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur *
  * Fonction qui effectue un coup une case autour du personnage
  * sur une distance "portee"
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_joueur j2: personnage qui subit les dégats
+ * paramètre t_equipe j2: personnage qui subit les dégats
  */
-void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void grosCoup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -320,10 +320,10 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
  * Fonction qui effectue une coup en diagonale dans les 4 directions par rapport à la position actuel du perso1
  * sur une distance "portee"
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_joueur j2: personnage qui subit les dégats
+ * paramètre t_equipe j2: personnage qui subit les dégats
  */
 
-void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void diago (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -412,9 +412,9 @@ void diago (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
   * Fonction qui effectue une coup en ligne dans les 4 directions par rapport à la position actuel du perso1
   * sur une distance "portee"
   * paramètre t_personnage * perso1: personnage qui attaque
-  * paramètre t_joueur j2: personnage qui subit les dégats
+  * paramètre t_equipe j2: personnage qui subit les dégats
   */
-void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void ligne (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -501,9 +501,9 @@ void ligne (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 /*
  * Fonction qui effectue un sort d'un rayon "portee" autour du personnage
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_joueur j2: personnage qui subit les dégats
+ * paramètre t_equipe j2: personnage qui subit les dégats
  */
-void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void double_tape (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car = 0;
@@ -545,7 +545,7 @@ void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur 
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
-						//ne pas repasser une seconde fois sur la ligne du joueur
+						//ne pas repasser une seconde fois sur la ligne du equipe
 						if(g != perso1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -600,7 +600,7 @@ void double_tape (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur 
 }
 
 
-void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -623,7 +623,7 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 		for( ;(j <= perso1->coord.x + dist) ; j++){
 			if(j>=0){
 				if(j<N){
-					//verifie si il y a un obstacle ou un joueur à l'emplacement
+					//verifie si il y a un obstacle ou un equipe à l'emplacement
 					if(point[i][j] == '.' ){
 							point[i][j] = 'A' + car;
 							car++;
@@ -643,7 +643,7 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
-						//ne pas repasser une seconde fois sur la ligne du joueur
+						//ne pas repasser une seconde fois sur la ligne du equipe
 						if(g != perso1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -740,11 +740,11 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * 
 *										Sorts du Tank												     *
 *************************************************************/
 
-void armure (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void armure (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,1,perso1->coord.x,perso1->coord.y);
 }
 
-void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void attire (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -802,7 +802,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 
 				case '2' :
           if(perso1->coord.y == j2->perso1->coord.y ){
-            /* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+            /* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.x - j2->perso1->coord.x >= 3)){
               if(perso1->coord.x < j2->perso1->coord.x )
                   j2->perso1->coord.x -= 3;
@@ -818,7 +818,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
             }
           }
           else if(perso1->coord.y == j2->perso1->coord.y ){
-      			/* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+      			/* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.y - j2->perso1->coord.y >= 3)){
               if(perso1->coord.y < j2->perso1->coord.y )
                   j2->perso1->coord.y -= 3;
@@ -837,7 +837,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 
 			 	case '4' :
           if(perso1->coord.y == j2->perso2->coord.y ){
-            /* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+            /* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.x - j2->perso2->coord.x >= 3)){
               if(perso1->coord.x < j2->perso2->coord.x )
                   j2->perso2->coord.x -= 3;
@@ -853,7 +853,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
             }
           }
           else if(perso1->coord.y == j2->perso2->coord.y ){
-            /* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+            /* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.y - j2->perso2->coord.y >= 3)){
               if(perso1->coord.y < j2->perso2->coord.y )
                   j2->perso2->coord.y -= 3;
@@ -877,7 +877,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 
         case '1' :
           if(perso1->coord.y == j2->perso1->coord.y ){
-            /* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+            /* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.x - j2->perso1->coord.x >= 3)){
               if(perso1->coord.x < j2->perso1->coord.x )
                   j2->perso1->coord.x -= 3;
@@ -893,7 +893,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
             }
           }
           else if(perso1->coord.y == j2->perso1->coord.y ){
-      			/* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+      			/* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.y - j2->perso1->coord.y >= 3)){
               if(perso1->coord.y < j2->perso1->coord.y )
                   j2->perso1->coord.y -= 3;
@@ -912,7 +912,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 
 			 	case '3' :
           if(perso1->coord.y == j2->perso2->coord.y ){
-            /* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+            /* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.x - j2->perso2->coord.x >= 3)){
               if(perso1->coord.x < j2->perso2->coord.x )
                   j2->perso2->coord.x -= 3;
@@ -928,7 +928,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
             }
           }
           else if(perso1->coord.y == j2->perso2->coord.y ){
-            /* Si l'écart entre les 2 joueurs est de plus de 3 cases */
+            /* Si l'écart entre les 2 equipes est de plus de 3 cases */
             if(abs(perso1->coord.y - j2->perso2->coord.y >= 3)){
               if(perso1->coord.y < j2->perso2->coord.y )
                   j2->perso2->coord.y -= 3;
@@ -948,7 +948,7 @@ void attire (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,
 		}
 }
 
-void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void chenchen (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -990,7 +990,7 @@ void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
-						//ne pas repasser une seconde fois sur la ligne du joueur
+						//ne pas repasser une seconde fois sur la ligne du equipe
 						if(g != perso1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -1044,7 +1044,7 @@ void chenchen (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j
 	}
 }
 
-void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void bigshaq (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -1159,15 +1159,15 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1
 
 
 
-void felin (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void felin (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,4,perso1->coord.x,perso1->coord.y);
 }
 
-void chouette (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void chouette (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,5,perso1->coord.x,perso1->coord.y);
 }
 
-void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void fuego (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1209,7 +1209,7 @@ void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
-						//ne pas repasser une seconde fois sur la ligne du joueur
+						//ne pas repasser une seconde fois sur la ligne du equipe
 						if(g != perso1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;
@@ -1262,7 +1262,7 @@ void fuego (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,i
 	}
 }
 
-void revitalisation (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joueur * j1,int nump,int degat,int portee, int numj){
+void revitalisation (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1305,7 +1305,7 @@ void revitalisation (char map[N][N], t_personnage * perso1,t_joueur * j2, t_joue
 			if(j>=0){
 				if(j<N){
 					if(point[g][j] == '.'){
-						//ne pas repasser une seconde fois sur la ligne du joueur
+						//ne pas repasser une seconde fois sur la ligne du equipe
 						if(g != perso1->coord.y){
 								point[g][j] = 'A' + car;
 								car ++;

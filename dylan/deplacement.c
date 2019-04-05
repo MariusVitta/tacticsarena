@@ -6,16 +6,18 @@
 
 
 /* Fonction permettant de deplacer son personnage et changer ses coordonnées
- * paramètre j1 : joueur que l'on souhaite déplacer
+ * paramètre j1 : equipe que l'on souhaite déplacer
  * paramètre map
  * retourne : 1 si le déplacement a bien eu lieu
  */
 
 
 
-/*avec personnage n le nombre de deplacements qu'il reste et numj le numero du joueur*/
-int deplacement(t_joueur * j1,t_joueur * j2,char map[N][N],int  pm ,int nump){
+/*avec personnage n le nombre de deplacements qu'il reste et numj le numero du equipe*/
+int deplacement(t_equipe * j1,t_equipe * j2,char map[N][N],int  pm ,int nump){
     t_personnage * temp;
+    int i = 0,compteur,j,test=0;
+
 
     if(nump == 1 ){
         temp = j1->perso1;
@@ -24,85 +26,78 @@ int deplacement(t_joueur * j1,t_joueur * j2,char map[N][N],int  pm ,int nump){
         temp = j1->perso2;
     }
 
-	char c;
+    char c;
 
-		do{
-		printf("Choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
+    do{
+        printf("Choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
 
-		scanf(" %c",&c);
-		}
-		while(c != 'h' && c != 'b' && c != 'g' && c != 'd' && c != 'R');
+        scanf(" %c",&c);
+    }
+    while(c != 'h' && c != 'b' && c != 'g' && c != 'd' && c != 'R');
 
+  		switch (c) {
+  			case 'h':
 
+  				if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.')){
+    				printf(" ---- Déplacement impossible ---- \n" );
+  					break;
+  				}
+  				else{
+  					(temp->coord.y)--;
+    				printf(" ---- Déplacement en Haut ---- \n" );
+  					pm--;
+  					break;
+  				}
 
-		switch (c) {
-			case 'h':
+  			case 'b':
 
-				if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.')){
-  				printf(" ---- Déplacement impossible ---- \n" );
-					break;
-				}
-				else{
-					(temp->coord.y)--;
-  				printf(" ---- Déplacement en Haut ---- \n" );
-					pm--;
-					break;
-				}
+  				if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.')){
+    				printf(" ---- Déplacement impossible ---- \n" );
+  					break;
+  				}
 
-			case 'b':
+  				else{
+  					(temp->coord.y)++;
+    				printf(" ---- Déplacement en Bas ---- \n" );
+  					pm--;
+  					break;
+  				}
 
-				if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.')){
-  				printf(" ---- Déplacement impossible ---- \n" );
-					break;
-				}
+  			case 'g':
 
-				else{
-					(temp->coord.y)++;
-  				printf(" ---- Déplacement en Bas ---- \n" );
-					pm--;
-					break;
-				}
+  				if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.')){
+    				printf(" ---- Déplacement impossible ---- \n" );
+  					break;
+  				}
 
-			case 'g':
+  				else{
+  					(temp->coord.x)--;
+    				printf(" ---- Déplacement à Gauche ---- \n" );
+  					pm--;
+  					break;
+  				}
 
-				if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.')){
-  				printf(" ---- Déplacement impossible ---- \n" );
-					break;
-				}
+  			case 'd':
 
-				else{
-					(temp->coord.x)--;
-  				printf(" ---- Déplacement à Gauche ---- \n" );
-					pm--;
-					break;
-				}
+  				if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.')){
+    				printf(" ---- Déplacement impossible ---- \n" );
+  					break;
+  				}
 
-			case 'd':
+  				else{
+  					(temp->coord.x)++;
+    				printf(" ---- Déplacement à Droite ---- \n" );
+  					pm--;
+  					break;
+  				}
 
-				if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.')){
-  				printf(" ---- Déplacement impossible ---- \n" );
-					break;
-				}
+  			case 'R':
 
-				else{
-					(temp->coord.x)++;
-  				printf(" ---- Déplacement à Droite ---- \n" );
-					pm--;
-					break;
-				}
+  				return pm;
+  		}
 
-			case 'R':
-
-				return pm;
-		}
-		if(j1->numJoueur == 1){
-			maj(map,j1,j2);
-			affichage_map(map);
-		}
-		else{
-			maj(map,j2,j1);
-			affichage_map(map);
-		}
+  maj(map,j1,j2);
+  affichage_map(map);
 
 	return pm;
 }

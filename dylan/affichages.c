@@ -38,18 +38,18 @@ void affichage_map(char map[N][N]){
 	printf("\n");
 }
 
-void affichage_coord(t_joueur * joueur){
-	printf("Joueur %i : \n", joueur->numJoueur);
-	printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", joueur->perso1->nom, joueur->perso1->coord.x, joueur->perso1->coord.y,joueur->perso1->pv);
-    printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", joueur->perso2->nom, joueur->perso2->coord.x, joueur->perso2->coord.y,joueur->perso2->pv);
+void affichage_coord(t_equipe * equipe){
+	printf("equipe %i : \n", equipe->numEquipe);
+	printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", equipe->perso1->nom, equipe->perso1->coord.x, equipe->perso1->coord.y,equipe->perso1->pv);
+    printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", equipe->perso2->nom, equipe->perso2->coord.x, equipe->perso2->coord.y,equipe->perso2->pv);
 	printf("\n");
 }
 
 /*
  * Fonction de mise à jour de l'affichage de la map
- *  paramètre joueur1,joueur2 : utilisé afin d'obtenir les coordonnées de tout les persos
+ *  paramètre equipe1,equipe2 : utilisé afin d'obtenir les coordonnées de tout les persos
  */
-void maj(char map[N][N], t_joueur * joueur1, t_joueur * joueur2){
+void maj(char map[N][N], t_equipe * equipe1, t_equipe * equipe2){
 	int i, j;
 	for(i = 0; i < N; i++){
 		for(j = 0; j < N; j++){
@@ -58,25 +58,25 @@ void maj(char map[N][N], t_joueur * joueur1, t_joueur * joueur2){
         }
 	}
 
-    /* joueur 1 */
-    if(!est_mort(joueur1,1)){
-	    map[joueur1->perso1->coord.y][joueur1->perso1->coord.x] = '1';
+    /* equipe 1 */
+    if(!est_mort(equipe1,1)){
+	    map[equipe1->perso1->coord.y][equipe1->perso1->coord.x] = '1';
     }
-    if(!est_mort(joueur1,2)){
-        map[joueur1->perso2->coord.y][joueur1->perso2->coord.x] = '3';
+    if(!est_mort(equipe1,2)){
+        map[equipe1->perso2->coord.y][equipe1->perso2->coord.x] = '3';
     }
-    /* joueur 2*/
-    if(!est_mort(joueur2,1)){
-	   map[joueur2->perso1->coord.y][joueur2->perso1->coord.x] = '2';
+    /* equipe 2*/
+    if(!est_mort(equipe2,1)){
+	   map[equipe2->perso1->coord.y][equipe2->perso1->coord.x] = '2';
     }
-    if(!est_mort(joueur2,2)){
-        map[joueur2->perso2->coord.y][joueur2->perso2->coord.x] = '4';
+    if(!est_mort(equipe2,2)){
+        map[equipe2->perso2->coord.y][equipe2->perso2->coord.x] = '4';
     }
 }
 
 
 /*
- * Fonction qui retourne le caractère correspondant au personnage d'indice: numero_personnage du joueur : indice_joueur
+ * Fonction qui retourne le caractère correspondant au personnage d'indice: numEro_personnage du equipe : indice_equipe
  */
 char carac_perso(int numj,int nump){
 	char c;

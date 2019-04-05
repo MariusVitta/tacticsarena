@@ -9,13 +9,12 @@ int main(){
 
 	int i,val,j,test=0,nb_tour = 1,mort1 = 0,mort2 = 0;
 	int classe[NB_PERSONNAGES+1];
-  int indice_joueur = 1,nump = 1;
+  int indice_equipe = 1,nump = 1;
 
-	t_joueur * joueur1, * joueur2;
+	t_equipe * equipe1, * equipe2;
 
 	/*Creation de toutes les classes et tous les sorts */
 	t_personnage * persos[CLASSES+1];
-
 	t_sort * sorts[SORTS+1];
 	for(int i = 1; i <= SORTS;i++)
 		sorts[i] = malloc(sizeof(t_sort));
@@ -26,19 +25,21 @@ int main(){
 		persos[i] = malloc(sizeof(t_personnage));
 
 	creation_classes(persos,sorts);
+	/*fin de création des sorts et classes*/
 
-	joueur1 = malloc(sizeof(t_joueur));
-	joueur2 = malloc(sizeof(t_joueur));
+	/*création des équipes et personnages par équipe*/
+	equipe1 = malloc(sizeof(t_equipe));
+	equipe2 = malloc(sizeof(t_equipe));
 
-	t_joueur * tab[NB_EQUIPES+1];
-	tab[1] = joueur1;
-	tab[2] = joueur2;
+	t_equipe * tab[NB_EQUIPES+1];
+	tab[1] = equipe1;
+	tab[2] = equipe2;
 
 	for(j = 1 ; j <= NB_EQUIPES; j++){
 
-		do{ /* choix personnage du joueur 1 */
+		do{
 
-			printf("Le Joueur %d choisi ses classes : \n",j);
+			printf("Le equipe %d choisi ses classes : \n",j);
 
 			for(i = 1; i <= CLASSES; i++){
 
@@ -65,62 +66,63 @@ int main(){
 		}
 		while(test);
 
-		/* creation du personnages du joueurs 1 */
 		tab[j]->perso1 = copie_perso(persos[classe[1]]);
 		tab[j]->perso2 = copie_perso(persos[classe[2]]);
-		tab[j]->numJoueur = j;
+		tab[j]->numEquipe = j;
 		tab[j]->nbPersoVivant = NB_PERSONNAGES;
 
 	}
+	/*Fin de la création des équipes et personnages par équipe*/
 
-
-	initialisation(map,joueur1,joueur2);
+	initialisation(map,equipe1,equipe2);
   printf("===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
-	maj(map,joueur1,joueur2);
+	maj(map,equipe1,equipe2);
 	affichage_map(map);
 
-  for(nump = 1, indice_joueur = 1;(partie_finie(joueur1) && partie_finie(joueur2));){
+	/*Gestion des différents tours de jeu par equipe*/
+	/* nump = perso1 ou perso2 de l'equipe, indice est le numero de l'equipe, equipe1 et equipe2 sont les équipes*/
 
+  for(nump = 1, indice_equipe = 1;(partie_finie(equipe1) && partie_finie(equipe2));){
 
-			/* si le personnage est mort on ne le fais plus jouer */
-			if(indice_joueur == 1){
-				printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_joueur,nump,carac_perso(indice_joueur,nump));
+	/*vérification de l'état des persos de l'equipe 1 afin de savoir s'il peuvent jouer ou sont morts*/
+			if(indice_equipe == 1){
+				printf("[Tour numéro:%i][Tour du equipe %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_equipe,nump,carac_perso(indice_equipe,nump));
 
-				if(nump == 1 && !est_mort(tab[indice_joueur],nump))
-					tour(map,joueur1,joueur2,nump);
+				if(nump == 1 && !est_mort(tab[indice_equipe],nump))
+					tour(map,equipe1,equipe2,nump);
 
-				else if(nump == 2 && !est_mort(tab[indice_joueur],nump))
-					tour(map,joueur1,joueur2,nump);
+				else if(nump == 2 && !est_mort(tab[indice_equipe],nump))
+					tour(map,equipe1,equipe2,nump);
 
-				indice_joueur++;
+				indice_equipe++;
 
-				maj(map,joueur1,joueur2);
+				maj(map,equipe1,equipe2);
 				affichage_map(map);
 			}
 
-
-			if(indice_joueur == 2){
-				printf("[Tour numéro:%i][Tour du joueur %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_joueur,nump,carac_perso(indice_joueur,nump));
-				if(nump == 1 && !est_mort(tab[indice_joueur],nump)){
-					tour(map,joueur2,joueur1,nump);
-					indice_joueur--;
+	/*vérification de l'état des persos de l'equipe 2 afin de savoir s'il peuvent jouer ou sont morts*/
+			if(indice_equipe == 2){
+				printf("[Tour numéro:%i][Tour du equipe %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_equipe,nump,carac_perso(indice_equipe,nump));
+				if(nump == 1 && !est_mort(tab[indice_equipe],nump)){
+					tour(map,equipe2,equipe1,nump);
+					indice_equipe--;
 				}
-				else if(nump == 2 && !est_mort(tab[indice_joueur],nump))
-					tour(map,joueur2,joueur1,nump);
+				else if(nump == 2 && !est_mort(tab[indice_equipe],nump))
+					tour(map,equipe2,equipe1,nump);
 
 
 
-				maj(map,joueur1,joueur2);
+				maj(map,equipe1,equipe2);
 				affichage_map(map);
 			}
 
 
-
-			if((partie_finie(joueur1) || partie_finie(joueur2))&& indice_joueur == 2 && nump == 2){
+	/**/
+			if((partie_finie(equipe1) || partie_finie(equipe2))&& indice_equipe == 2 && nump == 2){
 				printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
-				affichage_coord(joueur1);
-				affichage_coord(joueur2);
-				indice_joueur--;
+				affichage_coord(equipe1);
+				affichage_coord(equipe2);
+				indice_equipe--;
 				nb_tour++;
 			}
 			if (nump == 2)
@@ -132,10 +134,10 @@ int main(){
 
   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
 
-	if(partie_finie(joueur1))
-		printf("Le joueur 1 a perdu \n");
-	else if(partie_finie(joueur2))
-		printf("Le joueur 2 a perdu\n");
+	if(partie_finie(equipe1))
+		printf("Le equipe 1 a perdu \n");
+	else if(partie_finie(equipe2))
+		printf("Le equipe 2 a perdu\n");
 
 	for(i = 1; i < SORTS; i++){
 		suppr_sort(&(sorts[i]));

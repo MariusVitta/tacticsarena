@@ -29,9 +29,9 @@ void suppr_perso(t_personnage ** perso){
 }
 
 
-void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_joueur* ,t_joueur* ,int,int ,int,int ){
+void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int ){
 
-	void (*fonc )(char [N][N], t_personnage * ,  t_joueur* ,t_joueur* ,int, int,int,int);
+	void (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int);
 
 
 	switch (id_sort) {
@@ -209,9 +209,9 @@ int main (){
 
 	int i, j,test=0,nb_tour = 1,mort1 = 0,mort2 = 0;
 	int classe[NB_PERSONNAGES+1];
-  int indice_joueur = 1,numero_personnage = 1;
+  int indice_equipe = 1,numero_personnage = 1;
 
-	t_joueur * joueur1, * joueur2;
+	t_equipe * equipe1, * equipe2;
 
 	/*Creation de toutes les classes et tous les sorts */
 	/*	t_personnage * persos[CLASSES+1];
@@ -227,12 +227,12 @@ int main (){
 
 	creation_classes(persos,sorts);
 
-	joueur1 = malloc(sizeof(t_joueur));
-	joueur2 = malloc(sizeof(t_joueur));
+	equipe1 = malloc(sizeof(t_equipe));
+	equipe2 = malloc(sizeof(t_equipe));
 
-	t_joueur * tab[NB_JOUEURS+1];
-	tab[1] = joueur1;
-	tab[2] = joueur2;
+	t_equipe * tab[NB_equipeS+1];
+	tab[1] = equipe1;
+	tab[2] = equipe2;
 
 
 
