@@ -1,8 +1,10 @@
-OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o effets.o fin_partie.o 
+CFLAGS = -lm
+OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o effets.o fin_partie.o
 
 OBJ_SDL = sdl_test.o affichages.o init.o persosorts.o
 
 OBJ_SORTS = sorts.o persosorts.o affichages.o
+OBJ_IA = sorts.o ia.o affichages.o persosorts.o fin_partie.o effets.o 
 
 SDL_DIR=${HOME}/Documents/Projet/SDL2
 SDLLIB_DIR=${SDL_DIR}/lib
@@ -15,6 +17,8 @@ main: $(OBJ) fonc.h
 	gcc $(OBJ) -o $@
 test_perso: $(OBJ_SORTS) fonc.h
 	gcc $(OBJ_SORTS) -o $@
+test_ia: $(OBJ_IA) fonc.h
+	gcc $(OBJ_IA) -o $@  $(CFLAGS)
 #executable SDL
 sdl_test: $(OBJ_SDL) fonc.h
 	gcc $(OBJ_SDL) -o $@ ${LIBS} ${INCLUDES}
@@ -38,17 +42,20 @@ effets.o :effets.c fonc.h
 	gcc -c $<
 fin_partie.o : fin_partie.c fonc.h
 	gcc -c $<
+ia.o : ia.c fonc.h
+	gcc -c $<
 #SDL
 sdl_test.o: sdl_test.c fonc.h
 	gcc -c $< ${LIBS} ${INCLUDES}
 
-all: main sdl_test test_perso
+all: main sdl_test test_perso test_ia
 
 clean:
 	- rm -rf *.o
 	- rm main
 	- rm sdl_test
 	- rm test_perso
+	- rm test_ia
 
 mrproper: clean
 
