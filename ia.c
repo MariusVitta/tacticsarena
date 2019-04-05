@@ -28,25 +28,25 @@ int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat){
         /* on verifie si un sort avec la meme distance que le sort (indice_sort) n'est pas un nombre de dégat plus important */
         switch (j){
             case 1: if(perso->s1.degat > degat )
-                        portee--;
+                        return portee--;
                 break;
             case 2: if(perso->s2.degat > degat )
-                        portee--;
+                        return portee--;
                 break;
             case 3: if(perso->s3.degat > degat)
-                        portee--;
+                        return portee--;
                 break;
             case 4: if(perso->s4.degat > degat )
-                        portee--;
+                        return portee--;
                 break;
         }
     }
-    return portee;
+    //return portee;
 }
 
 int eval_vie();
 
-int eval_deplacement(){
+int eval_deplacement(t_personnage * perso,int indice_sort,int portee,int distance){
     /*
     //h
     if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
@@ -105,10 +105,10 @@ int fonction_evalution(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur 
             }
         }
     }
-    printf("SALUT\n" );
+    printf("SALUT \n" );
     /* si on est hors portée pour tout les personnages */
-    portee = eval_degat(temp,indice_sort,portee,degat);
-    return (portee);// != 0 ? (distance - portee) :portee);
+    //portee = eval_degat(temp,indice_sort,portee,degat);
+    return (portee--);// != 0 ? (distance - portee) :portee);
 }
 
 /*
@@ -117,7 +117,7 @@ int fonction_evalution(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur 
  */
 int tour_ordi_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage){
 	int i, score,eval;
-	int max = -2;
+	int max = -10;
     eval = fonction_evalution(indice_sort,map,joueur1,joueur2,numero_personnage);
     printf("eval ordi : %i\n",eval );
 	if(eval >=0)/* fonction evaluation */
@@ -143,7 +143,7 @@ int tour_ordi_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joue
  */
 int tour_joueur_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage){
 	int i, score,eval;
-	int min = 2;
+	int min = 10;
     eval = fonction_evalution(indice_sort,map,joueur1,joueur2,numero_personnage);
     printf("eval joueur :%i\n",eval );
 	if(eval >=0) /* fonction evaluation */
@@ -167,7 +167,7 @@ int tour_joueur_opti(int indice_sort,char map[N][N],t_joueur joueur1,t_joueur jo
  */
 int coup_ordi_opti(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_personnage){
 	int i = 0,score;
-    int max = -2, imax=-1;
+    int max = -10, imax=-1;
 
 	/* pour tout les sorts on va tester de savoir qu'elle est le meilleur sort possible pour ce tour */
 	for(i = 1; i <= NB_SORTS; i++){
@@ -188,7 +188,7 @@ int coup_ordi_opti(char map[N][N],t_joueur joueur1,t_joueur joueur2,int numero_p
 int main() {
     int i = 0;
     t_joueur joueur1,joueur2;
-    joueur1.perso1 = creer_perso(3);
+    joueur1.perso1 = creer_perso(4);
 	joueur1.perso2 = creer_perso(2);
     joueur1.numJoueur = 1;
     joueur1.nbPersoVivant = NB_PERSONNAGES;
@@ -199,7 +199,7 @@ int main() {
 
     joueur1.perso1->coord.x = 11;
     joueur1.perso1->coord.y = 5;
-    joueur2.perso1->coord.x = 11;
+    joueur2.perso1->coord.x = 1;
     joueur2.perso1->coord.y = 6;
 
     printf("meilleur coup : {%i}\n",coup_ordi_opti(map,joueur1,joueur2,1));
