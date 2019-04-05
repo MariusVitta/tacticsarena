@@ -80,11 +80,13 @@ int main(){
 	affichage_map(map);
 
 	/*Gestion des différents tours de jeu par equipe*/
-	/* nump = perso1 ou perso2 de l'equipe, indice est le numero de l'equipe, equipe1 et equipe2 sont les équipes*/
+	/* nump = perso1 ou perso2 de l'equipe, indice est le tour de jeu de l'equipe, equipe1 et equipe2 sont les équipes*/
 
   for(nump = 1, indice_equipe = 1;(partie_finie(equipe1) && partie_finie(equipe2));){
 
-	/*vérification de l'état des persos de l'equipe 1 afin de savoir s'il peuvent jouer ou sont morts*/
+
+	/*vérification de l'état des persos de l'equipe 1 afin de savoir s'il peuvent jouer ou sont morts,changement d'indice pour passer au tour du perso suivant*/
+	/*nb_tour est un compteur de tour global pour que le joueur sachent depuis combien de temps ils jouent*/
 			if(indice_equipe == 1){
 				printf("[Tour numéro:%i][Tour du equipe %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_equipe,nump,carac_perso(indice_equipe,nump));
 
@@ -100,7 +102,8 @@ int main(){
 				affichage_map(map);
 			}
 
-	/*vérification de l'état des persos de l'equipe 2 afin de savoir s'il peuvent jouer ou sont morts*/
+	/*vérification de l'état des persos de l'equipe 2 afin de savoir s'il peuvent jouer ou sont morts,changement d'indice pour passer au tour du perso suivant*/
+
 			if(indice_equipe == 2){
 				printf("[Tour numéro:%i][Tour du equipe %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_equipe,nump,carac_perso(indice_equipe,nump));
 				if(nump == 1 && !est_mort(tab[indice_equipe],nump)){
@@ -117,7 +120,7 @@ int main(){
 			}
 
 
-	/**/
+	/*Affichage des coordonnées des différents personnages vivants,changement d'indice pour passer au tour du perso suivant, incrementation du tour global*/
 			if((partie_finie(equipe1) || partie_finie(equipe2))&& indice_equipe == 2 && nump == 2){
 				printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
 				affichage_coord(equipe1);
@@ -134,11 +137,14 @@ int main(){
 
   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
 
+/*Fin de partie, affichage du vainqueur*/
 	if(partie_finie(equipe1))
 		printf("Le equipe 1 a perdu \n");
 	else if(partie_finie(equipe2))
 		printf("Le equipe 2 a perdu\n");
 
+
+/*suppression de tous les mallocs*/
 	for(i = 1; i < SORTS; i++){
 		suppr_sort(&(sorts[i]));
 	}
