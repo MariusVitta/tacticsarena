@@ -30,11 +30,11 @@ int main(){
 	joueur1 = malloc(sizeof(t_joueur));
 	joueur2 = malloc(sizeof(t_joueur));
 
-	t_joueur * tab[NB_JOUEURS+1];
+	t_joueur * tab[NB_EQUIPES+1];
 	tab[1] = joueur1;
 	tab[2] = joueur2;
 
-	for(j = 1 ; j <= NB_JOUEURS; j++){
+	for(j = 1 ; j <= NB_EQUIPES; j++){
 
 		do{ /* choix personnage du joueur 1 */
 
@@ -79,7 +79,7 @@ int main(){
 	maj(map,joueur1,joueur2);
 	affichage_map(map);
 
-  for(nump = 1, indice_joueur = 1;(partie_finie(joueur1) && partie_finie(joueur2)) && nump <= NB_PERSONNAGES;){
+  for(nump = 1, indice_joueur = 1;(partie_finie(joueur1) && partie_finie(joueur2));){
 
 
 			/* si le personnage est mort on ne le fais plus jouer */
@@ -138,18 +138,14 @@ int main(){
 		printf("Le joueur 2 a perdu\n");
 
 	for(i = 1; i < SORTS; i++){
-		printf("suppression %s\n",sorts[i]->nom);
 		suppr_sort(&(sorts[i]));
-		printf("suppression sort\n\n");
 	}
 
 	for(i = 1; i <= CLASSES; i++){
-		printf("suppression %s\n",persos[i]->nom);
 		suppr_perso(&(persos[i]));
-		printf("suppression perso\n\n");
 	}
 
-	for(i=1; i <= NB_JOUEURS; i++){
+	for(i=1; i <= NB_EQUIPES; i++){
 		suppr_perso(&(tab[i]->perso1));
 		suppr_perso(&(tab[i]->perso2));
 		free(tab[i]);
