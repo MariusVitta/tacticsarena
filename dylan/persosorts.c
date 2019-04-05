@@ -4,6 +4,8 @@
 #include "fonc.h"
 #include "define.h"
 
+
+/*Fonction de suppression de sort*/
 void suppr_sort(t_sort ** sort){
 
 		free((*sort)->nom);
@@ -11,6 +13,7 @@ void suppr_sort(t_sort ** sort){
 		*sort = NULL;
 }
 
+/*Fonction de suppression de perso*/
 void suppr_perso(t_personnage ** perso){
 	int i;
 
@@ -28,7 +31,7 @@ void suppr_perso(t_personnage ** perso){
 
 }
 
-
+/*Fonction de creation des pointeurs sur fonction pour mettre dans la structure des sorts*/
 void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int ){
 
 	void (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int);
@@ -89,7 +92,7 @@ void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equip
 	return fonc;
 }
 
-
+/*creation des tous les sorts en remplissant les structures */
 t_sort * creation_sorts(t_sort * sorts[]){
 
 	FILE * s = NULL;
@@ -126,7 +129,7 @@ t_sort * creation_sorts(t_sort * sorts[]){
 }
 
 
-/*création de la classe choisie par l'utilisateur*/
+/*creation des toutes les classes en remplissant les structures*/
 t_personnage * creation_classes(t_personnage * persos[],t_sort * sorts[]){
 
 	FILE * c = NULL;
@@ -183,7 +186,7 @@ t_sort * copie_sort(t_sort * sort){
 	return nv_sort;
 }
 
-
+/*copie de la classe que l'utilisateur souhaite utiliser*/
 t_personnage * copie_perso(t_personnage * perso){
 
 		t_personnage * nv_perso = malloc(sizeof(t_personnage));
@@ -202,53 +205,3 @@ t_personnage * copie_perso(t_personnage * perso){
 
 		return nv_perso;
 }
-
-
-/*
-int main (){
-
-	int i, j,test=0,nb_tour = 1,mort1 = 0,mort2 = 0;
-	int classe[NB_PERSONNAGES+1];
-  int indice_equipe = 1,numero_personnage = 1;
-
-	t_equipe * equipe1, * equipe2;
-
-	/*Creation de toutes les classes et tous les sorts */
-	/*	t_personnage * persos[CLASSES+1];
-
-	t_sort * sorts[SORTS+1];
-	for(int i = 1; i <= SORTS;i++)
-		sorts[i] = malloc(sizeof(t_sort));
-
-	creation_sorts(sorts);
-
-	for(int i = 1; i <= CLASSES;i++)
-		persos[i] = malloc(sizeof(t_personnage));
-
-	creation_classes(persos,sorts);
-
-	equipe1 = malloc(sizeof(t_equipe));
-	equipe2 = malloc(sizeof(t_equipe));
-
-	t_equipe * tab[NB_equipeS+1];
-	tab[1] = equipe1;
-	tab[2] = equipe2;
-
-
-
-
-	for(i = 1; i < SORTS; i++){
-		printf("suppression %s\n",sorts[i]->nom);
-		suppr_sort(&(sorts[i]));
-		printf("suppression sort\n\n");
-	}
-
-	for(i = 1; i <= CLASSES; i++){
-		printf("suppression %s\n",persos[i]->nom);
-		suppr_perso(&(persos[i]));
-		printf("suppression perso\n\n");
-	}
-
-
-		return 0;
-}*/

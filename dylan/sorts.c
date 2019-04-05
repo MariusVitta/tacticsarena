@@ -13,7 +13,7 @@
 *										Sorts du guerrier												 *
 *************************************************************/
 
-void saut (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void saut (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
  char point[N][N];/*matrice affichant les possibilités de jeu*/
  int i, j, g,dist = portee,car=0;
@@ -88,11 +88,11 @@ void saut (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,in
 
 
  if(numj == 1){
-   maj(map,j1,j2);
+   maj(map,equipe1,equipe2);
    affichage_map(map);
  }
  else{
-   maj(map,j2,j1);
+   maj(map,equipe2,equipe1);
    affichage_map(map);
  }
 
@@ -103,22 +103,22 @@ void saut (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,in
  * Fonction qui regarde la vie au personnage perso1
  * paramètre perso1: personnage1 que l'on souhaite soigner
  */
-void soin (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void soin (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
-  if(j1->perso1->pv+degat <= j1->perso1->pv_max)
-    j1->perso1->pv += degat;
+  if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
+    equipe1->perso1->pv += degat;
   else
-    j1->perso1->pv = j1->perso1->pv_max;
+    equipe1->perso1->pv = equipe1->perso1->pv_max;
 
-  printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
+  printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
 }
 
 /*
  * Fonction qui effectue un sort d'un rayon "portee" autour du personnage
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_equipe j2: personnage qui subit les dégats
+ * paramètre t_equipe equipe2: personnage qui subit les dégats
  */
-void petit_coup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void petit_coup (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -188,13 +188,13 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe *
   		switch (map[y][x]){
 
   			case '2' :
-  					j2->perso1->pv -= degat;
-  					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+  					equipe2->perso1->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
   				break;
 
   		 	case '4' :
-  					j2->perso2->pv -= degat;
-  					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+  					equipe2->perso2->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
   		  	break;
   		}
   	}
@@ -203,13 +203,13 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe *
   		switch (map[y][x]){
 
   			case '1' :
-  					j2->perso1->pv -= degat;
-  					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+  					equipe2->perso1->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
   				break;
 
   			case '3' :
-  					j2->perso2->pv -= degat;
-  					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+  					equipe2->perso2->pv -= degat;
+  					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
   			 	break;
   		}
   	}
@@ -221,9 +221,9 @@ void petit_coup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe *
  * Fonction qui effectue un coup une case autour du personnage
  * sur une distance "portee"
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_equipe j2: personnage qui subit les dégats
+ * paramètre t_equipe equipe2: personnage qui subit les dégats
  */
-void grosCoup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void grosCoup (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -280,13 +280,13 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j
 		switch (map[y][x]){
 
 			case '2' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 		 	case '4' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 		  	break;
 		}
 	}
@@ -295,13 +295,13 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j
 		switch (map[y][x]){
 
 			case '1' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 			case '3' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 			 	break;
 		}
 	}
@@ -320,10 +320,10 @@ void grosCoup (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j
  * Fonction qui effectue une coup en diagonale dans les 4 directions par rapport à la position actuel du perso1
  * sur une distance "portee"
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_equipe j2: personnage qui subit les dégats
+ * paramètre t_equipe equipe2: personnage qui subit les dégats
  */
 
-void diago (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void diago (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -381,13 +381,13 @@ void diago (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 			switch (map[y][x]){
 
 				case '2' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+						equipe2->perso1->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 					break;
 
 			 	case '4' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+						equipe2->perso2->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 			  	break;
 			}
 		}
@@ -396,13 +396,13 @@ void diago (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 			switch (map[y][x]){
 
 				case '1' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+						equipe2->perso1->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 					break;
 
 				case '3' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+						equipe2->perso2->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 				 	break;
 			}
 		}
@@ -412,9 +412,9 @@ void diago (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
   * Fonction qui effectue une coup en ligne dans les 4 directions par rapport à la position actuel du perso1
   * sur une distance "portee"
   * paramètre t_personnage * perso1: personnage qui attaque
-  * paramètre t_equipe j2: personnage qui subit les dégats
+  * paramètre t_equipe equipe2: personnage qui subit les dégats
   */
-void ligne (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void ligne (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -471,13 +471,13 @@ void ligne (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 			switch (map[y][x]){
 
 				case '2' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+						equipe2->perso1->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 					break;
 
 			 	case '4' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+						equipe2->perso2->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 			  	break;
 			}
 		}
@@ -486,13 +486,13 @@ void ligne (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 			switch (map[y][x]){
 
 				case '1' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+						equipe2->perso1->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 					break;
 
 				case '3' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+						equipe2->perso2->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 				 	break;
 			}
 		}
@@ -501,9 +501,9 @@ void ligne (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 /*
  * Fonction qui effectue un sort d'un rayon "portee" autour du personnage
  * paramètre t_personnage * perso1: personnage qui attaque
- * paramètre t_equipe j2: personnage qui subit les dégats
+ * paramètre t_equipe equipe2: personnage qui subit les dégats
  */
-void double_tape (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void double_tape (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car = 0;
@@ -572,13 +572,13 @@ void double_tape (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe 
 		switch (map[y][x]){
 
 			case '2' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 		 	case '4' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 		  	break;
 		}
 	}
@@ -587,20 +587,20 @@ void double_tape (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe 
 		switch (map[y][x]){
 
 			case '1' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 			case '3' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 			 	break;
 		}
   }
 }
 
 
-void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -673,13 +673,13 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * 
 			switch (map[i][j]){
 
 				case '2' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+						equipe2->perso1->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 					break;
 
 				case '4' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+						equipe2->perso2->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 					break;
 			}
 		}
@@ -688,13 +688,13 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * 
 			switch (map[i][j]){
 
 				case '1' :
-						j2->perso1->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+						equipe2->perso1->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 					break;
 
 				case '3' :
-						j2->perso2->pv -= degat;
-						printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+						equipe2->perso2->pv -= degat;
+						printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 					break;
 			}
 		}
@@ -707,13 +707,13 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * 
 				switch (map[i][j]){
 
 					case '2' :
-							j2->perso1->pv -= degat;
-							printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+							equipe2->perso1->pv -= degat;
+							printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 						break;
 
 					case '4' :
-							j2->perso2->pv -= degat;
-							printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+							equipe2->perso2->pv -= degat;
+							printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 						break;
 				}
 			}
@@ -722,13 +722,13 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * 
 				switch (map[i][j]){
 
 					case '1' :
-							j2->perso1->pv -= degat;
-							printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+							equipe2->perso1->pv -= degat;
+							printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 						break;
 
 					case '3' :
-							j2->perso2->pv -= degat;
-							printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+							equipe2->perso2->pv -= degat;
+							printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 						break;
 				}
 			}
@@ -740,11 +740,11 @@ void coup_zone (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * 
 *										Sorts du Tank												     *
 *************************************************************/
 
-void armure (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void armure (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,1,perso1->coord.x,perso1->coord.y);
 }
 
-void attire (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -801,71 +801,71 @@ void attire (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,
 			switch (map[y][x]){
 
 				case '2' :
-          if(perso1->coord.y == j2->perso1->coord.y ){
+          if(perso1->coord.y == equipe2->perso1->coord.y ){
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.x - j2->perso1->coord.x >= 3)){
-              if(perso1->coord.x < j2->perso1->coord.x )
-                  j2->perso1->coord.x -= 3;
-              else if(perso1->coord.x > j2->perso1->coord.x )
-                  j2->perso1->coord.x += 3;
+            if(abs(perso1->coord.x - equipe2->perso1->coord.x >= 3)){
+              if(perso1->coord.x < equipe2->perso1->coord.x )
+                  equipe2->perso1->coord.x -= 3;
+              else if(perso1->coord.x > equipe2->perso1->coord.x )
+                  equipe2->perso1->coord.x += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.x < j2->perso1->coord.x )
-                j2->perso1->coord.x = perso1->coord.x + 1;
-              else if(perso1->coord.x > j2->perso1->coord.x )
-                j2->perso1->coord.x = perso1->coord.x - 1;
+              if(perso1->coord.x < equipe2->perso1->coord.x )
+                equipe2->perso1->coord.x = perso1->coord.x + 1;
+              else if(perso1->coord.x > equipe2->perso1->coord.x )
+                equipe2->perso1->coord.x = perso1->coord.x - 1;
             }
           }
-          else if(perso1->coord.y == j2->perso1->coord.y ){
+          else if(perso1->coord.y == equipe2->perso1->coord.y ){
       			/* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.y - j2->perso1->coord.y >= 3)){
-              if(perso1->coord.y < j2->perso1->coord.y )
-                  j2->perso1->coord.y -= 3;
-              else if(perso1->coord.y > j2->perso1->coord.y )
-                  j2->perso1->coord.y += 3;
+            if(abs(perso1->coord.y - equipe2->perso1->coord.y >= 3)){
+              if(perso1->coord.y < equipe2->perso1->coord.y )
+                  equipe2->perso1->coord.y -= 3;
+              else if(perso1->coord.y > equipe2->perso1->coord.y )
+                  equipe2->perso1->coord.y += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.y < j2->perso1->coord.y )
-                j2->perso1->coord.y = perso1->coord.y + 1;
-              else if(perso1->coord.y > j2->perso1->coord.y )
-                j2->perso1->coord.y = perso1->coord.y - 1;
+              if(perso1->coord.y < equipe2->perso1->coord.y )
+                equipe2->perso1->coord.y = perso1->coord.y + 1;
+              else if(perso1->coord.y > equipe2->perso1->coord.y )
+                equipe2->perso1->coord.y = perso1->coord.y - 1;
             }
       		}
 					break;
 
 			 	case '4' :
-          if(perso1->coord.y == j2->perso2->coord.y ){
+          if(perso1->coord.y == equipe2->perso2->coord.y ){
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.x - j2->perso2->coord.x >= 3)){
-              if(perso1->coord.x < j2->perso2->coord.x )
-                  j2->perso2->coord.x -= 3;
-              else if(perso1->coord.x > j2->perso2->coord.x )
-                  j2->perso2->coord.x += 3;
+            if(abs(perso1->coord.x - equipe2->perso2->coord.x >= 3)){
+              if(perso1->coord.x < equipe2->perso2->coord.x )
+                  equipe2->perso2->coord.x -= 3;
+              else if(perso1->coord.x > equipe2->perso2->coord.x )
+                  equipe2->perso2->coord.x += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.x < j2->perso2->coord.x )
-                j2->perso2->coord.x = perso1->coord.x + 1;
-              else if(perso1->coord.x > j2->perso2->coord.x )
-                j2->perso2->coord.x = perso1->coord.x - 1;
+              if(perso1->coord.x < equipe2->perso2->coord.x )
+                equipe2->perso2->coord.x = perso1->coord.x + 1;
+              else if(perso1->coord.x > equipe2->perso2->coord.x )
+                equipe2->perso2->coord.x = perso1->coord.x - 1;
             }
           }
-          else if(perso1->coord.y == j2->perso2->coord.y ){
+          else if(perso1->coord.y == equipe2->perso2->coord.y ){
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.y - j2->perso2->coord.y >= 3)){
-              if(perso1->coord.y < j2->perso2->coord.y )
-                  j2->perso2->coord.y -= 3;
-              else if(perso1->coord.y > j2->perso2->coord.y )
-                  j2->perso2->coord.y += 3;
+            if(abs(perso1->coord.y - equipe2->perso2->coord.y >= 3)){
+              if(perso1->coord.y < equipe2->perso2->coord.y )
+                  equipe2->perso2->coord.y -= 3;
+              else if(perso1->coord.y > equipe2->perso2->coord.y )
+                  equipe2->perso2->coord.y += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.y < j2->perso2->coord.y )
-                j2->perso2->coord.y = perso1->coord.y + 1;
-              else if(perso1->coord.y > j2->perso2->coord.y )
-                j2->perso2->coord.y = perso1->coord.y - 1;
+              if(perso1->coord.y < equipe2->perso2->coord.y )
+                equipe2->perso2->coord.y = perso1->coord.y + 1;
+              else if(perso1->coord.y > equipe2->perso2->coord.y )
+                equipe2->perso2->coord.y = perso1->coord.y - 1;
             }
           }
         break;
@@ -876,71 +876,71 @@ void attire (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,
 			switch (map[y][x]){
 
         case '1' :
-          if(perso1->coord.y == j2->perso1->coord.y ){
+          if(perso1->coord.y == equipe2->perso1->coord.y ){
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.x - j2->perso1->coord.x >= 3)){
-              if(perso1->coord.x < j2->perso1->coord.x )
-                  j2->perso1->coord.x -= 3;
-              else if(perso1->coord.x > j2->perso1->coord.x )
-                  j2->perso1->coord.x += 3;
+            if(abs(perso1->coord.x - equipe2->perso1->coord.x >= 3)){
+              if(perso1->coord.x < equipe2->perso1->coord.x )
+                  equipe2->perso1->coord.x -= 3;
+              else if(perso1->coord.x > equipe2->perso1->coord.x )
+                  equipe2->perso1->coord.x += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.x < j2->perso1->coord.x )
-                j2->perso1->coord.x = perso1->coord.x + 1;
-              else if(perso1->coord.x > j2->perso1->coord.x )
-                j2->perso1->coord.x = perso1->coord.x - 1;
+              if(perso1->coord.x < equipe2->perso1->coord.x )
+                equipe2->perso1->coord.x = perso1->coord.x + 1;
+              else if(perso1->coord.x > equipe2->perso1->coord.x )
+                equipe2->perso1->coord.x = perso1->coord.x - 1;
             }
           }
-          else if(perso1->coord.y == j2->perso1->coord.y ){
+          else if(perso1->coord.y == equipe2->perso1->coord.y ){
       			/* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.y - j2->perso1->coord.y >= 3)){
-              if(perso1->coord.y < j2->perso1->coord.y )
-                  j2->perso1->coord.y -= 3;
-              else if(perso1->coord.y > j2->perso1->coord.y )
-                  j2->perso1->coord.y += 3;
+            if(abs(perso1->coord.y - equipe2->perso1->coord.y >= 3)){
+              if(perso1->coord.y < equipe2->perso1->coord.y )
+                  equipe2->perso1->coord.y -= 3;
+              else if(perso1->coord.y > equipe2->perso1->coord.y )
+                  equipe2->perso1->coord.y += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.y < j2->perso1->coord.y )
-                j2->perso1->coord.y = perso1->coord.y + 1;
-              else if(perso1->coord.y > j2->perso1->coord.y )
-                j2->perso1->coord.y = perso1->coord.y - 1;
+              if(perso1->coord.y < equipe2->perso1->coord.y )
+                equipe2->perso1->coord.y = perso1->coord.y + 1;
+              else if(perso1->coord.y > equipe2->perso1->coord.y )
+                equipe2->perso1->coord.y = perso1->coord.y - 1;
             }
       		}
 					break;
 
 			 	case '3' :
-          if(perso1->coord.y == j2->perso2->coord.y ){
+          if(perso1->coord.y == equipe2->perso2->coord.y ){
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.x - j2->perso2->coord.x >= 3)){
-              if(perso1->coord.x < j2->perso2->coord.x )
-                  j2->perso2->coord.x -= 3;
-              else if(perso1->coord.x > j2->perso2->coord.x )
-                  j2->perso2->coord.x += 3;
+            if(abs(perso1->coord.x - equipe2->perso2->coord.x >= 3)){
+              if(perso1->coord.x < equipe2->perso2->coord.x )
+                  equipe2->perso2->coord.x -= 3;
+              else if(perso1->coord.x > equipe2->perso2->coord.x )
+                  equipe2->perso2->coord.x += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.x < j2->perso2->coord.x )
-                j2->perso2->coord.x = perso1->coord.x + 1;
-              else if(perso1->coord.x > j2->perso2->coord.x )
-                j2->perso2->coord.x = perso1->coord.x - 1;
+              if(perso1->coord.x < equipe2->perso2->coord.x )
+                equipe2->perso2->coord.x = perso1->coord.x + 1;
+              else if(perso1->coord.x > equipe2->perso2->coord.x )
+                equipe2->perso2->coord.x = perso1->coord.x - 1;
             }
           }
-          else if(perso1->coord.y == j2->perso2->coord.y ){
+          else if(perso1->coord.y == equipe2->perso2->coord.y ){
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.y - j2->perso2->coord.y >= 3)){
-              if(perso1->coord.y < j2->perso2->coord.y )
-                  j2->perso2->coord.y -= 3;
-              else if(perso1->coord.y > j2->perso2->coord.y )
-                  j2->perso2->coord.y += 3;
+            if(abs(perso1->coord.y - equipe2->perso2->coord.y >= 3)){
+              if(perso1->coord.y < equipe2->perso2->coord.y )
+                  equipe2->perso2->coord.y -= 3;
+              else if(perso1->coord.y > equipe2->perso2->coord.y )
+                  equipe2->perso2->coord.y += 3;
             }
             /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
             else{
-              if(perso1->coord.y < j2->perso2->coord.y )
-                j2->perso2->coord.y = perso1->coord.y + 1;
-              else if(perso1->coord.y > j2->perso2->coord.y )
-                j2->perso2->coord.y = perso1->coord.y - 1;
+              if(perso1->coord.y < equipe2->perso2->coord.y )
+                equipe2->perso2->coord.y = perso1->coord.y + 1;
+              else if(perso1->coord.y > equipe2->perso2->coord.y )
+                equipe2->perso2->coord.y = perso1->coord.y - 1;
             }
           }
         break;
@@ -948,7 +948,7 @@ void attire (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,
 		}
 }
 
-void chenchen (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void chenchen (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1017,13 +1017,13 @@ void chenchen (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j
 		switch (map[y][x]){
 
 			case '2' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 		 	case '4' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 		  	break;
 		}
 	}
@@ -1032,19 +1032,19 @@ void chenchen (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j
 		switch (map[y][x]){
 
 			case '1' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 			case '3' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 			 	break;
 		}
 	}
 }
 
-void bigshaq (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void bigshaq (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j;
@@ -1103,26 +1103,26 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1
 
 			case '2' :
         if(perso1->pv > 50)
-          j2->perso1->pv -= degats[0];
+          equipe2->perso1->pv -= degats[0];
         else if(perso1->pv > 25)
-          j2->perso1->pv -= degats[1];
+          equipe2->perso1->pv -= degats[1];
         else if(perso1->pv > 2)
-          j2->perso1->pv -= degats[2];
+          equipe2->perso1->pv -= degats[2];
         else if(perso1->pv == 1)
-          j2->perso1->pv -= degats[3];
-        printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+          equipe2->perso1->pv -= degats[3];
+        printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 		 	case '4' :
         if(perso1->pv > 50)
-          j2->perso2->pv -= degats[0];
+          equipe2->perso2->pv -= degats[0];
         else if(perso1->pv > 25)
-          j2->perso2->pv -= degats[1];
+          equipe2->perso2->pv -= degats[1];
         else if(perso1->pv > 2)
-          j2->perso2->pv -= degats[2];
+          equipe2->perso2->pv -= degats[2];
         else if(perso1->pv == 1)
-          j2->perso2->pv -= degats[3];
-        printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+          equipe2->perso2->pv -= degats[3];
+        printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
         break;
       }
 	}
@@ -1132,26 +1132,26 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1
 
       case '1' :
         if(perso1->pv > 50)
-          j2->perso1->pv -= degats[0];
+          equipe2->perso1->pv -= degats[0];
         else if(perso1->pv > 25)
-          j2->perso1->pv -= degats[1];
+          equipe2->perso1->pv -= degats[1];
         else if(perso1->pv > 2)
-          j2->perso1->pv -= degats[2];
+          equipe2->perso1->pv -= degats[2];
         else if(perso1->pv == 1)
-          j2->perso1->pv -= degats[3];
-        printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+          equipe2->perso1->pv -= degats[3];
+        printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
   			break;
 
   	 	case '3' :
         if(perso1->pv > 50)
-          j2->perso2->pv -= degats[0];
+          equipe2->perso2->pv -= degats[0];
         else if(perso1->pv > 25)
-          j2->perso2->pv -= degats[1];
+          equipe2->perso2->pv -= degats[1];
         else if(perso1->pv > 2)
-          j2->perso2->pv -= degats[2];
+          equipe2->perso2->pv -= degats[2];
         else if(perso1->pv == 1)
-          j2->perso2->pv -= degats[3];
-        printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+          equipe2->perso2->pv -= degats[3];
+        printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
         break;
     }
 	}
@@ -1159,15 +1159,15 @@ void bigshaq (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1
 
 
 
-void felin (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void felin (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,4,perso1->coord.x,perso1->coord.y);
 }
 
-void chouette (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void chouette (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
   creer_effet(perso1,5,perso1->coord.x,perso1->coord.y);
 }
 
-void fuego (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void fuego (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
 	char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1235,13 +1235,13 @@ void fuego (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 		switch (map[y][x]){
 
 			case '1' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 			case '3' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 				break;
 		}
 	}
@@ -1250,19 +1250,19 @@ void fuego (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,i
 		switch (map[y][x]){
 
 			case '2' :
-					j2->perso1->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso1->nom, j2->perso1->pv);
+					equipe2->perso1->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
 				break;
 
 			case '4' :
-					j2->perso2->pv -= degat;
-					printf("%s touché.\nPoint de vie : %i\n", j2->perso2->nom, j2->perso2->pv);
+					equipe2->perso2->pv -= degat;
+					printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
 				break;
 		}
 	}
 }
 
-void revitalisation (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equipe * j1,int nump,int degat,int portee, int numj){
+void revitalisation (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj){
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
@@ -1331,21 +1331,21 @@ void revitalisation (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equi
     switch (map[y][x]){
 
       case '2' :
-          if(j1->perso1->pv+degat <= j1->perso1->pv_max)
-            j1->perso1->pv += degat;
+          if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
+            equipe1->perso1->pv += degat;
           else
-            j1->perso1->pv = j1->perso1->pv_max;
+            equipe1->perso1->pv = equipe1->perso1->pv_max;
 
-          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
+          printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
         break;
 
       case '4' :
-          if(j1->perso2->pv+degat <= j1->perso2->pv_max)
-            j1->perso2->pv += degat;
+          if(equipe1->perso2->pv+degat <= equipe1->perso2->pv_max)
+            equipe1->perso2->pv += degat;
           else
-            j1->perso2->pv = j1->perso2->pv_max;
+            equipe1->perso2->pv = equipe1->perso2->pv_max;
 
-          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
+          printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
         break;
     }
   }
@@ -1355,21 +1355,21 @@ void revitalisation (char map[N][N], t_personnage * perso1,t_equipe * j2, t_equi
 
       case '1' :
 
-          if(j1->perso1->pv+degat <= j1->perso1->pv_max)
-            j1->perso1->pv += degat;
+          if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
+            equipe1->perso1->pv += degat;
           else
-            j1->perso1->pv = j1->perso1->pv_max;
+            equipe1->perso1->pv = equipe1->perso1->pv_max;
 
-          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
+          printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
         break;
 
       case '3' :
-          if(j1->perso2->pv+degat <= j1->perso2->pv_max)
-            j1->perso2->pv += degat;
+          if(equipe1->perso2->pv+degat <= equipe1->perso2->pv_max)
+            equipe1->perso2->pv += degat;
           else
-            j1->perso2->pv = j1->perso2->pv_max;
+            equipe1->perso2->pv = equipe1->perso2->pv_max;
 
-          printf("%s soigné.\n Il a maintenant : %i pv\n", j1->perso1->nom, j1->perso1->pv);
+          printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
         break;
     }
   }

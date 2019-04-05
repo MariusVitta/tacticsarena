@@ -24,10 +24,6 @@ int armure(t_personnage * j){
   j->liste_effet.effet1.nom='reduction de degat';
   j->liste_effet.effet1.cible=j;
   j->liste_effet.effet1.duree=1;
-
-
-
-
 }
 
 
@@ -36,11 +32,7 @@ int armure(t_personnage * j){
 
 
 int damage_nul(){
-
-
 }
 
 int forme(t_effet ){
-
-
 }

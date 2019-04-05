@@ -6,7 +6,7 @@
 
 
 /* Fonction permettant de deplacer son personnage et changer ses coordonnées
- * paramètre j1 : equipe que l'on souhaite déplacer
+ * paramètre equipe1 : equipe que l'on souhaite déplacer
  * paramètre map
  * retourne : 1 si le déplacement a bien eu lieu
  */
@@ -14,16 +14,16 @@
 
 
 /*avec personnage n le nombre de deplacements qu'il reste et numj le numero du equipe*/
-int deplacement(t_equipe * j1,t_equipe * j2,char map[N][N],int  pm ,int nump){
+int deplacement(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int  pm ,int nump){
     t_personnage * temp;
     int i = 0,compteur,j,test=0;
 
 
     if(nump == 1 ){
-        temp = j1->perso1;
+        temp = equipe1->perso1;
     }
     else{
-        temp = j1->perso2;
+        temp = equipe1->perso2;
     }
 
     char c;
@@ -96,7 +96,7 @@ int deplacement(t_equipe * j1,t_equipe * j2,char map[N][N],int  pm ,int nump){
   				return pm;
   		}
 
-  maj(map,j1,j2);
+  maj(map,equipe1,equipe2);
   affichage_map(map);
 
 	return pm;

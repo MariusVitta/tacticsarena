@@ -14,6 +14,7 @@ void affichage_sort(t_personnage * perso){
 	printf("- %s : portée [%i] / dégât [%i] / utilisation par tour [%i]\npoint d'action [%i]\n", perso->sorts[i]->nom, perso->sorts[i]->portee, perso->sorts[i]->degat, perso->sorts[i]->upt, perso->sorts[i]->point_action);
 }
 
+/*affiche les caracteristiques des differents sorts selon le personnage choisi par l'utilisateur*/
 void sort_uti(t_personnage * perso){
 	int i = 1;
 	printf(" ---- Quel sort souhaitez vous effectuer ? ---- \n");
@@ -49,6 +50,7 @@ void affichage_coord(t_equipe * equipe){
  * Fonction de mise à jour de l'affichage de la map
  *  paramètre equipe1,equipe2 : utilisé afin d'obtenir les coordonnées de tout les persos
  */
+ 
 void maj(char map[N][N], t_equipe * equipe1, t_equipe * equipe2){
 	int i, j;
 	for(i = 0; i < N; i++){
@@ -76,7 +78,7 @@ void maj(char map[N][N], t_equipe * equipe1, t_equipe * equipe2){
 
 
 /*
- * Fonction qui retourne le caractère correspondant au personnage d'indice: numEro_personnage du equipe : indice_equipe
+ * Fonction qui retourne le caractère correspondant au personnage d'indice: numero_personnage du equipe : indice_equipe
  */
 char carac_perso(int numj,int nump){
 	char c;

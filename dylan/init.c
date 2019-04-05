@@ -21,6 +21,8 @@
  *\param equipe numéro du equipe qui sera placé sur la carte
  *\return void
  */
+
+/*init de la map, et placement des perso*/
 void initialisation(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * equipe2){
 	srand(time(NULL));
 	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2;
@@ -36,7 +38,7 @@ void initialisation(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * equipe2)
 
 	while(numero_j <=2){
 		printf("\n ---- Choix des cases possibles pour le equipe %i ---- \n",numero_j);
-		/* choix des positions du premier equipes*/
+		/* choix des positions de la premiere equipe*/
 		if(numero_j == 1){
 			matriceJeu[y1][x1]='1';
 			matriceJeu[y1-1][x1-2]='2';

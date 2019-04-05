@@ -129,4 +129,4 @@ void fuego  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,in
 void revitalisation  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
 
 /* fonction déplacement case par case pour le equipe */
-int deplacement(t_equipe * j1,t_equipe * j2,char map[N][N],int ,int  );
+int deplacement(t_equipe * ,t_equipe * ,char map[N][N],int ,int  );
