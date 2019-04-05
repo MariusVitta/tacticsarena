@@ -132,9 +132,17 @@ void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump ){
                     }
 
                 }
-								case 3:
-									printf("\n ---- Vous avez passé votre tour ---- \n\n");
-										break;
+
+								else{
+										printf(" ---- Vous n'avez pas assez de points d'actions ----\n\n");
+									break;
+
+								}
+								break;
+
+						case 3:
+								printf("\n ---- Vous avez passé votre tour ---- \n\n");
+									break;
         }
         maj(map,equipe1,equipe2);
     }

@@ -96,8 +96,13 @@ int deplacement(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int  pm ,in
   				return pm;
   		}
 
-  maj(map,equipe1,equipe2);
-  affichage_map(map);
-
+  if(equipe1->numEquipe == 1){
+    maj(map,equipe1,equipe2);
+    affichage_map(map);
+  }
+  else {
+    maj(map,equipe2,equipe1);
+    affichage_map(map);
+  }
 	return pm;
 }
