@@ -4,6 +4,14 @@
 #include "fonc.h"
 #include "define.h"
 
+/**
+ *\file ia.c
+ *\brief programme de test du bot
+ *\author Marius
+ *\version 0.1
+ *\date 28/02/2019
+*/
+
 char map[N][N];
 
 int tour_ordi_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage);

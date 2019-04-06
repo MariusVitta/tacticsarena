@@ -3,8 +3,29 @@
 #include "fonc.h"
 #include "define.h"
 
-char map[N][N];
+/**
+ *\file main.c
+ *\brief programme principale du jeu
+ *\author Dylan
+ *\author Marius
+ *\version 0.1
+ *\date 28/02/2019
+*/
 
+char map[N][N];/*!< tableau globale qui sert de carte de  jeu */
+
+
+/**
+*\fn int main()
+*\brief programme principale
+*\return void
+* l'ajout de classe peut etre effectué à partir du fichier classe.txt
+* de meme pour les sorts à partir du fichier sorts.txt
+* la création des personnages, de la liste des sorts, de la liste des classe sont effectués ici
+* le choix des classe est effectué dans le programme principale
+* le jeu s'arrete quand l'une des deux équipes n'a plus de personnages
+* une destruction des sorts, des classes, et des personnages est effectué à la fin du programme
+*/
 int main(){
 
 	int i,val,j,test=0,nb_tour = 1,mort1 = 0,mort2 = 0;

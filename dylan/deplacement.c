@@ -3,17 +3,29 @@
 #include<math.h>
 #include "fonc.h"
 
+/**
+ *\file deplacement.c
+ *\brief programme d'initialisation du jeu
+ *\author Dylan
+ *\version 0.1
+ *\date 28/02/2019
+*/
 
 
-/* Fonction permettant de deplacer son personnage et changer ses coordonnées
- * paramètre equipe1 : equipe que l'on souhaite déplacer
- * paramètre map
- * retourne : 1 si le déplacement a bien eu lieu
- */
-
-
-
-/*avec personnage n le nombre de deplacements qu'il reste et numj le numero du equipe*/
+/**
+*\fn int deplacement(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int  pm ,int nump)
+*\brief  Fonction permettant de deplacer son personnage et changer ses coordonnées
+*\param equipe1 equipe que l'on souhaite déplacer
+*\param equipe2 equipe adversaire utilisée pour obtenir leurs coordonnees
+*\param map[N][N] matrice qui sert au tour du jeu
+*\param pm nombre de déplacement encore disponible pour le personnage que l'on souhaite déplacer
+*\param nump numéro du personnage que l'on souhaite déplacer dans l'equipe
+*\return int : qui correspondant au nombre de déplacement qui restera au personnage (nump de l'equipe 1) au prochain tour
+*
+* La fonction vérifie si le personnage n'essaye pas d'aller hors de la map
+* en cas de déplacement effectué ou d'un échec un message est affiché correspondant à l'action effectué
+* suite au déplacement on effectue une mise à jour de la map pour que le déplacement effectué soit pris en compte lors de l'affichage de la map
+*/
 int deplacement(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int  pm ,int nump){
     t_personnage * temp;
     int i = 0,compteur,j,test=0;

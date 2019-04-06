@@ -1,3 +1,11 @@
+/**
+ *\file revitalisation.c
+ *\brief fonction revitalisation
+ *\author Dylan
+ *\version 0.1
+ *\date 28/02/2019
+*/
+
 void revitalisation(char map[N][N],t_personnage * j1, t_joueur j1) {
 
   char point[N][N];/*matrice affichant les possibilités de jeu*/

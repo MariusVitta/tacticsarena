@@ -1,36 +1,58 @@
 #define N 11
 #define MAX_NB_SORT 4
 
-/*structure d'un sort ayant un nom,une portée,des dégats et un nombre de points d'actions pour pouvoir l'utiliser*/
+/**
+ *\file fonc.h
+ *\brief prototype des fonctions et structures du jeu
+ *\author Marius
+ *\author ALexandre
+ *\author Vivien-Junior
+ *\author Dylan
+ *\version 0.1
+ *\date 28/02/2019
+*/
+
 typedef struct s_personnage t_personnage;
 
-
+/**
+ *\struct t_equipe
+ *\brief structure des equipes
+ * structure qui contient tout les personnages d'un equipe, le nombre de personnage
+ * vivant dans l'équipe et le numéro de l'équipe
+ */
 typedef struct s_equipe{
-
-		int numEquipe;
-		int nbPersoVivant;
-		t_personnage * perso1;
-		t_personnage * perso2;
+		int numEquipe; /** numéro de l'équipe */
+		int nbPersoVivant; /** nombre de personnages vivants*/
+		t_personnage * perso1; /** personnage 1*/
+		t_personnage * perso2; /** personnage 2*/
 
 }t_equipe;
 
-
+/**
+ *\struct t_sort
+ *\brief structure des sorts
+ * structure qui contient toutes les informations utiles sur un sort (nom,portée,dégâts,utilisation par tour..)
+ * la structure contient aussi un pointeur sur fonction avec le meme corps que toutes les fonctions
+ */
 typedef struct s_sort{
 
-	int id;
-	char * nom;
-	int portee;
-	int degat;
-	int cd;/* cooldown*/
-	int upt;/*utilisation par tour*/
-  int uptm;
-	int point_action;
+	int id; /** numéro du sort*/
+	char * nom; /** nom du sort*/
+	int portee; /** portée du sort */
+	int degat; /** dégât infligés par le sort*/
+	int cd; /** cooldown*/
+	int upt; /** utilisation par tour*/
+  	int uptm; /** utilisation par tour maximale*/
+	int point_action; /** nombre de points d'actions minimum pour pouvoir utiliser le sort*/
 	void (*sort)(char map[N][N], t_personnage * , t_equipe *,t_equipe *,int,int,int,int);
 
 }t_sort;
 
-/*structure contenant les coordonnées du personnage*/
 
+/**
+ *\struct t_coordonnees
+ *\brief structure contenant les coordonnées du personnage
+ */
 typedef struct s_coordonnees{
 
 	int x;
@@ -38,7 +60,11 @@ typedef struct s_coordonnees{
 
 }t_coordonnees;
 
-
+/**
+ *\struct t_effet
+ *\brief structure pour les effets
+ *  structure contenant le nom, la durée et les coordonées de la cible sur lequel ont souhaite effectuer l'effet
+ */
 typedef struct s_effet{
 
 	char * nom;
@@ -47,26 +73,33 @@ typedef struct s_effet{
 
 }t_effet;
 
-
+/**
+ *\struct t_liste_effet
+ *\brief structure contenant la liste des effets
+ */
 typedef struct s_liste_effet{
 
 	t_effet e1,e2,e3,e4;
 
 }t_liste_effet;
 
-/*structure d'un personnage ayant un nom,une position x/y, des points de vie, des points d'actions lui permettant d'utiliser ses sorts et 4sorts*/
 
+/**
+ *\struct t_personnage
+ *\brief structure des personnages
+ * structure d'un personnage ayant un nom,une position x/y, des points de vie, des points d'actions lui permettant d'utiliser ses sorts et 4sorts
+ */
 struct s_personnage{
 
-	int id;
-	char* nom;
-	int pv;
-	int pv_max;
-	int pa;
-	int pm;
-	t_coordonnees coord;
-	t_liste_effet effets;
-	t_sort * sorts[MAX_NB_SORT];
+	int id; /** numéro du personnage*/
+	char* nom; /** nom du personnage */
+	int pv; /** nombre de points de vie du personnage */
+	int pv_max; /** nombre maximal de points de vie  du personnage*/
+	int pa; /** points d'actions disponibles du personnage */
+	int pm; /** points de mouvement disponibles du personnage */
+	t_coordonnees coord; /** position du personnage */
+	t_liste_effet effets; /** effets actuels sur le personnage */
+	t_sort * sorts[MAX_NB_SORT]; /** liste des sorts du personnage */
 
 };
 

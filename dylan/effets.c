@@ -2,6 +2,23 @@
 #include <stdlib.h>
 #include "fonc.h"
 
+/**
+ *\file effets.c
+ *\brief programme d'initialisation du jeu
+ *\author Dylan
+ *\version 0.1
+ *\date 28/02/2019
+*/
+
+/**
+ *\fn void creer_effet(t_personnage * p,int effet_voulu,int x,int y)
+ *\brief fonction qui crée un effet
+ *\param p personnage dont on veut créer l'effet
+ *\param effet_voulu effet que l'on souhaite appliquer sur le personnage p
+ *\param x coordonnees du personnages sur lequel l'effet sera effectué
+ *\param y coordonnees du personnages sur lequel l'effet sera effectué
+ *\return void
+ */
 void creer_effet(t_personnage * p,int effet_voulu,int x,int y){
 
 

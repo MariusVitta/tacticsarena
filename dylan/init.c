@@ -8,19 +8,22 @@
 /**
  *\file init.c
  *\brief programme d'initialisation du jeu
- *\author Marius Vitta
+ *\author Marius
+ *\author Dylan
  *\version 0.1
  *\date 28/02/2019
 */
 
 
 /**
- *\fn void initialisation(char matriceJeu[N][N],int equipe)
- *\brief initialise la position des deux equipes
- *\param matriceJeu[N][N] matrice qui sert au tour du jeu
- *\param equipe numéro du equipe qui sera placé sur la carte
- *\return void
- */
+*\fn void initialisation(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * equipe2)
+*\brief initialise la position des deux equipes
+*\param matriceJeu[N][N] matrice qui sert au tour du jeu
+*\param equipe numéro de l'equipe qui sera placé sur la carte
+*\return void
+* la fonction génére aussi des obstacles sur la carte
+* les caractères impairs ('1' et '3') sont utilisés pour l'équipe une, les caractères pairs pour l'equipe 2
+*/
 
 /*init de la map, et placement des perso*/
 void initialisation(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * equipe2){

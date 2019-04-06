@@ -2,6 +2,21 @@
 #include <stdlib.h>
 #include "fonc.h"
 
+/**
+ *\file liste_effets.c
+ *\brief fonction sur les effets
+ *\author Dylan
+ *\version 0.1
+ *\date 28/02/2019
+*/
+
+/**
+*\fn void creer_effet (int effet,t_personnage * perso)
+*\brief création d'un effet
+*\param effet numéro de l'effet
+*\param perso personnage sur lequel on effectue l'effet
+*\return void
+*/
 creer_effet (int effet,t_personnage * perso){
 
   switch (effet) {
@@ -18,7 +33,12 @@ creer_effet (int effet,t_personnage * perso){
     }
 
 
-
+/**
+*\fn int armure(t_personnage * j)
+*\brief création d'une armure sur un personnage
+*\param j personnage sur lequel on effectue l'armure prendra effet
+*\return int
+*/
 int armure(t_personnage * j){
 
   j->liste_effet.effet1.nom='reduction de degat';
@@ -27,12 +47,19 @@ int armure(t_personnage * j){
 }
 
 
-
-
-
-
+/**
+*\fn int damage_nul()
+*\brief degat nul
+*\return int
+*/
 int damage_nul(){
 }
 
+
+/**
+*\fn int forme(t_effet )
+*\brief forme prise
+*\return int
+*/
 int forme(t_effet ){
 }
