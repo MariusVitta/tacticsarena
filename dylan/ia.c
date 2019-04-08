@@ -87,29 +87,47 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
     }
 
     printf("x : %i et y: %i\n",distance_x,distance_y);
-    if(distance_x > distance_y){ // si la distance en x est supérieur à la distance en y
+    if(distance_x > distance_y && !distance_y ){ // si la distance en x est supérieur à la distance en y
         if(distance_x >= 0){
             if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.'))
-                *direction = OUEST;
+				printf(" ---- Déplacement impossible 1 ---- \n" );
+			else{
+				printf(" ---- Déplacement à Gauche ---- \n" );
+				*direction = OUEST;
+			}
         }
         else{
             if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
+				printf(" ---- Déplacement impossible 2 ---- \n" );
+			else{
+				printf(" ---- Déplacement à Droite ---- \n" );
                 *direction = EST;
+			}
         }
     }
-    else if(distance_y > distance_x){
+    else if(distance_y > distance_x && (distance_x != 0|| distance_y != 0)){
         if(distance_y >= 0){
             if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
-                *direction = NORD;
+				printf(" ---- Déplacement impossible 3 ---- \n" );
+			else{
+				printf(" ---- Déplacement en Haut ---- \n" );
+				*direction = NORD;
+			}
+
         }
         else{
             if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
-                *direction = SUD;
+				printf(" ---- Déplacement impossible 4 ---- \n" );
+            else{
+				printf(" ---- Déplacement en Bas ---- \n" );
+				*direction = SUD;
+			}
         }
     }
     else{
 
     }
+	printf("Direction : %d\n",*direction );
 
 
 
@@ -268,6 +286,11 @@ int main() {
 	for(int i = 1; i <= CLASSES;i++)
 		persos[i] = malloc(sizeof(t_personnage));
 
+	for(int i = 1; i < N;i++)
+		for(int j = 1; j < N;j++)
+			map[i][j] = '.';
+
+
 	creation_classes(persos,sorts);
 	/*fin de création des sorts et classes*/
 
@@ -288,12 +311,14 @@ int main() {
     equipe2->numEquipe = 2;
     equipe2->nbPersoVivant = NB_PERSONNAGES;
 
-    equipe1->perso1->coord.x = 11;
-    equipe1->perso1->coord.y = 5;
+    equipe1->perso1->coord.x = 10;
+    equipe1->perso1->coord.y = 6;
     equipe2->perso1->coord.x = 11;
     equipe2->perso1->coord.y = 6;
-    equipe2->perso2->coord.x = 11;
+
+    equipe2->perso2->coord.x = 1;
     equipe2->perso2->coord.y = 1;
+
     printf("meilleur coup : {%i}\n",coup_ordi_opti(map,equipe1,equipe2,1,&hors_portee) + 1);
     printf("nombre de sorts hors portée : %i\n",hors_portee );
     t_direction direction = NORD;
@@ -305,7 +330,7 @@ int main() {
         dist = sqrt((double)carre);
         printf("distance = %i\n",dist);
     //}
-    //affichage_map(map);
+    affichage_map(map);
 
 
 

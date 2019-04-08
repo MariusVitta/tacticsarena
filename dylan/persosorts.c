@@ -41,13 +41,13 @@ void suppr_perso(t_personnage ** perso){
 //fprintf(stderr,"suppression sort %d\n",i);
 	suppr_sort(&((*perso)->sorts[i]));
 	}
-	fprintf(stderr,"1\n");
+	//fprintf(stderr,"1\n");
 	free((*perso)->nom);
-	fprintf(stderr,"2\n");
+	//fprintf(stderr,"2\n");
 	free(*perso);
-	fprintf(stderr,"3\n");
+	//fprintf(stderr,"3\n");
 	*perso = NULL;
-	fprintf(stderr,"4\n");
+	//fprintf(stderr,"4\n");
 
 }
 
