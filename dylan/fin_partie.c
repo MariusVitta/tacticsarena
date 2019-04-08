@@ -6,6 +6,7 @@
  *\file fin_partie.c
  *\brief Fonctions de test sur la fin de la partie
  *\author Marius
+ *\author Vivien-Junior
  *\version 0.1
  *\date 28/02/2019
 */

@@ -10,6 +10,7 @@
  *\brief programme d'initialisation du jeu
  *\author Marius
  *\author Dylan
+ *\author Vivien-Junior
  *\version 0.1
  *\date 28/02/2019
 */
