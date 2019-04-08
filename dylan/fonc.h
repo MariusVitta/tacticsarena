@@ -1,5 +1,6 @@
 #define N 11
 #define MAX_NB_SORT 4
+#include "define.h"
 
 /**
  *\file fonc.h

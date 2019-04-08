@@ -8,3 +8,4 @@
 #define LARGEUR 1300
 #define HAUTEUR 850
 #define N 11
+#define BUFFER_LEN 1024 

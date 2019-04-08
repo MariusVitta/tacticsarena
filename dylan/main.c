@@ -3,6 +3,7 @@
 #include "fonc.h"
 #include "define.h"
 
+char map[N][N];
 /**
  *\file main.c
  *\brief programme principale du jeu
@@ -31,6 +32,8 @@ int main(){
 	int i,val,j,test=0,nb_tour = 1,mort1 = 0,mort2 = 0;
 	int classe[NB_PERSONNAGES+1];
   int indice_equipe = 1,nump = 1;
+	int type_partie;
+	int nb_joueur;
 
 	t_equipe * equipe1, * equipe2;
 
@@ -56,7 +59,7 @@ int main(){
 	tab[1] = equipe1;
 	tab[2] = equipe2;
 
-	
+
 	printf("Voulez vous jouez en local[1] ou distant[2] ? \n");
 	scanf("%d", &type_partie );
 
@@ -203,4 +206,5 @@ int main(){
 
 
 	return 0;
+	}
 }
