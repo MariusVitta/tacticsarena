@@ -8,6 +8,7 @@
  *\brief fonction du tour de jeu d'un personnage
  *\author Marius
  *\author Dylan
+ *\author Alexandre
  *\version 0.1
  *\date 28/02/2019
 */

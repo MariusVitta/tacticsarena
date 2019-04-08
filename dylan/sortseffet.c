@@ -5,7 +5,7 @@
 /**
  *\file sortseffet.c
  *\brief fonction de création de sorts
- *\author Marius Vitta
+ *\author Dylan
  *\version 0.1
  *\date 28/02/2019
 */
