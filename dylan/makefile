@@ -17,7 +17,7 @@ SDLINC_DIR=${SDL_DIR}/include
 LIBS=-L${SDLLIB_DIR} -lSDL2 -lSDL2_ttf -lSDL2_image
 INCLUDES=-I${SDLINC_DIR}
 
-ain: $(OBJ) fonc.h
+main: $(OBJ) fonc.h
 	$(CC) $(OBJ) -o $@
 test_perso: $(OBJ_SORTS) fonc.h
 	$(CC) $(OBJ_SORTS) -o $@
