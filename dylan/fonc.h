@@ -104,6 +104,17 @@ struct s_personnage{
 };
 
 
+typedef struct s_joueur{
+	int team;
+	t_personnage * perso1;
+	t_personnage * perso2;
+	int client_socket;
+}t_joueur;
+
+
+//fonctions de réseaux
+int serveur (int nb_joueur, t_personnage * persos[CLASSES+1], t_equipe * ,t_equipe *);
+int client (  int argc, char** argv );
 
 /*fonction qui crée un personnage(affection des sorts,vie,points d'actions pour le type de personnage choisi) */
 t_personnage * creer_perso(int);

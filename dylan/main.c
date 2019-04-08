@@ -56,7 +56,27 @@ int main(){
 	tab[1] = equipe1;
 	tab[2] = equipe2;
 
-	for(j = 1 ; j <= NB_EQUIPES; j++){
+	
+	printf("Voulez vous jouez en local[1] ou distant[2] ? \n");
+	scanf("%d", &type_partie );
+
+	do{
+		printf("Combien de joueurs 2 ou 4 ? \n");
+		scanf("%d", &nb_joueur );
+	}while((nb_joueur !=2 && nb_joueur != 4));
+
+	//jouer une partie distante
+	if(type_partie==2){
+		serveur(nb_joueur, persos ,equipe1 ,equipe2);
+		tab[1]->perso1=NULL;
+		tab[1]->perso2=NULL;
+		tab[2]->perso1=NULL;
+		tab[2]->perso2=NULL;
+	}
+
+	//jouer une partie locale
+	else{
+		for(j = 1 ; j <= NB_EQUIPES; j++){
 
 		do{
 
