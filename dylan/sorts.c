@@ -1432,7 +1432,7 @@ void fuego (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 }
 
 /**
-*\fn void revitalisation(char map[N][N],t_personnage * j1, t_joueur j1)
+*\fn void revitalisation(char map[N][N],t_personnage * equipe1, t_joueur equipe1)
 *\brief sort revitalisation
 *\param matriceJeu[N][N] matrice qui sert au tour du jeu
 *\param equipe numéro de l'equipe qui sera placé sur la carte
