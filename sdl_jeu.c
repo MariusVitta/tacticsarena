@@ -5,17 +5,18 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	int i, j, classe;
 	int num_j = 1,choix;
 	int x = 0, y = 0;
-	joueur1->perso1 = malloc(sizeof(t_personnage));
-	joueur1->perso2 = malloc(sizeof(t_personnage));
-	joueur2->perso1 = malloc(sizeof(t_personnage));
-	joueur2->perso2 = malloc(sizeof(t_personnage));
+	joueur1->perso1 = NULL;
+	joueur1->perso2 = NULL;
+	joueur2->perso1 = NULL;
+	joueur2->perso2 = NULL;
 
 	printf("Joueur 1: choisir une classe personnage 1\n");
 	printf("[1] : Guerrier\n");
 	printf("[2] : Archer\n");
 	printf("[3] : Tank\nChoix personnage 1: ");
 	SDL_RenderClear(renderer);
-	SDL_affichage_choix_perso();
+	SDL_affichage_choix_perso(1);
+	SDL_afficher_perso_choisi(*joueur1, *joueur2);
 	SDL_RenderPresent(renderer);
 
 	do{
@@ -29,6 +30,7 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	} while(!acces_choix_perso(x, y, &classe));
 
 	printf("Choix j1 p1 : %i\n", classe);
+	joueur1->perso1 = malloc(sizeof(t_personnage));
 	creer_perso(classe,joueur1->perso1);
 
 
@@ -37,7 +39,8 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	printf("[2] : Archer\n");
 	printf("[3] : Tank\nChoix personnage 1: ");
 	SDL_RenderClear(renderer);
-	SDL_affichage_choix_perso();
+	SDL_affichage_choix_perso(1);
+	SDL_afficher_perso_choisi(*joueur1, *joueur2);
 	SDL_RenderPresent(renderer);
 	x = 0;
 	y = 0;
@@ -52,6 +55,7 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	} while(!acces_choix_perso(x, y, &classe));
 
 	printf("Choix j2 p2 : %i\n", classe);
+	joueur1->perso2 = malloc(sizeof(t_personnage));
 	creer_perso(classe,joueur1->perso2);
 
 	joueur1->numJoueur = 1;
@@ -63,7 +67,8 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	printf("[3] : Tank\nChoix personnage 1: ");
 
 	SDL_RenderClear(renderer);
-	SDL_affichage_choix_perso();
+	SDL_affichage_choix_perso(2);
+	SDL_afficher_perso_choisi(*joueur1, *joueur2);
 	SDL_RenderPresent(renderer);
 
 	x = 0;
@@ -79,6 +84,7 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	} while(!acces_choix_perso(x, y, &classe));
 
 	printf("Choix j2 p1 : %i\n", classe);
+	joueur2->perso1 = malloc(sizeof(t_personnage));
 	creer_perso(classe,joueur2->perso1 );
 
 	printf("Joueur 2: choisir une classe personnage 2\n");
@@ -86,7 +92,8 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	printf("[2] : Archer\n");
 	printf("[3] : Tank\nChoix personnage 1: ");
 	SDL_RenderClear(renderer);
-	SDL_affichage_choix_perso();
+	SDL_affichage_choix_perso(2);
+	SDL_afficher_perso_choisi(*joueur1, *joueur2);
 	SDL_RenderPresent(renderer);
 
 	x = 0;
@@ -102,14 +109,16 @@ void SDL_choix_perso(t_joueur *joueur1, t_joueur *joueur2){
 	} while(!acces_choix_perso(x, y, &classe));
 
 	printf("Choix j2 p2 : %i\n", classe);
+	joueur2->perso2 = malloc(sizeof(t_personnage));
 	creer_perso(classe,joueur2->perso2);
 	joueur2->numJoueur = 2;
 	joueur2->nbPVivant = 2;
 
 	SDL_RenderClear(renderer);
-	SDL_affichage_choix_perso();
+	SDL_affichage_choix_perso(2);
+	SDL_afficher_perso_choisi(*joueur1, *joueur2);
 	SDL_RenderPresent(renderer);
-	SDL_Delay(1000);
+	SDL_Delay(500);
 }
 
 void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joueur2){
@@ -125,6 +134,7 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 				matriceJeu[i][j] = '.';
 		}
 	}
+	
 
 	while(numero_j <=2){
 		printf("\n ---- Choix des cases possibles pour le joueur %i ---- \n",numero_j);
@@ -138,6 +148,8 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 			SDL_RenderClear(renderer);
 			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
+			SDL_afficher_message("Placer personnage 1", 920, 80, "Police/calendarnote.ttf", 35, 'o', 'N');
+			SDL_afficher_message("ÌJoueur1Í",1030, 15, "Police/yorkwhiteletter.ttf", 45, 'r', 'N');
 			SDL_RenderPresent(renderer);
 
 			do{
@@ -178,6 +190,8 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 			SDL_RenderClear(renderer);
 			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
+			SDL_afficher_message("Placer personnage 2", 920, 80, "Police/calendarnote.ttf", 35, 'o', 'N');
+			SDL_afficher_message("ÌJoueur1Í",1030, 15, "Police/yorkwhiteletter.ttf", 45, 'r', 'N');
 			SDL_RenderPresent(renderer);
 
 			coordj = 0;
@@ -232,6 +246,8 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 			SDL_RenderClear(renderer);
 			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
+			SDL_afficher_message("Placer personnage 1", 920, 80, "Police/calendarnote.ttf", 35, 'o', 'N');
+			SDL_afficher_message("ÌJoueur2Í",1030, 15, "Police/yorkwhiteletter.ttf", 45, 'r', 'N');
 			SDL_RenderPresent(renderer);
 
 
@@ -261,6 +277,8 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 
 			SDL_RenderClear(renderer);
 			SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
+			SDL_afficher_message("Placer personnage 2", 920, 80, "Police/calendarnote.ttf", 35, 'o', 'N');
+			SDL_afficher_message("ÌJoueur2Í",1030, 15, "Police/yorkwhiteletter.ttf", 45, 'r', 'N');
 			SDL_RenderPresent(renderer);
 
 			coordj = 0;
@@ -311,7 +329,10 @@ void SDL_initialisation(char matriceJeu[N][N],t_joueur * joueur1,t_joueur * joue
 		}
 		obs_x = rand()%(N-2)+1 , obs_y = rand()%(N-2)+1;
 	}
-	//affichage_map(matriceJeu);
+	SDL_RenderClear(renderer);
+	SDL_afficher_map(matriceJeu, *joueur1, *joueur2);
+	SDL_RenderPresent(renderer);
+	SDL_Delay(1000);
 }
 
 /*avec personnage n le nombre de deplacements qu'il reste et num_j le numero du joueur*/
