@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "fonc.h"
 #include "define.h"
+#include <time.h>
 
 char buffer[BUFFER_LEN];
 extern char map[N][N];
@@ -55,7 +56,7 @@ void view_ip()
           printf("IP : %s\n", inet_ntoa(**adr));
 }
 
-void send_all_tour(t_joueur ** tab_joueur, int j, int nb_client,int info_donnee){
+void send_all_tour(t_equipe ** tab_joueur, int j, int nb_client,int info_donnee){
 	//Annonce aux autres joueurs que c'est le tour de j
 	for(int i=0;i < nb_client;i++){
 
@@ -65,15 +66,16 @@ void send_all_tour(t_joueur ** tab_joueur, int j, int nb_client,int info_donnee)
 				send(tab_joueur[i]->client_socket, buffer+4, BUFFER_LEN, 0);
 				break;
 			//info 2 : on envoie la map
-			case 2:
+			/*case 2:
 				send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
-				break;
+				break;*/
 			//info 3 : on envoie l'info à tout le monde sauf au joueur dont le tour est en cours
 			case 3:
 				if(i==j);
 				else{
 					send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
 				}
+				break;
 			default:
 				printf("Erreur info_donnee\n");
 				break;
@@ -82,6 +84,86 @@ void send_all_tour(t_joueur ** tab_joueur, int j, int nb_client,int info_donnee)
 	}
 
 }
+
+void envoie_map(char matriceJeu[N][N], t_equipe ** tab_joueur, int j, int nb_client){
+		int x, y;
+		char chaine[BUFFER_LEN], buffer[BUFFER_LEN];
+
+		/* Initialise la chaine */
+		sprintf(chaine," %c |",matriceJeu[0][0]);
+		for(x=0; x < N ; x++){
+			for(y=0; y < N ; y++){
+				if (x != 0 && y != 0) { /* La chaine est déjà initialisée avec le premier caractère du tableau */
+					sprintf(buffer," %c |",matriceJeu[x][y]);
+					strcpy(chaine,strcat(chaine, buffer));
+				}
+			}
+			strcpy(chaine,strcat(chaine, "\n"));
+			strcpy(buffer,chaine);
+			send_all_tour(tab_joueur, j, nb_client, 1);
+		}
+
+}
+
+
+void initialisation_partie(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * equipe2, int nb_client, t_equipe ** tab_joueur, int j){
+	srand(time(NULL));
+	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2;
+	int i,choix1 = 0,choix2 = 0,numero_j=1,x=0;
+	int nb_persos = 1;
+	int nb_obs = 10; /* nb d'obstacles max sur la carte*/
+
+  /* remplissage de la map sans les equipes positionnés */
+	for(i = 0; i < N ; i++){
+		for(j = 0;j < N; j++){
+				matriceJeu[i][j] = '.';
+		}
+	}
+
+	for(j=0; j <= nb_client; j++){
+		sprintf(buffer,"\n ---- Choix des cases possibles pour le joueur %i ---- \n", j+1);
+		send_all_tour(tab_joueur, j, nb_client, 1);
+
+		matriceJeu[y1][x1]='1';
+		matriceJeu[y1-1][x1-2]='2';
+		matriceJeu[y1 -1][x1 + 2]='3';
+		/* Choix possible pour le positionement */
+		sprintf(buffer,"\nMSG[1]{x=%i y=%i}\n[2]{x=%i y=%i}\n[3]{x=%i y=%i}\n",x1,y1,x1-2,y1-1,x1+2,y1-1);
+		send_all_tour(tab_joueur, j, nb_client, 1);
+		envoie_map(matriceJeu, tab_joueur, j, nb_client);
+
+
+		do{
+			sprintf(buffer,"Le joueur %d choisit ou se placer ... ", j+1);
+			send_all_tour(tab_joueur, j, nb_client, 3);
+			if(nb_client==2)
+				x=2;
+			else
+				x=1;
+			for(i=0; i<x; i++){
+				sprintf(buffer,"Où voulez vous placer votre %s ?", tab_joueur[j]->perso1->nom);
+				send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
+				/*reception du/des choix*/
+				memset(buffer, 0, sizeof(buffer));
+				recv(tab_joueur[j]->client_socket,buffer,BUFFER_LEN, 0);
+			}
+		}while( ((choix1 < 1)||(choix1 >3)) || ((choix2 < 1)||(choix2 >3)) || (choix1 == choix2) );
+
+
+
+	}//fin for
+
+
+
+
+
+
+
+
+
+
+}
+
 
 int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1, t_equipe * equipe2){
 	int ma_socket;
@@ -120,10 +202,10 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 
   /* on attend que les clients se connecte */
 	int nb_client=0;
-	t_joueur * tab_joueur[nb_joueur];
+	t_equipe * tab_joueur[nb_joueur];
 
 	for(int i = 0; i < nb_joueur;i++)
-		tab_joueur[i] = malloc(sizeof(t_joueur));
+		tab_joueur[i] = malloc(sizeof(t_equipe));
 
 
 	while (nb_client < nb_joueur) {
@@ -154,15 +236,15 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 		if(atoi(buffer+4) == 1 && membre_team1>=nb_client/2){
 			sprintf(buffer,"Il n'y a plus de place dans l'équipe 1 :( vous allez rejoindre l'autre équipe\n");
 			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
-			tab_joueur[j]->team = 2;
+			tab_joueur[j]->numEquipe = 2;
 		}
 		else if(atoi(buffer+4) == 2 && membre_team2>=nb_client/2){
 			sprintf(buffer,"Il n'y a plus de place dans l'équipe 2 :( vous allez rejoindre l'autre équipe\n");
 			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
-			tab_joueur[j]->team = 1;
+			tab_joueur[j]->numEquipe = 1;
 		}
 		else
-			tab_joueur[j]->team = atoi(buffer+4);
+			tab_joueur[j]->numEquipe = atoi(buffer+4);
 
 
 		if(atoi(buffer+4)==1)
@@ -170,10 +252,10 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 		else if(atoi(buffer+4)==2)
 			membre_team2++;
 
-		sprintf(buffer,"Le joueur %d a choisit l'équipe : %d\n",j+1 ,tab_joueur[j]->team);
+		sprintf(buffer,"Le joueur %d a choisit l'équipe : %d\n",j+1 ,tab_joueur[j]->numEquipe);
 		send_all_tour(tab_joueur, j, nb_client, 3);
-		fprintf(stderr,"Le joueur %d a choisit l'équipe : %d\n",j+1 ,tab_joueur[j]->team);
-	}
+		fprintf(stderr,"Le joueur %d a choisit l'équipe : %d\n",j+1 ,tab_joueur[j]->numEquipe);
+	}//fin for
 
 	//demande aux joueurs son ou ses persos
 	for(int j=0;j < nb_client;j++){
@@ -242,9 +324,8 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 	}
 
 	//initialisation partie
-	initialisation(map,equipe1,equipe2);
+	initialisation_partie(map,equipe1,equipe2,nb_client,tab_joueur,j);
 	//memcpy(buffer, map, sizeof(char)*N*N);
-	send_all_tour(tab_joueur, j, nb_client, 2);
 	fprintf(stderr,"===================================================\n\tDEMARRAGE DE LA  PARTIE\n===================================================\n");
 	maj(map,equipe1,equipe2);
  	affichage_map(map);
@@ -322,6 +403,8 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 
 
 /*
+ cree des fonctions pour chaque etapes
+apres le premier joueur ca n'affiche plus que c'est a un autre de choisir ses classes
 
 	faire une boucle de jeu pour ne pas fermer le serveur mais juste la fin_partie
 	gerer reprise deco par ia
