@@ -1,4 +1,4 @@
-/*	@(#)in.h 1.19 90/07/27 SMI; from UCB 7.5 2/22/88	*/
+ /*	@(#)in.h 1.19 90/07/27 SMI; from UCB 7.5 2/22/88	*/
 
 /*
  * Copyright (c) 1982, 1986 Regents of the University of California.
