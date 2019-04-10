@@ -52,6 +52,47 @@ void envoyer_message(int to_server_socket,char * m){
 	//printf("Reponse du serveur : '%s'\n\n", buffer);
 }
 
+void affichage_map_reseau(char * buffer){
+
+	printf(" ---- [Plan de jeu] ---- \n\n");
+	printf("%s \n", buffer);
+	printf("\n");
+}
+
+void choix_placement(int to_server_socket){
+	char buffer[BUFFER_LEN];
+
+	/*reception msg de choix*/
+	memset(buffer, 0, sizeof(buffer));
+	recv(to_server_socket,buffer,BUFFER_LEN, 0);
+	/*reception des cases possibles*/
+	memset(buffer, 0, sizeof(buffer));
+	recv(to_server_socket,buffer,BUFFER_LEN, 0);
+	/*reception map et affichage*/
+	memset(buffer, 0, sizeof(buffer));
+	recv(to_server_socket,buffer,BUFFER_LEN, 0);
+	//affichage
+	affichage_map_reseau(buffer);
+
+	/*Tant que ca n'est pas à ton tour de placer ton/tes perso*/
+	do{
+		memset(buffer, 0, sizeof(buffer));
+		recv(to_server_socket,buffer,BUFFER_LEN, 0);
+		printf("%s \n", buffer);
+	}while(strncmp("Où voulez vous placer votre %s ?", buffer,BUFFER_LEN) != 0);
+
+	/*Lorsque c'est ton tour de placer ton/tes perso*/
+	/*choix placement*/
+	do{
+		memset(buffer, 0, sizeof(buffer));
+		recv(to_server_socket,buffer,BUFFER_LEN, 0);
+		printf("%s \n", buffer);
+	}while(strncmp("Où voulez vous placer votre %s ?", buffer,BUFFER_LEN) == 0);
+
+
+
+}
+
 void quitter(int to_server_socket){
 	printf("[client] envoi message QUITTER au serveur\n");
 	send(to_server_socket,QUITTER,7,0);
@@ -175,14 +216,8 @@ int client (  int argc, char** argv )
 		}
 	}while(choix!='1' && choix!='2' && choix!='3' && choix!='4');
 
-	//reception matrice choix placement
-	recv(to_server_socket,buffer,BUFFER_LEN, 0);
 
-	do{
-		memset(buffer, 0, sizeof(buffer));
-		recv(to_server_socket,buffer,BUFFER_LEN, 0);
-		printf("%s \n", buffer);
-	}while((strncmp("Choissisez votre classe :\n", buffer,BUFFER_LEN) != 0) && (strncmp("Choissisez vos classes :\n", buffer,BUFFER_LEN) != 0));
+	choix_placement(to_server_socket);
 
 
 
