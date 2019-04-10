@@ -87,58 +87,47 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
     }
 
     printf("{ x : %i et y: %i }\n",distance_x,distance_y);
-    if(distance_x > distance_y  && distance_x > 0){
+    if(abs(distance_x) > abs(distance_y) ){
         //si l'ennemi le plus proche est situé à gauche ou à droite et que la distance en x est plus grande que la distance en y
-        //if(distance_x > 0){
+        if(distance_x > 0){
             if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.'))
-				printf(" ---- Déplacement impossible 1 ---- \n" );
-			else{
-				printf(" ---- Déplacement à Gauche ---- \n" );
-				*direction = OUEST;
-			}
-        //}
-        //else{
-
-        //}
-    }
-    else if(distance_x > distance_y  && distance_x < 0){   // si la distance en x est égale à la distance en y
-        //on fais avancer le perso soit en x soit en y
-        if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
-            printf(" ---- Déplacement impossible 2 ---- \n" );
-        else{
-            printf(" ---- Déplacement à Droite ---- \n" );
-            *direction = EST;
+    			printf(" ---- Déplacement impossible 1 ---- \n" );
+    		else{
+    			printf(" ---- Déplacement à Gauche ---- \n" );
+    			*direction = OUEST;
+    		}
         }
-        printf("3");
-
+        else{
+            if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
+                printf(" ---- Déplacement impossible 2 ---- \n" );
+            else{
+                printf(" ---- Déplacement à Droite ---- \n" );
+                *direction = EST;
+            }
+        }
     }
-    else if( distance_x < distance_y  && distance_y > 0){ // si la distance en y est supérieur à la distance en x
+    else if( abs(distance_y) > abs(distance_x)){ // si la distance en y est supérieur à la distance en x
         //if(distance_y > 0){
+        if(distance_y > 0){
             if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
-				printf(" ---- Déplacement impossible 3 ---- \n" );
-			else{
-				printf(" ---- Déplacement en Haut ---- \n" );
-				*direction = NORD;
-			}
-
-        //}
-        //else{
-
-        //}
-    }
-    else if(distance_x < distance_y  && distance_y < 0){
-        if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
-            printf(" ---- Déplacement impossible 4 ---- \n" );
+    			printf(" ---- Déplacement impossible 3 ---- \n" );
+    		else{
+    			printf(" ---- Déplacement en Haut ---- \n" );
+    			*direction = NORD;
+    		}
+        }
         else{
-            printf(" ---- Déplacement en Bas ---- \n" );
-            *direction = SUD;
+            if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
+                printf(" ---- Déplacement impossible 4 ---- \n" );
+            else{
+                printf(" ---- Déplacement en Bas ---- \n" );
+                *direction = SUD;
+            }
         }
     }
+    else if (distance_y == distance_x){
 
-    printf("DIR : %i ",*direction);
-
-
-
+    }
 
     /*
     //h
@@ -320,11 +309,11 @@ int main() {
     equipe2->nbPersoVivant = NB_PERSONNAGES;
 
     equipe1->perso1->coord.x = 5;
-    equipe1->perso1->coord.y = 4;
-    equipe2->perso1->coord.x = 5;
+    equipe1->perso1->coord.y = 5;
+    equipe2->perso1->coord.x = 6;
     equipe2->perso1->coord.y = 6;
-    map[4][5] = '1';
-    map[6][5] = '2';
+    map[5][5] = '1';
+    map[6][6] = '2';
 
     equipe2->perso2->coord.x = 1;
     equipe2->perso2->coord.y = 1;
