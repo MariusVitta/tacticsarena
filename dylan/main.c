@@ -4,36 +4,12 @@
 #include "define.h"
 
 char map[N][N];
-/**
- *\file main.c
- *\brief programme principale du jeu
- *\author Dylan
- *\author Marius
- *\version 0.1
- *\date 28/02/2019
-*/
 
-char map[N][N];/*!< tableau globale qui sert de carte de  jeu */
-
-
-/**
-*\fn int main()
-*\brief programme principale
-*\return void
-* l'ajout de classe peut etre effectué à partir du fichier classe.txt
-* de meme pour les sorts à partir du fichier sorts.txt
-* la création des personnages, de la liste des sorts, de la liste des classe sont effectués ici
-* le choix des classe est effectué dans le programme principale
-* le jeu s'arrete quand l'une des deux équipes n'a plus de personnages
-* une destruction des sorts, des classes, et des personnages est effectué à la fin du programme
-*/
 int main(){
 
 	int i,val,j,test=0,nb_tour = 1,mort1 = 0,mort2 = 0;
 	int classe[NB_PERSONNAGES+1];
   int indice_equipe = 1,nump = 1;
-	int type_partie;
-	int nb_joueur;
 
 	t_equipe * equipe1, * equipe2;
 
@@ -59,27 +35,7 @@ int main(){
 	tab[1] = equipe1;
 	tab[2] = equipe2;
 
-
-	printf("Voulez vous jouez en local[1] ou distant[2] ? \n");
-	scanf("%d", &type_partie );
-
-	do{
-		printf("Combien de joueurs 2 ou 4 ? \n");
-		scanf("%d", &nb_joueur );
-	}while((nb_joueur !=2 && nb_joueur != 4));
-
-	//jouer une partie distante
-	if(type_partie==2){
-		serveur(nb_joueur, persos ,equipe1 ,equipe2);
-		tab[1]->perso1=NULL;
-		tab[1]->perso2=NULL;
-		tab[2]->perso1=NULL;
-		tab[2]->perso2=NULL;
-	}
-
-	//jouer une partie locale
-	else{
-		for(j = 1 ; j <= NB_EQUIPES; j++){
+	for(j = 1 ; j <= NB_EQUIPES; j++){
 
 		do{
 
@@ -206,5 +162,4 @@ int main(){
 
 
 	return 0;
-	}
 }

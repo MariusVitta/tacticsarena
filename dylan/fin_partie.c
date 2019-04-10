@@ -2,24 +2,13 @@
 #include <stdlib.h>
 #include "fonc.h"
 
-/**
- *\file fin_partie.c
- *\brief Fonctions de test sur la fin de la partie
- *\author Marius
- *\author Vivien-Junior
- *\version 0.1
- *\date 28/02/2019
-*/
 
-
-
- /**
-  *\fn int est_mort(t_equipe * equipe, int nump)
-  *\brief fonction qui teste si le personnage (nump) de l'equipe (equipe) est mort
-  *\param equipe struct equipe
-  *\param nump  personnage n du equipe dont on veut tester la mort
-  *\return int : retourne 1 si le personnage n°nump de l'equipe est encore en vie
-  */
+/*
+ * fonction pour tester si un personnage est mort ou pas
+ * paramètre equipe: struct equipe
+ * paramètre numero_personnage: personnage n du equipe dont on veut tester la mort
+ * retourne 1 si le personnage n°numEro_personnage du equipe est encore en vie
+ */
 int est_mort(t_equipe * equipe, int nump){
 	int bool = 0;
 	/* le personnage est deja mort */
@@ -38,16 +27,16 @@ int est_mort(t_equipe * equipe, int nump){
 					 faisant appel est_mort();
 					 */
 					equipe->nbPersoVivant--;
-					equipe->perso1->pv =-1;
-                    printf(" Le %s du equipe %i est mort ",equipe->perso1->nom,equipe->numEquipe);
+					equipe->perso1->pv = -1;
+                    printf(" %s de l'equipe %i est mort ",equipe->perso1->nom,equipe->numEquipe);
 					bool = 1;
 				}
 				break;
 		case 2:
 				if(equipe->perso2->pv <= 0){
 					equipe->nbPersoVivant--;
-					equipe->perso2->pv =-1;
-                    printf(" Le %s du equipe %i est mort ",equipe->perso2->nom,equipe->numEquipe);
+					equipe->perso2->pv = -1;
+                    printf(" %s de l'equipe %i est mort ",equipe->perso2->nom,equipe->numEquipe);
 					bool = 1;
 				}
 				break;
@@ -55,12 +44,11 @@ int est_mort(t_equipe * equipe, int nump){
 	return bool;
 }
 
- /**
-  *\fn int partie_finie(t_equipe * equipe)
-  *\brief fonction booleenne qui teste l'equipe n'a plus de joueur vivant
-  *\param equipe struct equipe
-  *\return int : retourne vrai s'il reste des personnages dans l'equipe
-  */
+
+/*
+ * Fonction qui vérifie si le equipe equipe possède encore des personnages
+ * retourne 1 si le equipe a plus de personnages vivants
+ */
 int partie_finie(t_equipe * equipe){
 	return (equipe->nbPersoVivant);
 }
