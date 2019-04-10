@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 #include "fonc.h"
 #include "define.h"
 
@@ -13,14 +14,17 @@
 */
 
 char map[N][N];
-
-int tour_ordi_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage);
-int tour_equipe_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage);
-int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage);
-int fonction_evalution(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage);
+typedef enum {NORD = 1,EST = 2,SUD = 3,OUEST = 4}t_direction;
+int tour_ordi_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee);
+int tour_equipe_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee);
+int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee);
+int eval_sort(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage, int * hors_portee);
 int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat);
-int eval_deplacement();
+int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,t_direction * direction);
 int eval_vie();
+
+
+
 /*
  * fonction qui évalue si un sort fais plus de dégat que le sort (indice_sort)
  * paramètre indice_sort: sort que l'on teste
@@ -40,7 +44,93 @@ int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat){
 
 int eval_vie();
 
-int eval_deplacement(t_personnage * perso,int indice_sort,int portee,int distance){
+int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,t_direction * direction){
+    srand(time(NULL));
+    int choix = rand()%2;
+    int i,carre,plus_proche,distance_x,distance_y;
+    int distance[NB_PERSONNAGES];
+    t_personnage * temp;
+    /* choix du personnage du equipe 1 */
+    if(numero_personnage == 1)
+        temp = equipe1->perso1;
+    else
+        temp = equipe1->perso2;
+    char * chaine;
+    printf("Attente...");
+    scanf("%s",chaine);
+
+    for(i = 0; i < NB_PERSONNAGES;i++){
+        //on cherche à savoir quel est le personnage le plus proche du personnage 'perso'
+        if(!i){
+            carre = pow((double)(temp->coord.x - equipe2->perso1->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso1->coord.y),2);
+            distance[i] = sqrt((double)carre);
+            plus_proche = i;
+
+        }
+        else{
+            carre = pow((double)(temp->coord.x - equipe2->perso2->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso2->coord.y),2);
+            distance[i] = sqrt((double)carre);
+            if(distance[i] < distance[i - 1])
+                plus_proche = i;
+        }
+    }
+
+    printf("indice du joueur le plus proche : %i\n",plus_proche +1 );
+    //on cherche à savoir quel est la coordonées la plus élévée entre les deux personnages le x ou le y
+    if(!plus_proche){ //si le personnage le plus éloigné est le 1er personnage
+        distance_x = temp->coord.x - equipe2->perso1->coord.x;
+        distance_y = temp->coord.y - equipe2->perso1->coord.y;
+    }
+    else{
+        distance_x = temp->coord.x - equipe2->perso2->coord.x;
+        distance_y = temp->coord.y - equipe2->perso2->coord.y;
+    }
+
+    printf("x : %i et y: %i\n",distance_x,distance_y);
+    if(distance_x > distance_y && !distance_y ){ // si la distance en x est supérieur à la distance en y
+        if(distance_x >= 0){
+            if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.'))
+				printf(" ---- Déplacement impossible 1 ---- \n" );
+			else{
+				printf(" ---- Déplacement à Gauche ---- \n" );
+				*direction = OUEST;
+			}
+        }
+        else{
+            if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
+				printf(" ---- Déplacement impossible 2 ---- \n" );
+			else{
+				printf(" ---- Déplacement à Droite ---- \n" );
+                *direction = EST;
+			}
+        }
+    }
+    else if(distance_y > distance_x && (distance_x != 0|| distance_y != 0)){
+        if(distance_y >= 0){
+            if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
+				printf(" ---- Déplacement impossible 3 ---- \n" );
+			else{
+				printf(" ---- Déplacement en Haut ---- \n" );
+				*direction = NORD;
+			}
+
+        }
+        else{
+            if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
+				printf(" ---- Déplacement impossible 4 ---- \n" );
+            else{
+				printf(" ---- Déplacement en Bas ---- \n" );
+				*direction = SUD;
+			}
+        }
+    }
+    else{
+
+    }
+	printf("Direction : %d\n",*direction );
+
+
+
     /*
     //h
     if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
@@ -51,6 +141,7 @@ int eval_deplacement(t_personnage * perso,int indice_sort,int portee,int distanc
     //d
     if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
     */
+    return 0;
 }
 
 
@@ -60,7 +151,7 @@ int eval_deplacement(t_personnage * perso,int indice_sort,int portee,int distanc
  * paramètre indice_sort: sort actuel que l'on soit tester
  * return : portee du sort (indice_sort) ou la différence entre la distance entre les deux equipes et la portée du sort
  */
-int fonction_evalution(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage){
+int eval_sort(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee){
     int portee = 0,i,degat;
     t_personnage * temp;
     /* choix du personnage du equipe 1 */
@@ -75,9 +166,9 @@ int fonction_evalution(int indice_sort,char map[N][N],t_equipe * equipe1,t_equip
     portee = temp->sorts[indice_sort]->portee;
     degat = temp->sorts[indice_sort]->degat;
 
-
-    for(i = 1; i <= NB_PERSONNAGES;i++){
-        if(i == 1){
+    /* pour tout les personnages possibles de l'adversaire */
+    for(i = 0; i < NB_PERSONNAGES;i++){
+        if(!i){
             /* test du sort sur le premier perso de l'adversaire */
             carre = pow((double)(temp->coord.x - equipe2->perso1->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso1->coord.y),2);
             distance = sqrt((double)carre);
@@ -98,28 +189,31 @@ int fonction_evalution(int indice_sort,char map[N][N],t_equipe * equipe1,t_equip
         }
     }
     printf("SALUT \n" );
+    (*hors_portee)++;
     /* si on est hors portée pour tout les personnages */
     //portee = eval_degat(temp,indice_sort,portee,degat);
-    return (portee--);// != 0 ? (distance - portee) :portee);
+    return (portee);// != 0 ? (distance - portee) :portee);
 }
 
 /*
  * fonction recursive qui teste de prévoir le coup optimal que l'ordinateur pourrait effectuer
  * retourne le meilleur coup s'il existe ou le maximum des coups
  */
-int tour_ordi_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage){
+int tour_ordi_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee){
 	int i, score,eval;
-	int max = -10;
-    eval = fonction_evalution(indice_sort,map,equipe1,equipe2,numero_personnage);
+	int max = -30;
+    //
+    eval = eval_sort(indice_sort,map,equipe1,equipe2,numero_personnage,hors_portee);
     printf("eval ordi : %i\n",eval );
+    //si ce meilleur coup de l'ordi existe on retourne l'indice du meilleur coup
 	if(eval >=0)/* fonction evaluation */
 		return eval;
 	else{
-		for(i=1 ;i < MAX_NB_SORT; i++){
+		for(i=0 ;i < MAX_NB_SORT; i++){
             if(numero_personnage == 1)
-                score = tour_equipe_opti(i,map,equipe1,equipe2,numero_personnage);
+                score = tour_equipe_opti(i,map,equipe1,equipe2,numero_personnage,hors_portee);
             else
-                score = tour_equipe_opti(i,map,equipe1,equipe2,numero_personnage);
+                score = tour_equipe_opti(i,map,equipe1,equipe2,numero_personnage,hors_portee);
 			if( score > max){
 				max = score;
 			}
@@ -133,19 +227,20 @@ int tour_ordi_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * 
  * paramètre nb: sort n°
  * paramètre equipe:
  */
-int tour_equipe_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage){
+int tour_equipe_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee){
 	int i, score,eval;
 	int min = 10;
-    eval = fonction_evalution(indice_sort,map,equipe1,equipe2,numero_personnage);
-    printf("eval equipe :%i\n",eval );
+    //on va chercher à savoir si on trouve un meilleur coup
+    eval = eval_sort(indice_sort,map,equipe1,equipe2,numero_personnage,hors_portee);printf("eval equipe :%i\n",eval );
+    //si ce meilleur coup existe on retourne l'indice du meilleur coup
 	if(eval >=0) /* fonction evaluation */
 		return eval;
     else{
-        for(i=1 ;i < MAX_NB_SORT; i++){
+        for(i=0 ;i < MAX_NB_SORT; i++){
             if(numero_personnage == 1)
-                score = tour_ordi_opti(i,map,equipe2,equipe1,numero_personnage);
+                score = tour_ordi_opti(i,map,equipe2,equipe1,numero_personnage,hors_portee);
             else
-                score = tour_ordi_opti(i,map,equipe2,equipe1,numero_personnage);
+                score = tour_ordi_opti(i,map,equipe2,equipe1,numero_personnage,hors_portee);
             if( score < min){
     			min = score;
     		}
@@ -157,15 +252,14 @@ int tour_equipe_opti(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe 
 /*
  * Fonction qui effectue le meilleur coup de l'ordi
  */
-int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage){
+int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,int * hors_portee){
 	int i = 0,score;
-    int max = -10, imax=-1;
+    int max = -30, imax=-1;
 
 	/* pour tout les sorts on va tester de savoir qu'elle est le meilleur sort possible pour ce tour */
-	for(i = 1; i <= MAX_NB_SORT; i++){
+	for(i = 0; i < MAX_NB_SORT; i++){
         // on joue le coup
-        // renvoyer le max des scores
-        score = tour_equipe_opti(i,map,equipe1,equipe2,numero_personnage);
+        score = tour_equipe_opti(i,map,equipe1,equipe2,numero_personnage,hors_portee);
         printf("====== SCORE APRES TOUR equipe : %i ===== \n\n",score );
         if( score > max){
 			max = score;
@@ -178,7 +272,7 @@ int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nume
 
 
 int main() {
-    int i = 0;
+    int i = 0,hors_portee = 0;
     int classe[NB_PERSONNAGES+1];
     t_equipe * equipe1,*equipe2;
     /*Creation de toutes les classes et tous les sorts */
@@ -192,6 +286,11 @@ int main() {
 	for(int i = 1; i <= CLASSES;i++)
 		persos[i] = malloc(sizeof(t_personnage));
 
+	for(int i = 1; i < N;i++)
+		for(int j = 1; j < N;j++)
+			map[i][j] = '.';
+
+
 	creation_classes(persos,sorts);
 	/*fin de création des sorts et classes*/
 
@@ -199,26 +298,55 @@ int main() {
 	equipe1 = malloc(sizeof(t_equipe));
 	equipe2 = malloc(sizeof(t_equipe));
 
+    t_equipe * tab[NB_EQUIPES+1];
+	tab[1] = equipe1;
+	tab[2] = equipe2;
 
-    equipe1->perso1 =copie_perso(persos[classe[1]]);
-	equipe1->perso2 = copie_perso(persos[classe[1]]);
+    equipe1->perso1 = copie_perso(persos[1]);
+	equipe1->perso2 = copie_perso(persos[2]);
     equipe1->numEquipe = 1;
     equipe1->nbPersoVivant = NB_PERSONNAGES;
-    equipe2->perso1 = copie_perso(persos[classe[1]]);
-	equipe2->perso2 = copie_perso(persos[classe[1]]);
+    equipe2->perso1 = copie_perso(persos[3]);
+	equipe2->perso2 = copie_perso(persos[4]);
     equipe2->numEquipe = 2;
     equipe2->nbPersoVivant = NB_PERSONNAGES;
 
-    equipe1->perso1->coord.x = 11;
-    equipe1->perso1->coord.y = 5;
-    equipe2->perso1->coord.x = 1;
+    equipe1->perso1->coord.x = 10;
+    equipe1->perso1->coord.y = 6;
+    equipe2->perso1->coord.x = 11;
     equipe2->perso1->coord.y = 6;
 
-    printf("meilleur coup : {%i}\n",coup_ordi_opti(map,equipe1,equipe2,1));
-    int dist,carre;
+    equipe2->perso2->coord.x = 1;
+    equipe2->perso2->coord.y = 1;
 
-    carre = pow((double)(equipe1->perso1->coord.x - equipe2->perso1->coord.x),2) + pow((double)(equipe1->perso1->coord.y - equipe2->perso1->coord.y),2);
-    dist = sqrt((double)carre);
-    printf("distance = %i\n",dist);
-    //affichage_map(map);
+    printf("meilleur coup : {%i}\n",coup_ordi_opti(map,equipe1,equipe2,1,&hors_portee) + 1);
+    printf("nombre de sorts hors portée : %i\n",hors_portee );
+    t_direction direction = NORD;
+    eval_deplacement(equipe1,equipe2,1,&direction);
+    printf("Direction : %d\n",direction );
+    int dist,carre,j;
+    //for(j = 0;j < NB_PERSONNAGES; j++){
+        carre = pow((double)(equipe1->perso1->coord.x - equipe2->perso1->coord.x),2) + pow((double)(equipe1->perso1->coord.y - equipe2->perso1->coord.y),2);
+        dist = sqrt((double)carre);
+        printf("distance = %i\n",dist);
+    //}
+    affichage_map(map);
+
+
+
+    /*suppression de tous les mallocs*/
+	for(i = 1; i < SORTS; i++){
+		suppr_sort(&(sorts[i]));
+	}
+
+	for(i = 1; i <= CLASSES; i++){
+		suppr_perso(&(persos[i]));
+	}
+
+	for(i=1; i <= NB_EQUIPES; i++){
+		suppr_perso(&(tab[i]->perso1));
+		suppr_perso(&(tab[i]->perso2));
+		free(tab[i]);
+		tab[i] = NULL;
+	}
 }
