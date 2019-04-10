@@ -197,7 +197,7 @@ void creation_classes(t_personnage * persos[],t_sort * sorts[]){
 			persos[id]->sorts[1] = sorts[s2];
 			persos[id]->sorts[2] = sorts[s3];
 			persos[id]->sorts[3] = sorts[s4];
-
+			creer_effet(persos[id],6,persos[id]->coord.x,persos[id]->coord.y);
 
 			nom2 = malloc(sizeof(char)*TAILLE_MAX);
 		}
@@ -255,6 +255,8 @@ t_personnage * copie_perso(t_personnage * perso){
 		nv_perso->sorts[1] = copie_sort(perso->sorts[1]);
 		nv_perso->sorts[2] = copie_sort(perso->sorts[2]);
 		nv_perso->sorts[3] = copie_sort(perso->sorts[3]);
+		nv_perso->effets[0] = perso->effets[0];
+		nv_perso->effets[1] = perso->effets[1];
 
 		return nv_perso;
 }
