@@ -39,7 +39,7 @@ int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat){
         if(perso->sorts[indice_sort]->degat > degat )
                     return portee--;
     }
-    //return portee;
+    return portee;
 }
 
 int eval_vie();
@@ -56,8 +56,8 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
     else
         temp = equipe1->perso2;
     char * chaine;
-    printf("Attente...");
-    scanf("%s",chaine);
+    //printf("Attente...");
+    //scanf("%s",chaine);
 
     for(i = 0; i < NB_PERSONNAGES;i++){
         //on cherche à savoir quel est le personnage le plus proche du personnage 'perso'
@@ -86,27 +86,34 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
         distance_y = temp->coord.y - equipe2->perso2->coord.y;
     }
 
-    printf("x : %i et y: %i\n",distance_x,distance_y);
-    if(distance_x > distance_y && !distance_y ){ // si la distance en x est supérieur à la distance en y
-        if(distance_x >= 0){
+    printf("{ x : %i et y: %i }\n",distance_x,distance_y);
+    if(distance_x > distance_y  && distance_x > 0){
+        //si l'ennemi le plus proche est situé à gauche ou à droite et que la distance en x est plus grande que la distance en y
+        //if(distance_x > 0){
             if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.'))
 				printf(" ---- Déplacement impossible 1 ---- \n" );
 			else{
 				printf(" ---- Déplacement à Gauche ---- \n" );
 				*direction = OUEST;
 			}
-        }
-        else{
-            if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
-				printf(" ---- Déplacement impossible 2 ---- \n" );
-			else{
-				printf(" ---- Déplacement à Droite ---- \n" );
-                *direction = EST;
-			}
-        }
+        //}
+        //else{
+
+        //}
     }
-    else if(distance_y > distance_x && (distance_x != 0|| distance_y != 0)){
-        if(distance_y >= 0){
+    else if(distance_x > distance_y  && distance_x < 0){   // si la distance en x est égale à la distance en y
+        //on fais avancer le perso soit en x soit en y
+        if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
+            printf(" ---- Déplacement impossible 2 ---- \n" );
+        else{
+            printf(" ---- Déplacement à Droite ---- \n" );
+            *direction = EST;
+        }
+        printf("3");
+
+    }
+    else if( distance_x < distance_y  && distance_y > 0){ // si la distance en y est supérieur à la distance en x
+        //if(distance_y > 0){
             if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
 				printf(" ---- Déplacement impossible 3 ---- \n" );
 			else{
@@ -114,20 +121,22 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
 				*direction = NORD;
 			}
 
-        }
-        else{
-            if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
-				printf(" ---- Déplacement impossible 4 ---- \n" );
-            else{
-				printf(" ---- Déplacement en Bas ---- \n" );
-				*direction = SUD;
-			}
-        }
-    }
-    else{
+        //}
+        //else{
 
+        //}
     }
-	printf("Direction : %d\n",*direction );
+    else if(distance_x < distance_y  && distance_y < 0){
+        if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
+            printf(" ---- Déplacement impossible 4 ---- \n" );
+        else{
+            printf(" ---- Déplacement en Bas ---- \n" );
+            *direction = SUD;
+        }
+    }
+
+    printf("DIR : %i ",*direction);
+
 
 
 
@@ -286,11 +295,6 @@ int main() {
 	for(int i = 1; i <= CLASSES;i++)
 		persos[i] = malloc(sizeof(t_personnage));
 
-	for(int i = 1; i < N;i++)
-		for(int j = 1; j < N;j++)
-			map[i][j] = '.';
-
-
 	creation_classes(persos,sorts);
 	/*fin de création des sorts et classes*/
 
@@ -302,6 +306,10 @@ int main() {
 	tab[1] = equipe1;
 	tab[2] = equipe2;
 
+    for(int i = 1; i < N;i++)
+		for(int j = 1; j < N;j++)
+			map[i][j] = '.';
+
     equipe1->perso1 = copie_perso(persos[1]);
 	equipe1->perso2 = copie_perso(persos[2]);
     equipe1->numEquipe = 1;
@@ -311,10 +319,12 @@ int main() {
     equipe2->numEquipe = 2;
     equipe2->nbPersoVivant = NB_PERSONNAGES;
 
-    equipe1->perso1->coord.x = 10;
-    equipe1->perso1->coord.y = 6;
-    equipe2->perso1->coord.x = 11;
+    equipe1->perso1->coord.x = 5;
+    equipe1->perso1->coord.y = 4;
+    equipe2->perso1->coord.x = 5;
     equipe2->perso1->coord.y = 6;
+    map[4][5] = '1';
+    map[6][5] = '2';
 
     equipe2->perso2->coord.x = 1;
     equipe2->perso2->coord.y = 1;
@@ -323,12 +333,12 @@ int main() {
     printf("nombre de sorts hors portée : %i\n",hors_portee );
     t_direction direction = NORD;
     eval_deplacement(equipe1,equipe2,1,&direction);
-    printf("Direction : %d\n",direction );
+    printf("{ Direction : %d }\n",direction );
     int dist,carre,j;
     //for(j = 0;j < NB_PERSONNAGES; j++){
         carre = pow((double)(equipe1->perso1->coord.x - equipe2->perso1->coord.x),2) + pow((double)(equipe1->perso1->coord.y - equipe2->perso1->coord.y),2);
         dist = sqrt((double)carre);
-        printf("distance = %i\n",dist);
+        printf("{ distance = %i }\n",dist);
     //}
     affichage_map(map);
 
@@ -338,10 +348,12 @@ int main() {
 	for(i = 1; i < SORTS; i++){
 		suppr_sort(&(sorts[i]));
 	}
+    printf("1er free\n" );
 
 	for(i = 1; i <= CLASSES; i++){
 		suppr_perso(&(persos[i]));
 	}
+    printf("2eme free\n" );
 
 	for(i=1; i <= NB_EQUIPES; i++){
 		suppr_perso(&(tab[i]->perso1));
@@ -349,4 +361,6 @@ int main() {
 		free(tab[i]);
 		tab[i] = NULL;
 	}
+    printf("3eme free\n" );
+    return 0;
 }
