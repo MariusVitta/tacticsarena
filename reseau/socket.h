@@ -1,4 +1,4 @@
-/*	@(#)socket.h 2.16 89/05/08 SMI; from UCB 7.1 6/4/86	*/
+ /*	@(#)socket.h 2.16 89/05/08 SMI; from UCB 7.1 6/4/86	*/
 
 /*
  * Copyright (c) 1982, 1985, 1986 Regents of the University of California.
