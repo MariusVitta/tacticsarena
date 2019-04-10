@@ -9,3 +9,4 @@
 #define HAUTEUR 850
 #define N 11
 #define MAX_NB_EFFET 2
+#define BUFFER_LEN 1024

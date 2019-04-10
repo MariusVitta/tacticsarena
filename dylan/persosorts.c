@@ -3,9 +3,22 @@
 #include <string.h>
 #include "fonc.h"
 #include "define.h"
+/**
+ *\file persosorts.c
+ *\brief fonction création des sorts
+ *\author Dylan
+ *\version 0.1
+ *\date 28/02/2019
+*/
 
 
-/*Fonction de suppression de sort*/
+/**
+*\fn void suppr_sort(t_sort ** sort)
+*\brief Fonction de suppression de sort
+*\param sort sort que l'on souhaite supprimer
+*\return void
+* passage d'un double pointeur en paramètre pour pouvoir mettre le pointeur et non la copie à NULL
+*/
 void suppr_sort(t_sort ** sort){
 
 		free((*sort)->nom);
@@ -13,7 +26,14 @@ void suppr_sort(t_sort ** sort){
 		*sort = NULL;
 }
 
-/*Fonction de suppression de perso*/
+
+/**
+*\fn void suppr_perso(t_personnage ** perso)
+*\brief Fonction de suppression de perso
+*\param perso personnage que l'on souhaite supprimer
+*\return void
+* passage d'un double pointeur en paramètre pour pouvoir mettre le pointeur et non la copie à NULL
+*/
 void suppr_perso(t_personnage ** perso){
 	int i;
 
@@ -21,17 +41,23 @@ void suppr_perso(t_personnage ** perso){
 //fprintf(stderr,"suppression sort %d\n",i);
 	suppr_sort(&((*perso)->sorts[i]));
 	}
-
+	fprintf(stderr,"1\n");
 	free((*perso)->nom);
-
+	fprintf(stderr,"2\n");
 	free(*perso);
-
+	fprintf(stderr,"3\n");
 	*perso = NULL;
-
+	fprintf(stderr,"4\n");
 
 }
 
-/*Fonction de creation des pointeurs sur fonction pour mettre dans la structure des sorts*/
+
+/**
+*\fn void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int )
+*\brief Fonction de creation des pointeurs sur fonction pour mettre dans la structure des sorts
+*\param id_sort numero du sort que l'on souhaite créer
+*\return void
+*/
 void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int ){
 
 	void (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int);
@@ -92,7 +118,14 @@ void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equip
 	return fonc;
 }
 
-/*creation des tous les sorts en remplissant les structures */
+
+/**
+*\fn void creation_sorts(t_sort * sorts[])
+*\brief creation des tous les sorts en remplissant les structures
+*\param sorts[] tableau vide dans lequel on va remplir toutes les informations sur tout les sorts
+*\return t_sort
+* la fonction va lire les caractérisques de tout les sorts dans un fichier dont on a prédéfinie le format
+*/
 void creation_sorts(t_sort * sorts[]){
 
 	FILE * s = NULL;
@@ -129,7 +162,15 @@ void creation_sorts(t_sort * sorts[]){
 }
 
 
-/*creation des toutes les classes en remplissant les structures*/
+/**
+*\fn void creation_classes(t_personnage * persos[],t_sort * sorts[])
+*\brief creation des toutes les classes en remplissant les structures
+*\param persos[] tableau vide dans lequel on va remplir toutes les informations sur toutes les classes possibles
+*\param sorts[] tableau de sorts contenant les sorts
+*\return t_personnage
+* la fonction va lire les caractérisques des personnages dans un fichier dont on a prédéfinie le format
+* on remplit les sorts de la classe crée selon les sorts du tableau sorts grâce à un indice recupéré dans le fichier classe.txt
+*/
 void creation_classes(t_personnage * persos[],t_sort * sorts[]){
 
 	FILE * c = NULL;
@@ -156,7 +197,6 @@ void creation_classes(t_personnage * persos[],t_sort * sorts[]){
 			persos[id]->sorts[1] = sorts[s2];
 			persos[id]->sorts[2] = sorts[s3];
 			persos[id]->sorts[3] = sorts[s4];
-			creer_effet(persos[id],6,persos[id]->coord.x,persos[id]->coord.y);
 
 
 			nom2 = malloc(sizeof(char)*TAILLE_MAX);
@@ -170,6 +210,12 @@ void creation_classes(t_personnage * persos[],t_sort * sorts[]){
 	}
 }
 
+/**
+*\fn t_sort * copie_sort(t_sort * sort)
+*\brief fonction qui effectue une copie d'un sort puis le retour le sort crée
+*\param sort sort sur lequel on souhaite effectuer une copie
+*\return t_sort : le nouveau sort crée en copie
+*/
 t_sort * copie_sort(t_sort * sort){
 
 	t_sort * nv_sort = malloc(sizeof(t_sort));
@@ -187,7 +233,13 @@ t_sort * copie_sort(t_sort * sort){
 	return nv_sort;
 }
 
-/*copie de la classe que l'utilisateur souhaite utiliser*/
+
+/**
+*\fn t_personnage * copie_perso(t_personnage * perso)
+*\brief copie de la classe que l'utilisateur souhaite utiliser
+*\param perso perso sur lequel on souhaite effectuer une copie
+*\return t_personnage : le nouveau personnage crée en copie
+*/
 t_personnage * copie_perso(t_personnage * perso){
 
 		t_personnage * nv_perso = malloc(sizeof(t_personnage));
@@ -203,8 +255,6 @@ t_personnage * copie_perso(t_personnage * perso){
 		nv_perso->sorts[1] = copie_sort(perso->sorts[1]);
 		nv_perso->sorts[2] = copie_sort(perso->sorts[2]);
 		nv_perso->sorts[3] = copie_sort(perso->sorts[3]);
-		nv_perso->effets[0] = perso->effets[0];
-		nv_perso->effets[1] = perso->effets[1];
 
 		return nv_perso;
 }

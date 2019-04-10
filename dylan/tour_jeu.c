@@ -3,15 +3,30 @@
 #include "fonc.h"
 #include <string.h>
 
-/* fonction de gestion d'un tour de jeu
- * paramètre map : carte de jeu
- * paramètre equipe1: personnage actif pendant le tour jeu
- * paramètre equipe2: personnage passif durant le tour de jeu
- * paramètre numj: numéro du equipe qui joue actuellement
- * paramètre nump: numéro du %numj actuellement
+
+/**
+ *\file tour_jeu.c
+ *\brief fonction du tour de jeu d'un personnage
+ *\author Marius
+ *\author Dylan
+ *\author Alexandre
+ *\version 0.1
+ *\date 28/02/2019
+*/
+
+/**
+ *\fn void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump )
+ *\brief fonction de gestion d'un tour de jeu
+ *\param map carte de jeu
+ *\param equipe1 personnage actif pendant le tour jeu
+ *\param equipe2 personnage passif durant le tour de jeu
+ *\param numj numéro du equipe qui joue actuellement
+ *\param nump numéro du %numj actuellement
+ *\return void
  * la fonction demande au personne s'il souhaite effectuer un déplacement/utiliser un ou des sort(s)/passer son tour et ne rien faire
- * renvoie vrai lors que le tour de jeu du personnage est finie ou lorsqu'il passe son tour
+ * une mise à jour de la carte est effectué après avoir effectué une action (déplacement,sort) pour faire disparaitre un joueur qui serait mort après l'utilisation d'un sort
  */
+ 
 void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump ){
 
 		t_personnage * temp;
@@ -43,7 +58,7 @@ void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump ){
 
 		if (!(strcmp("chouette",temp->effets[1].nom)))
 			pm = pm * 2;
-			
+
     /* tant que le equipe ne passe pas son tour OU s'il lui reste des points de déplacements et d'actions */
     while(choix_action != 3 /*|| (pm > 0 && point_action > 0)*/){
         do{
