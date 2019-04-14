@@ -37,17 +37,13 @@ void suppr_sort(t_sort ** sort){
 void suppr_perso(t_personnage ** perso){
 	int i;
 
-	for(i = MAX_NB_SORT-1; i > 0; i--){
+	for(i = MAX_NB_SORT-1; i >= 0; i--){
 //fprintf(stderr,"suppression sort %d\n",i);
-	suppr_sort(&((*perso)->sorts[i]));
+		suppr_sort(&((*perso)->sorts[i]));
 	}
-	fprintf(stderr,"1\n");
 	free((*perso)->nom);
-	fprintf(stderr,"2\n");
 	free(*perso);
-	fprintf(stderr,"3\n");
 	*perso = NULL;
-	fprintf(stderr,"4\n");
 
 }
 
@@ -58,9 +54,9 @@ void suppr_perso(t_personnage ** perso){
 *\param id_sort numero du sort que l'on souhaite créer
 *\return void
 */
-void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int ){
+int (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int ){
 
-	void (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int);
+	int (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int);
 
 
 	switch (id_sort) {
@@ -102,10 +98,10 @@ void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equip
 			fonc = bigshaq;
 			break;
 		case 13:
-			fonc = felin;
+			fonc = minotaure;
 			break;
 		case 14:
-			fonc = chouette;
+			fonc = felin;
 			break;
 		case 15:
 			fonc = fuego;
@@ -114,6 +110,7 @@ void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equip
 			fonc = revitalisation;
 			break;
 		default : fonc = NULL;
+			break;
 	}
 	return fonc;
 }
@@ -191,12 +188,12 @@ void creation_classes(t_personnage * persos[],t_sort * sorts[]){
 			persos[id]->nom = nom2;
 			persos[id]->pv = pv;
 			persos[id]->pv_max = pv_max;
-			persos[id]->pa = pa;
+			persos[id]->pa_max = pa;
 			persos[id]->pm = pm;
-			persos[id]->sorts[0] = sorts[s1];
-			persos[id]->sorts[1] = sorts[s2];
-			persos[id]->sorts[2] = sorts[s3];
-			persos[id]->sorts[3] = sorts[s4];
+			persos[id]->sorts[0] = copie_sort(sorts[s1]);
+			persos[id]->sorts[1] = copie_sort(sorts[s2]);
+			persos[id]->sorts[2] = copie_sort(sorts[s3]);
+			persos[id]->sorts[3] = copie_sort(sorts[s4]);
 			creer_effet(persos[id],6,persos[id]->coord.x,persos[id]->coord.y);
 
 			nom2 = malloc(sizeof(char)*TAILLE_MAX);
@@ -249,7 +246,7 @@ t_personnage * copie_perso(t_personnage * perso){
 		strcpy(nv_perso->nom,perso->nom);
 		nv_perso->pv = perso->pv ;
 		nv_perso->pv_max = perso->pv_max;
-		nv_perso->pa = perso->pa ;
+		nv_perso->pa_max = perso->pa_max ;
 		nv_perso->pm = perso->pm ;
 		nv_perso->sorts[0] = copie_sort(perso->sorts[0]);
 		nv_perso->sorts[1] = copie_sort(perso->sorts[1]);

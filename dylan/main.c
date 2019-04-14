@@ -167,7 +167,7 @@ int main(){
 
 
 	/*suppression de tous les mallocs*/
-		for(i = 1; i < SORTS; i++){
+		for(i = 1; i <= SORTS; i++){
 			suppr_sort(&(sorts[i]));
 		}
 
@@ -181,7 +181,6 @@ int main(){
 			free(tab[i]);
 			tab[i] = NULL;
 		}
-
 
 		return 0;
 	}

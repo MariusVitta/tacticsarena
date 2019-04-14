@@ -47,7 +47,7 @@ typedef struct s_sort{
 	int upt; /** utilisation par tour*/
   int uptm; /** utilisation par tour maximale*/
 	int point_action; /** nombre de points d'actions minimum pour pouvoir utiliser le sort*/
-	void (*sort)(char map[N][N], t_personnage * , t_equipe *,t_equipe *,int,int,int,int);/** récupération de la fonction du sort dans la structure sort */
+	int (*sort)(char map[N][N], t_personnage * , t_equipe *,t_equipe *,int,int,int,int);/** récupération de la fonction du sort dans la structure sort */
 
 }t_sort;
 
@@ -90,6 +90,7 @@ struct s_personnage{
 	int pv; /** nombre de points de vie du personnage */
 	int pv_max; /** nombre maximal de points de vie  du personnage*/
 	int pa; /** points d'actions disponibles du personnage */
+	int pa_max;
 	int pm; /** points de mouvement disponibles du personnage */
 	t_coordonnees coord; /** position du personnage */
 	t_sort * sorts[MAX_NB_SORT]; /** liste des sorts du personnage */
@@ -131,7 +132,7 @@ void creer_effet(t_personnage *,int ,int ,int );
 
 void suppr_sort(t_sort ** );
 void suppr_perso(t_personnage ** );
-void (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int);
+int (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int);
 void creation_sorts(t_sort * sorts[]);
 void creation_classes(t_personnage * persos[], t_sort * sorts[]);
 t_sort * copie_sort(t_sort * sort);
@@ -141,24 +142,29 @@ t_personnage * copie_perso(t_personnage * );
 
 
 /** sorts */
-void armure  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void felin  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void chouette  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void attire  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void chenchen  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void bigshaq  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void diago  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void coup_zone  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void double_tape  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void petit_coup  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void ligne  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );;
-void grosCoup  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void soin  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void saut  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void fuego  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
-void revitalisation  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int armure  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int minotaure  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int felin  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int attire  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int chenchen  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int bigshaq  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int diago  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int coup_zone  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int double_tape  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int petit_coup  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int ligne  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int grosCoup  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int soin  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int saut  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int fuego  (char map[N][N], t_personnage * ,t_equipe *, t_equipe *,int ,int ,int ,int );
+int revitalisation  (char map[N][N], t_personnage * ,t_equipe * , t_equipe * ,int ,int ,int , int);
 
 /** fonction déplacement case par case pour le equipe */
 int deplacement(t_equipe * ,t_equipe * ,char map[N][N],int ,int  );
 /** affichage portee et application des degats */
-void portee_degat(char map[N][N], t_personnage * ,t_equipe * , t_equipe * ,int ,int ,int , int );
+
+int portee_degat (char map[N][N], t_personnage * ,t_equipe * , t_equipe * ,int ,int ,int , int );
+
+t_coordonnees range(char map[N][N], t_personnage * ,t_equipe * , t_equipe * ,int ,int ,int,int );
+
+int damage(char map[N][N], t_personnage * ,t_equipe * , t_equipe * ,int ,int ,int , int ,t_coordonnees );
