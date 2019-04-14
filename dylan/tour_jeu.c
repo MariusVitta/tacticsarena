@@ -29,6 +29,7 @@
 
 void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump ){
 
+		char c;
 		t_personnage * temp;
 
 		if(nump == 1 ){
@@ -65,7 +66,10 @@ void tour(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nump ){
     while(choix_action != 3 /*|| (pm > 0 && point_action > 0)*/){
         do{
             printf(" ---- Quelle action souhaitez vous effectuer ? ---- \n[1]:Se déplacer ?[nombre de déplacement:%i]\n[2]:Utiliser un sort ? [nombre de points d'actions:%i]\n[3]:Passer son tour\nchoix:",pm,temp->pa);
-            scanf("%i",&choix_action );
+
+						while ((c = getchar()) != EOF && c != '\n');
+
+						scanf("%i",&choix_action );
         }
         while(choix_action < 1 || choix_action > 3);
 
