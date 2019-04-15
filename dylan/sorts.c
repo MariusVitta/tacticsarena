@@ -1002,7 +1002,7 @@ int revitalisation (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_
             else
               equipe1->perso2->pv = equipe1->perso2->pv_max;
 
-              printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
+              printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso2->nom, equipe1->perso2->pv);
             break;
         }
       }
@@ -1026,7 +1026,7 @@ int revitalisation (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_
             else
               equipe1->perso2->pv = equipe1->perso2->pv_max;
 
-            printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
+            printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso2->nom, equipe1->perso2->pv);
           break;
         }
       }
