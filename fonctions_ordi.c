@@ -14,7 +14,7 @@ int choix_personnage_ordi(t_joueur * ordi,int nb_classe,int nb_personnages){
     srand(time(NULL)); // initialisation de rand
     int classe = 0,i = 1;
     while(i <= nb_personnages){
-        classe = rand()%nb_classe+1;
+        classe = rand()%nb_classe+1; 
         printf("choix: %i\n",classe);
         switch(i) {
             case 1: ordi->perso1 = creer_perso(classe);break;
