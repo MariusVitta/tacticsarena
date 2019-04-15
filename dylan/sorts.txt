@@ -10,7 +10,7 @@
 10 Attire 15 0 1 1 1
 11 ChenChen 2 10 1 1 1
 12 BigShaq 1 0 1 1 2
-13 Transformation_Felin 0 0 1 1 1
-14 Transformation_Chouette 0 0 1 1 1
+13 Transformation_Mino 0 0 1 1 1
+14 Transformation_Felin 0 0 1 1 1
 15 Fuego 4 12 1 2 1
 16 Revitalisation 2 8 1 2 1

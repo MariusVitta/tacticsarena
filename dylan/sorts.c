@@ -229,7 +229,7 @@ int diago (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * 
   coor.x = x;
   coor.y = y;
 
-  if(portee_degat(map,perso1,equipe2,equipe1,nump,degat,portee,numj))
+  if(damage(map,perso1,equipe2,equipe1,nump,degat,portee,numj,coor))
     return 1;
 
   return 0;
@@ -309,7 +309,7 @@ int ligne (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * 
   coor.x = x;
   coor.y = y;
 
-  if(portee_degat(map,perso1,equipe2,equipe1,nump,degat,portee,numj))
+  if(damage(map,perso1,equipe2,equipe1,nump,degat,portee,numj,coor))
     return 1;
 
   return 0;
