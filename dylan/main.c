@@ -73,7 +73,7 @@ int main(){
 					classe[i] = val;
 				}
 
-				for(i = 1;i <= NB_PERSONNAGES || test == 0; i++){
+				for(i = 1;i <= NB_PERSONNAGES && test == 1; i++){
 					if((classe[i] < 1) || (classe[i] > CLASSES))
 						test = 1;
 					else
