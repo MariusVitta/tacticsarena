@@ -26,7 +26,7 @@
 
 \section {Introduction}
 
-Dans le cadre du module \textit{Conduite de projet}, il nous a été soumis un travail de développement et de programmation par équipe. Nous avons donc formé un groupe de quatre étudiants composé de Vivien-Junior Obanda, Dylan Renaudin, Alexandre Danjou et Marius Vitta. L'objectif fixé était de developper \textit{Tactics Arena}, un jeu de stratégie sur plateau opposant deux équipes et reposant sur des combats au tour par tour.  Nous avons souhaité revisiter certaines règles classiques de ce jeu dans l'optique d'y apporter une contribution personnelle. Ainsi, notre jeu que nous avons nommé \textit{Necrew Arena}, repose quasiment sur les mêmes bases en l'occurrence un plateau de jeu, deux équipes, des personnages, des sorts, un combat au tour par tour \dots\ La différence majeure réside dans le nombre de personnages et de sorts que possèdent chacun des joueurs. Par opposition aux règles du jeu traditionnel où chaque équipe est composée de plusieurs personnages dotés d'un seul sorts chacun, \textit{Necrew Arena} oppose deux équipes formées de deux personnages au maximum. En revanche, ces derniers ont droit à quatre sorts bien distincts répartis selon la classe du personnage choisi.
+Dans le cadre de la \textit{Conduite de projet}, un module du second semestre de deuxième année de licence informatique, il nous a été soumis un travail de développement et de programmation par équipe favorisant l'application de nos connaissances. L'objectif fixé était de developper \textit{Tactics Arena}, un jeu de stratégie sur plateau opposant deux équipes et reposant sur des combats au tour par tour. Nous avons donc formé un groupe de quatre étudiants composé de Vivien-Junior Obanda, Dylan Renaudin, Alexandre Danjou et Marius Vitta.  Par ailleurs, nous avons souhaité revisiter certaines règles classiques de ce jeu dans l'optique d'y apporter une contribution personnelle. Ainsi, notre jeu que nous avons nommé \textit{Necrew Arena}, repose majoritairement sur les mêmes bases en l'occurrence un plateau de jeu, deux équipes, des personnages, des sorts, un combat au tour par tour \dots\ La différence majeure réside dans le nombre de personnages et de sorts que possèdent chacun des joueurs. Par opposition aux règles du jeu traditionnel où chaque équipe est composée de plusieurs personnages dotés d'un seul sorts chacun, \textit{Necrew Arena} oppose deux équipes formées de deux personnages au maximum. En revanche, ces derniers ont droit à quatre sorts bien distincts répartis selon la classe du personnage choisi. Dans la suite de notre rapport, nous expliquerons de manière détaillée les étapes nécessaires à la création de notre jeu, avant d'auto-évaluer notre travail et présenter relativement les différents points d'amélioration possibles à l'avenir.
 
 \section {Organisation du travail}
 
@@ -39,9 +39,19 @@ Dans le cadre du module \textit{Conduite de projet}, il nous a été soumis un t
 \subsection {Intelligence Artificielle}
 \subsection {Réseau}
 \subsection {Interface graphique}
+
+En effet, nous avons jugé intéressant de ne pas se limiter à une version console compte tenu de la complexité du jeu. Necrew Arena se voulant plus ouvert et accessible à tout utilisateur, nous lui avons attribué une interface graphique. Pour ce faire, nous avons évolué, parallèlement selon les besoins rencontrés lors de l'implémentation, par la programmation des divers affichages et l'adaptation des fonctions existantes afin qu'elles soient utilisables depuis notre interface graphique. De ce fait, des procédures et des fonctions, outres celles concernant les affichages et les fonctions de jeu, ont été mises en oeuvre et font office d'outils. 
+
+\paragraph{Affichages}
+\paragraph{Adaptation des fonctions en variante SDL}
+\paragraph{Outils favorisant la mise en place de l'interface}
 \subsection {Méthodes et outils de développement}
 
 \section {Résultats}
+\subsection {Version terminale}
+\subsection {Intelligence Artificielle}
+\subsection {Réseau}
+\subsection {Interface graphique}
 \section {Conclusion}
 \newpage
 \section * {Annexe}
