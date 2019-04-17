@@ -78,6 +78,8 @@ clean:
 	- rm sdl_test
 	- rm test_perso
 	- rm test_ia
+	- rm test_reseau
+	- rm client
 
 mrproper: clean
 
