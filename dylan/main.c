@@ -58,8 +58,7 @@ int main(){
 		for(j = 1 ; j <= NB_EQUIPES; j++){
 
 			do{
-				test = 1;
-				printf("L'equipe %d choisi ses classes : \n",j);
+ 				printf("L'equipe %d choisi ses classes : \n",j);
 
 				for(i = 1; i <= CLASSES; i++){
 
@@ -72,8 +71,9 @@ int main(){
 					scanf("%d",&val);
 					classe[i] = val;
 				}
+				test = 0;
 
-				for(i = 1;i <= NB_PERSONNAGES && test == 1; i++){
+				for(i = 1;i <= NB_PERSONNAGES && test != 1; i++){
 					if((classe[i] < 1) || (classe[i] > CLASSES))
 						test = 1;
 					else
