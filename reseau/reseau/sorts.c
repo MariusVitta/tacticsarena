@@ -54,7 +54,8 @@ int saut (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * e
  coor = range(map,perso1,equipe2,equipe1,nump,degat,portee,numj, reseau);
 
  if(((abs(perso1->coord.x-coor.x)+abs(perso1->coord.y-coor.y))>portee|| (coor.x<0 || coor.x>=N) || (coor.y<0 || coor.y>=N)) || (map[coor.y][coor.x]!='.')){
-   printf("\nAction impossible, restitution des points d'action\n");
+    if(!reseau)
+      printf("\nAction impossible, restitution des points d'action\n");
    return 0;
  }
 
@@ -62,15 +63,16 @@ int saut (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * e
     perso1->coord.x = coor.x;
 
     perso1->coord.y = coor.y;
-  }
-
- if(equipe1->numEquipe == 1){
-   maj(map,equipe1,equipe2);
-   affichage_map(map);
  }
- else {
-   maj(map,equipe2,equipe1);
-   affichage_map(map);
+ if(!reseau){
+   if(equipe1->numEquipe == 1){
+     maj(map,equipe1,equipe2);
+     affichage_map(map);
+   }
+   else {
+     maj(map,equipe2,equipe1);
+     affichage_map(map);
+   }
  }
  return 1;
 }
@@ -90,22 +92,39 @@ int saut (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * e
 *\return void
 */
 int soin (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj, int reseau){
+  int i;
 
-  if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
-    equipe1->perso1->pv += degat;
-  else
-    equipe1->perso1->pv = equipe1->perso1->pv_max;
+  if(!reseau){
+    if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
+      equipe1->perso1->pv += degat;
+    else
+      equipe1->perso1->pv = equipe1->perso1->pv_max;
 
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
+
+    printf("%s soigné.\n Il a maintenant : %i pv\n\n", equipe1->perso1->nom, equipe1->perso1->pv);
   }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
-  }
 
-  printf("%s soigné.\n Il a maintenant : %i pv\n\n", equipe1->perso1->nom, equipe1->perso1->pv);
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
+    envoie_map(map, tab_joueur, numj, 2);
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    sprintf(buffer,"%s soigné.\n Il a maintenant : %i pv\n", perso1->nom, perso1->pv);
+    send(tab_joueur[i]->client_socket, buffer, strlen(buffer), 0);
+  }
 
   return 1;
 }
@@ -224,13 +243,35 @@ int diago (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * 
 	for(; (i < N  && j >= 0) && nb < portee && point[i][j] == '.'; i++, j--, nb++, car++)
 		point[i][j] = 'A' + car;
 
-	affichage_map(point);
+  int x = 0, y = 0;
+  if(!reseau){
+  	affichage_map(point);
 
-	int x = 0, y = 0;
-	do{
-			printf("Où souhaitez vous taper : ");
-			scanf(" %c", &choix);
-	}while(!existe(point, choix, &x, &y));
+  	do{
+  			printf("Où souhaitez vous taper : ");
+  			scanf(" %c", &choix);
+  	}while(!existe(point, choix, &x, &y));
+  }
+
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
+    envoie_map(point, tab_joueur, numj, 2);
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    do{
+  			sprintf(buffer,"Où souhaitez vous taper : \n");
+        send(tab_joueur[i]->client_socket, buffer, strlen(buffer), 0);
+        /* reception de la cible choisit par le joueur */
+        memset(buffer, 0, sizeof(buffer));
+        recv(tab_joueur[i]->client_socket,buffer,BUFFER_LEN, 0);
+        strncpy(&choix,buffer+4,1);
+  	}while(!existe(point, choix, &x, &y));
+  }
 
   coor.x = x;
   coor.y = y;
@@ -304,14 +345,34 @@ int ligne (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * 
 	for(; j >= 0 && nb < portee && point[i][j] == '.'; j--, nb++, car++)
 		point[i][j] = 'A' + car;
 
-	affichage_map(point);
-
 	int x = 0, y = 0;
-	do{
-			printf("Où souhaitez vous taper : ");
-			scanf(" %c", &choix);
-	}while(!existe(point, choix, &x, &y));
 
+  if(!reseau){
+    affichage_map(point);
+  	do{
+  			printf("Où souhaitez vous taper : ");
+  			scanf(" %c", &choix);
+  	}while(!existe(point, choix, &x, &y));
+  }
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
+    envoie_map(point, tab_joueur, numj, 2);
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    do{
+  			sprintf(buffer,"Où souhaitez vous taper : \n");
+        send(tab_joueur[i]->client_socket, buffer, strlen(buffer), 0);
+        /* reception de la cible choisit par le joueur */
+        memset(buffer, 0, sizeof(buffer));
+        recv(tab_joueur[i]->client_socket,buffer,BUFFER_LEN, 0);
+        strncpy(&choix,buffer+4,1);
+  	}while(!existe(point, choix, &x, &y));
+  }
   coor.x = x;
   coor.y = y;
 
@@ -371,14 +432,30 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
 	coor = range(map,perso1,equipe2,equipe1,nump,degat,portee,numj, reseau);
 
   if(((abs(perso1->coord.x-coor.x)+abs(perso1->coord.y-coor.y))>portee)){
-    printf("\nAction impossible, restitution des points d'action\n");
+    if(!reseau)
+      printf("\nAction impossible, restitution des points d'action\n");
     return 0;
+  }
+
+  int nb_client;
+  int cpt;
+  int l;
+
+  if(reseau){
+
+    for(cpt=0;numj!=tab_joueur[cpt]->client_socket;cpt++);
+
+    if(tab_joueur[cpt]->perso2!=NULL){
+      nb_client=2;
+    }
+    else
+      nb_client=4;
   }
 
   else {
       //printf("x = %i y = %i\n", x, y);
       //vérifie si il y a des personnages dans la croix de largeur 'l' si oui leurs infliges les dégats
-      int l=1;
+
       //ligne horizontale
       for(i=coor.y,j=coor.x-l;j!=coor.x+(l+1);j++){
         if(numj==1){
@@ -387,17 +464,29 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
             case '2' :
               if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
                 degat = (degat/2);
-
-              equipe2->perso1->pv -= degat;
-              printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+              if(!reseau){
+                equipe2->perso1->pv -= degat;
+                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+              }
+              else{
+                tab_joueur[cpt]->perso1->pv -= degat;
+                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                send_all_tour(tab_joueur, cpt, nb_client, 1);
+              }
             break;
 
             case '4' :
                 if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
                   degat = (degat/2);
-
-              equipe2->perso2->pv -= degat;
-              printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+                if(!reseau){
+                  equipe2->perso2->pv -= degat;
+                  printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+                }
+                else{
+                  tab_joueur[cpt]->perso2->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                  send_all_tour(tab_joueur, cpt, nb_client, 1);
+                }
             break;
           }
         }
@@ -408,17 +497,29 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
             case '1' :
               if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
                 degat = (degat/2);
-
-              equipe2->perso1->pv -= degat;
-              printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+              if(!reseau){
+                equipe2->perso1->pv -= degat;
+                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+              }
+              else{
+                tab_joueur[cpt]->perso1->pv -= degat;
+                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                send_all_tour(tab_joueur, cpt, nb_client, 1);
+              }
             break;
 
             case '3' :
               if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
                 degat = (degat/2);
-
-              equipe2->perso2->pv -= degat;
-              printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+              if(!reseau){
+                equipe2->perso2->pv -= degat;
+                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+              }
+              else{
+                tab_joueur[cpt]->perso2->pv -= degat;
+                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                send_all_tour(tab_joueur, cpt, nb_client, 1);
+              }
             break;
           }
         }
@@ -433,17 +534,29 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
               case '2' :
                 if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
                   degat = (degat/2);
-
-                equipe2->perso1->pv -= degat;
-                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+                if(!reseau){
+                  equipe2->perso1->pv -= degat;
+                  printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+                }
+                else{
+                  tab_joueur[cpt]->perso1->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                  send_all_tour(tab_joueur, cpt, nb_client, 1);
+                }
               break;
 
               case '4' :
                   if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
                     degat = (degat/2);
-
-                equipe2->perso2->pv -= degat;
-                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+                  if(!reseau){
+                    equipe2->perso2->pv -= degat;
+                    printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+                  }
+                  else{
+                    tab_joueur[cpt]->perso2->pv -= degat;
+                    sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                    send_all_tour(tab_joueur, cpt, nb_client, 1);
+                  }
               break;
             }
           }
@@ -454,31 +567,57 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
               case '1' :
                 if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
                   degat = (degat/2);
-
-                equipe2->perso1->pv -= degat;
-                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+                if(!reseau){
+                  equipe2->perso1->pv -= degat;
+                  printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+                }
+                else{
+                  tab_joueur[cpt]->perso1->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                  send_all_tour(tab_joueur, cpt, nb_client, 1);
+                }
               break;
 
               case '3' :
-                if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
+                if(!(strcmp("armure",equipe2->perso2->effets[0].nom)))
                   degat = (degat/2);
-
-                equipe2->perso2->pv -= degat;
-                printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
-              break;
+                if(!reseau){
+                  equipe2->perso2->pv -= degat;
+                  printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+                }
+                else{
+                  tab_joueur[cpt]->perso2->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                  send_all_tour(tab_joueur, cpt, nb_client, 1);
+                }
+                break;
             }
           }
         }
-      }
+      }//fin for
+  }//fin else
+
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
   }
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
+  else{
+    if(tab_joueur[cpt]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
   }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
-  }
+
   return 1;
 }
 
@@ -501,19 +640,52 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
 */
 
 int armure (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj, int reseau){
+  int i;
+  int nb_client;
+
   creer_effet(perso1,1,perso1->coord.x,perso1->coord.y);
 
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
-  }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
+
+    printf("Vous prendrez la moitié des dégats jusqu'a votre prochain tour\n\n");
   }
 
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
 
-  printf("Vous prendrez la moitié des dégats jusqu'a votre prochain tour\n\n");
+    if(tab_joueur[i]->perso2!=NULL){
+      nb_client=2;
+    }
+    else
+      nb_client=4;
+
+    if(tab_joueur[i]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    sprintf(buffer,"Vous prendrez la moitié des dégats jusqu'a votre prochain tour\n\n");
+    send_all_tour(tab_joueur, i, nb_client, 1);
+  }
+
   return 1;
 }
 
@@ -575,16 +747,39 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 	for(; j >= 0 && nb < portee && point[i][j] == '.'; j--, nb++, car++)
 		point[i][j] = 'A' + car;
 
-	affichage_map(point);
+  int x = 0, y = 0;
 
-	int x = 0, y = 0;
-	do{
-			printf("Où souhaitez vous taper : ");
-			scanf(" %c", &choix);
-	}while(!existe(point, choix, &x, &y));
+  if(!reseau){
+  	affichage_map(point);
+  	do{
+  			printf("Où souhaitez vous taper : ");
+  			scanf(" %c", &choix);
+  	}while(!existe(point, choix, &x, &y));
+  }
+
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
+    envoie_map(point, tab_joueur, numj, 2);
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    do{
+  			sprintf(buffer,"Où souhaitez vous taper : \n");
+        send(tab_joueur[i]->client_socket, buffer, strlen(buffer), 0);
+        /* reception de la cible choisit par le joueur */
+        memset(buffer, 0, sizeof(buffer));
+        recv(tab_joueur[i]->client_socket,buffer,BUFFER_LEN, 0);
+        strncpy(&choix,buffer+4,1);
+  	}while(!existe(point, choix, &x, &y));
+  }
 
   if(((abs(perso1->coord.x-x)+abs(perso1->coord.y-y))>portee)){
-    printf("\nAction impossible, restitution des points d'action\n");
+    if(!reseau)
+      printf("\nAction impossible, restitution des points d'action\n");
     return 0;
   }
 
@@ -740,13 +935,25 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
       }
   	}
   }
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
   }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
+  else{
+    if(tab_joueur[i]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
   }
   return 1;
 }
@@ -794,19 +1001,31 @@ int bigshaq (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe 
 	int i, j;
 	char choix;
 	int degats[4]={8,16,32,128};
+  int nb_client;
+  int cpt;
 
   t_coordonnees coor;
-
-
 
 	coor = range(map,perso1,equipe2,equipe1,nump,degat,portee,numj, reseau);
 
   if(((abs(perso1->coord.x-coor.x)+abs(perso1->coord.y-coor.y))>portee)){
-    printf("\nAction impossible, restitution des points d'action\n");
+    if(!reseau)
+      printf("\nAction impossible, restitution des points d'action\n");
     return 0;
   }
 
   else {
+
+    if(reseau){
+
+      for(cpt=0;numj!=tab_joueur[cpt]->client_socket;cpt++);
+
+      if(tab_joueur[cpt]->perso2!=NULL){
+        nb_client=2;
+      }
+      else
+        nb_client=4;
+    }
 
     //réduction des points de vies après le coup
     if(numj==1){
@@ -815,17 +1034,29 @@ int bigshaq (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe 
         case '2' :
           if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
             degat = (degat/2);
-
-          equipe2->perso1->pv -= degat;
-          printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+          if(!reseau){
+            equipe2->perso1->pv -= degat;
+            printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+          }
+          else{
+            tab_joueur[cpt]->perso1->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
         break;
 
         case '4' :
-            if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
-              degat = (degat/2);
-
-          equipe2->perso2->pv -= degat;
-          printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+          if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
+            degat = (degat/2);
+          if(!reseau){
+            equipe2->perso2->pv -= degat;
+            printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+          }
+          else{
+            tab_joueur[cpt]->perso2->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
         break;
       }
     }
@@ -836,28 +1067,53 @@ int bigshaq (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe 
         case '1' :
           if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
             degat = (degat/2);
-
-          equipe2->perso1->pv -= degat;
-          printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+          if(!reseau){
+            equipe2->perso1->pv -= degat;
+            printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+          }
+          else{
+            tab_joueur[cpt]->perso1->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
         break;
 
         case '3' :
           if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
             degat = (degat/2);
-
-          equipe2->perso2->pv -= degat;
-          printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+          if(!reseau){
+            equipe2->perso2->pv -= degat;
+            printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+          }
+          else{
+            equipe2->perso2->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
         break;
       }
     }
   }
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
+
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
   }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
+  else{
+    if(tab_joueur[cpt]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
   }
   return 1;
 }
@@ -883,20 +1139,49 @@ int bigshaq (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe 
 */
 
 int minotaure (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj, int reseau){
-
+  int i;
+  int nb_client;
   creer_effet(perso1,2,perso1->coord.x,perso1->coord.y);
 
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
-  }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
+    printf("Vous vous transformez en minotaure et aurez désormais le double de points d'actions (une seule transformation à la fois)\n\n");
   }
 
-  printf("Vous vous transformez en minotaure et aurez désormais le double de points d'actions (une seule transformation à la fois)\n\n");
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
 
+    if(tab_joueur[i]->perso2!=NULL){
+      nb_client=2;
+    }
+    else
+      nb_client=4;
+
+    if(tab_joueur[i]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    sprintf(buffer,"Vous vous transformez en minotaure et aurez désormais 3 points d'actions (une seule transformation à la fois)\n\n");
+    send_all_tour(tab_joueur, i, nb_client, 1);
+  }
   return 1;
 
 }
@@ -916,20 +1201,49 @@ int minotaure (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
 */
 
 int felin (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj, int reseau){
-
+  int i;
+  int nb_client;
   creer_effet(perso1,3,perso1->coord.x,perso1->coord.y);
 
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
-  }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
-  }
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+      maj(map,equipe1,equipe2);
+      affichage_map(map);
+    }
+    else {
+      maj(map,equipe2,equipe1);
+      affichage_map(map);
+    }
 
-  printf("Vous vous transformez en felin et aurez désormais le double de points de mouvement (une seule transformation à la fois)\n\n");
+    printf("Vous vous transformez en felin et aurez désormais le double de points de mouvement (une seule transformation à la fois)\n\n");
+  }
+  else{
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
 
+    if(tab_joueur[i]->perso2!=NULL){
+      nb_client=2;
+    }
+    else
+      nb_client=4;
+
+    if(tab_joueur[i]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    memset(buffer, 0, sizeof(buffer));
+    sprintf(buffer,"Vous vous transformez en minotaure et aurez désormais le double de points d'actions (une seule transformation à la fois)\n\n");
+    send_all_tour(tab_joueur, i, nb_client, 1);
+  }
   return 1;
 
 }
@@ -976,76 +1290,137 @@ int revitalisation (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_
   char point[N][N];/*matrice affichant les possibilités de jeu*/
 	int i, j, g, dist = portee,car=0;
 	char choix;
+  int nb_client;
+  int cpt;
 
   t_coordonnees coor;
-
-
 
   coor = range(map,perso1,equipe2,equipe1,nump,degat,portee,numj, reseau);
 
   if(((abs(perso1->coord.x-coor.x)+abs(perso1->coord.y-coor.y))>portee)){
-    printf("\nAction impossible, restitution des points d'action\n");
+    if(!reseau)
+      printf("\nAction impossible, restitution des points d'action\n");
     return 0;
   }
 
   else {
-  //réduction des points de vies après le coup
-      if(numj==2){
-        switch (map[coor.y][coor.x]){
 
-          case '2' :
-            if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
-              equipe1->perso1->pv += degat;
-            else
-              equipe1->perso1->pv = equipe1->perso1->pv_max;
+    if(reseau){
 
-            printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
-          break;
+      for(cpt=0;numj!=tab_joueur[cpt]->client_socket;cpt++);
 
-          case '4' :
-            if(equipe1->perso2->pv+degat <= equipe1->perso2->pv_max)
-              equipe1->perso2->pv += degat;
-            else
-              equipe1->perso2->pv = equipe1->perso2->pv_max;
-
-              printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso2->nom, equipe1->perso2->pv);
-            break;
-        }
+      if(tab_joueur[cpt]->perso2!=NULL){
+        nb_client=2;
       }
+      else
+        nb_client=4;
+    }
+    //réduction des points de vies après le coup
+    if(numj==2){
+      switch (map[coor.y][coor.x]){
 
-      else if(numj==1){
-        switch (map[coor.y][coor.x]){
-
-          case '1' :
-
+        case '2' :
+          if(!reseau){
             if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
               equipe1->perso1->pv += degat;
             else
               equipe1->perso1->pv = equipe1->perso1->pv_max;
-
             printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
-          break;
+          }
+          else{
+            if(tab_joueur[cpt]->perso1->pv+degat <= tab_joueur[cpt]->perso1->pv_max)
+              tab_joueur[cpt]->perso1->pv += degat;
+            else
+              tab_joueur[cpt]->perso1->pv = tab_joueur[cpt]->perso1->pv_max;
+            sprintf(buffer,"%s soigné.\n Il a maintenant : %i pv\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
+        break;
 
-          case '3' :
+        case '4' :
+          if(!reseau){
             if(equipe1->perso2->pv+degat <= equipe1->perso2->pv_max)
               equipe1->perso2->pv += degat;
             else
               equipe1->perso2->pv = equipe1->perso2->pv_max;
-
             printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso2->nom, equipe1->perso2->pv);
-          break;
-        }
+          }
+          else{
+            if(tab_joueur[cpt]->perso2->pv+degat <= tab_joueur[cpt]->perso2->pv_max)
+              tab_joueur[cpt]->perso2->pv += degat;
+            else
+              tab_joueur[cpt]->perso2->pv = tab_joueur[cpt]->perso2->pv_max;
+            sprintf(buffer,"%s soigné.\n Il a maintenant : %i pv\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
+        break;
       }
+    }
+
+    else if(numj==1){
+      switch (map[coor.y][coor.x]){
+
+        case '1' :
+          if(!reseau){
+            if(equipe1->perso1->pv+degat <= equipe1->perso1->pv_max)
+              equipe1->perso1->pv += degat;
+            else
+              equipe1->perso1->pv = equipe1->perso1->pv_max;
+            printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso1->nom, equipe1->perso1->pv);
+          }
+          else{
+            if(tab_joueur[cpt]->perso1->pv+degat <= tab_joueur[cpt]->perso1->pv_max)
+              tab_joueur[cpt]->perso1->pv += degat;
+            else
+              tab_joueur[cpt]->perso1->pv = tab_joueur[cpt]->perso1->pv_max;
+            sprintf(buffer,"%s soigné.\n Il a maintenant : %i pv\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
+        break;
+
+        case '3' :
+          if(!reseau){
+            if(equipe1->perso2->pv+degat <= equipe1->perso2->pv_max)
+              equipe1->perso2->pv += degat;
+            else
+              equipe1->perso2->pv = equipe1->perso2->pv_max;
+            printf("%s soigné.\n Il a maintenant : %i pv\n", equipe1->perso2->nom, equipe1->perso2->pv);
+          }
+          else{
+            if(tab_joueur[cpt]->perso2->pv+degat <= tab_joueur[cpt]->perso2->pv_max)
+              tab_joueur[cpt]->perso2->pv += degat;
+            else
+              tab_joueur[cpt]->perso2->pv = tab_joueur[cpt]->perso2->pv_max;
+            sprintf(buffer,"%s soigné.\n Il a maintenant : %i pv\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+            send_all_tour(tab_joueur, cpt, nb_client, 1);
+          }
+        break;
+      }
+    }
+  }//fin else
+
+  if(!reseau){
+    if(equipe1->numEquipe == 1){
+    maj(map,equipe1,equipe2);
+    affichage_map(map);
+    }
+    else {
+    maj(map,equipe2,equipe1);
+    affichage_map(map);
+    }
   }
 
-  if(equipe1->numEquipe == 1){
-  maj(map,equipe1,equipe2);
-  affichage_map(map);
+  else{
+    if(tab_joueur[cpt]->numEquipe == 1){
+      maj( map, tab_joueur[0], tab_joueur[1]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
+    else{
+      maj( map, tab_joueur[1], tab_joueur[0]);
+      envoie_map(map, tab_joueur, numj, 2);
+    }
   }
-  else {
-  maj(map,equipe2,equipe1);
-  affichage_map(map);
-  }
+
   return 1;
 }
 
@@ -1134,35 +1509,96 @@ t_coordonnees range(char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_
     }
   }
 
-  /* affichage de la carte avec le choix des cases atteignables par le personnage perso1*/
-  affichage_map(point);
-
   int x = 0, y = 0;
-  do{
-    printf("Où souhaitez vous taper : ");
-    scanf(" %c", &choix);
-  }while(!existe(point, choix, &x, &y));
+  if(!reseau){
+    /* affichage de la carte avec le choix des cases atteignables par le personnage perso1*/
+    affichage_map(point);
 
-  coor.x = x;
-  coor.y = y;
+    do{
+      printf("Où souhaitez vous taper : ");
+      scanf(" %c", &choix);
+    }while(!existe(point, choix, &x, &y));
 
+    coor.x = x;
+    coor.y = y;
+  }
+
+  else{
+
+    /*En réseau numj prend la valeur de client_socket du joueur en cours de tour */
+
+    /* Boucle qui a pour but de trouver a qui le tour est en cours */
+    for(i=0;numj!=tab_joueur[i]->client_socket;i++);
+
+    /*envoie la map */
+    envoie_map(point, tab_joueur, i, 2);
+    memset(buffer, 0, sizeof(buffer));
+    char test='0';
+    //On verifie que la portee du sort pour savoir si il a besoin d'une cible */
+    if(portee == 0)
+      test='1';
+    strcpy(buffer, &test);
+    send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
+    /*envoie msg choix d'action*/
+    do{
+      sprintf(buffer,"Où souhaitez vous taper : \n");
+      send(tab_joueur[i]->client_socket, buffer, strlen(buffer), 0);
+      /* reception de la cible choisit par le joueur */
+      memset(buffer, 0, sizeof(buffer));
+      recv(tab_joueur[i]->client_socket,buffer,BUFFER_LEN, 0);
+      strncpy(&choix,buffer+4,1);
+    }while(!existe(point, choix, &x, &y));
+
+    coor.x = x;
+    coor.y = y;
+  }
 
   return coor;
 }
 
 int damage(char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * equipe1,int nump,int degat,int portee, int numj,t_coordonnees coor, int reseau){
-
+    int i;
     //réduction des points de vies après le coup
     if(((abs(perso1->coord.x-coor.x)+abs(perso1->coord.y-coor.y))>portee)){
-      printf("\nAction impossible, restitution des points d'action\n");
+      if(!reseau)
+        printf("\nAction impossible, restitution des points d'action\n");
+      else{
+        for(i=0;numj!=tab_joueur[i]->client_socket;i++);
+        memset(buffer, 0, sizeof(buffer));
+        sprintf(buffer,"\nAction impossible, restitution des points d'action\n");
+        send(tab_joueur[i]->client_socket, buffer, strlen(buffer), 0);
+      }
       return 0;
     }
 
     else {
-      if(numj==1){
+
+      if(!reseau){
+        if(numj==1){
+          switch (map[coor.y][coor.x]){
+
+            case '2' :
+              if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
+                degat = (degat/2);
+
+              equipe2->perso1->pv -= degat;
+              printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
+            break;
+
+            case '4' :
+              if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
+                degat = (degat/2);
+
+              equipe2->perso2->pv -= degat;
+              printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
+          break;
+          }
+        }
+
+      if(numj==2){
         switch (map[coor.y][coor.x]){
 
-          case '2' :
+          case '1' :
             if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
               degat = (degat/2);
 
@@ -1170,45 +1606,91 @@ int damage(char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * 
             printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
           break;
 
-          case '4' :
+          case '3' :
             if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
               degat = (degat/2);
 
             equipe2->perso2->pv -= degat;
             printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
-        break;
+          break;
+        }
+      }
+
+      if(equipe1->numEquipe == 1){
+        maj(map,equipe1,equipe2);
+        affichage_map(map);
+      }
+      else {
+        maj(map,equipe2,equipe1);
+        affichage_map(map);
       }
     }
 
-    if(numj==2){
-      switch (map[coor.y][coor.x]){
+    else{
+      int nb_client;
+      for(i=0;numj!=tab_joueur[i]->client_socket;i++);
 
-        case '1' :
-          if (!(strcmp("armure",equipe2->perso1->effets[0].nom)))
-            degat = (degat/2);
-
-          equipe2->perso1->pv -= degat;
-          printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
-        break;
-
-        case '3' :
-          if (!(strcmp("armure",equipe2->perso2->effets[0].nom)))
-            degat = (degat/2);
-
-          equipe2->perso2->pv -= degat;
-          printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
-        break;
+      if(tab_joueur[i]->perso2!=NULL){
+        nb_client=2;
       }
+      else
+        nb_client=4;
+
+      if(tab_joueur[i]->numEquipe==1){
+        switch (map[coor.y][coor.x]){
+
+          case '2' :
+            if (!(strcmp("armure", tab_joueur[1]->perso1->effets[0].nom)))
+              degat = (degat/2);
+            tab_joueur[1]->perso1->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[1]->perso1->nom, tab_joueur[1]->perso1->pv);
+            send_all_tour(tab_joueur, i, nb_client, 1);
+          break;
+
+          case '4' :
+            if (!(strcmp("armure", tab_joueur[1]->perso2->effets[0].nom)))
+              degat = (degat/2);
+            tab_joueur[1]->perso2->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[1]->perso2->nom, tab_joueur[1]->perso2->pv);
+            send_all_tour(tab_joueur, i, nb_client, 1);
+        break;
+        }
+      }
+
+      if(tab_joueur[i]->numEquipe==2){
+        switch (map[coor.y][coor.x]){
+
+          case '1' :
+            if (!(strcmp("armure", tab_joueur[1]->perso1->effets[0].nom)))
+              degat = (degat/2);
+
+            tab_joueur[0]->perso1->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[0]->perso1->nom, tab_joueur[0]->perso1->pv);
+            send_all_tour(tab_joueur, i, nb_client, 1);
+          break;
+
+          case '3' :
+            if (!(strcmp("armure", tab_joueur[1]->perso2->effets[0].nom)))
+              degat = (degat/2);
+
+            tab_joueur[0]->perso2->pv -= degat;
+            sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[0]->perso2->nom, tab_joueur[0]->perso2->pv);
+            send_all_tour(tab_joueur, i, nb_client, 1);
+          break;
+        }
+      }
+
+      // if(tab_joueur[i]->numEquipe == 1){
+      //  maj( map, tab_joueur[0], tab_joueur[1]);
+      //  envoie_map(map, tab_joueur, numj, 2);
+      // }
+      // else {
+      //  maj( map, tab_joueur[1], tab_joueur[0]);
+      //  envoie_map(map, tab_joueur, numj, 2);
+      // }
     }
-  }
-  if(equipe1->numEquipe == 1){
-    maj(map,equipe1,equipe2);
-    affichage_map(map);
-  }
-  else {
-    maj(map,equipe2,equipe1);
-    affichage_map(map);
-  }
+  }//fin else
+
   return 1;
 }
 

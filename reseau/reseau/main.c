@@ -78,41 +78,42 @@ int main(){
 
 	//jouer une partie locale
 	else{
-		for(j = 1 ; j <= NB_EQUIPES; j++){
+			for(j = 1 ; j <= NB_EQUIPES; j++){
 
-			do{
-				test = 1;
-				printf("L'equipe %d choisi ses classes : \n",j);
+	      do{
+	           printf("L'equipe %d choisi ses classes : \n",j);
 
-				for(i = 1; i <= CLASSES; i++){
+	          for(i = 1; i <= CLASSES; i++){
 
-					printf("[%d] : %s\n",i,persos[i]->nom);
+	              printf("[%d] : %s\n",i,persos[i]->nom);
 
-				}
+	          }
 
-				for (i = 1; i <= NB_PERSONNAGES; i++){
-					printf("Choix personnage %d: ",i);
-					scanf("%d",&val);
-					classe[i] = val;
-				}
+	          for (i = 1; i <= NB_PERSONNAGES; i++){
+	              printf("Choix personnage %d: ",i);
+	              scanf("%d",&val);
+	              classe[i] = val;
+	          }
+	          test = 0;
 
-				for(i = 1;i <= NB_PERSONNAGES && test == 1; i++){
-					if((classe[i] < 1) || (classe[i] > CLASSES))
-						test = 1;
-					else
-						test = 0;
-				}
+	          for(i = 1;i <= NB_PERSONNAGES && test != 1; i++){
+	              if((classe[i] < 1) || (classe[i] > CLASSES))
+	                  test = 1;
+	              else
+	                  test = 0;
+	          }
 
-				if(test)
-					printf("Vous devez taper un nombre compris entre 1 ou %i\n",CLASSES);
+	          if(test)
+	              printf("Vous devez taper un nombre compris entre 1 ou %i\n",CLASSES);
 
-			}
-			while(test);
+	      }while(test);
 
-			tab[j]->perso1 = copie_perso(persos[classe[1]]);
-			tab[j]->perso2 = copie_perso(persos[classe[2]]);
-			tab[j]->numEquipe = j;
-			tab[j]->nbPersoVivant = NB_PERSONNAGES;
+      tab[j]->perso1 = copie_perso(persos[classe[1]]);
+      tab[j]->perso2 = copie_perso(persos[classe[2]]);
+      tab[j]->numEquipe = j;
+      tab[j]->nbPersoVivant = NB_PERSONNAGES;
+
+  	}
 
 	}
 	/*Fin de la création des équipes et personnages par équipe*/
@@ -164,18 +165,18 @@ int main(){
 
 
 	/*Affichage des coordonnées des différents personnages vivants,changement d'indice pour passer au tour du perso suivant, incrementation du tour global*/
-			if((partie_finie(equipe1) || partie_finie(equipe2))&& indice_equipe == 2 && nump == 2){
-				printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
-				affichage_coord(equipe1);
-				affichage_coord(equipe2);
-				indice_equipe--;
-				nb_tour++;
-			}
-			if (nump == 2)
-				nump --;
+	if((partie_finie(equipe1) || partie_finie(equipe2))&& indice_equipe == 2 && nump == 2){
+		printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
+		affichage_coord(equipe1);
+		affichage_coord(equipe2);
+		indice_equipe--;
+		nb_tour++;
+	}
+	if (nump == 2)
+		nump --;
 
-			else
-				nump ++;
+	else
+		nump ++;
   }
 
   printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
@@ -205,5 +206,4 @@ int main(){
 
 
 	return 0;
-	}
 }
