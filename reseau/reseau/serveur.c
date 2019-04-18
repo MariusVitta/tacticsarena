@@ -468,7 +468,6 @@ int deplacement_reseau(char map[N][N],int  pm ,int nump, t_equipe ** tab_joueur,
 
     char c;
 
-		fprintf(stderr,"j'suis av le dooooooo\n");
     do{
         sprintf(buffer,"Choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
 				send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
@@ -478,7 +477,6 @@ int deplacement_reseau(char map[N][N],int  pm ,int nump, t_equipe ** tab_joueur,
 				strncpy(&c, buffer+4, 1);
     }
     while(c != 'h' && c != 'b' && c != 'g' && c != 'd' && c != 'R');
-		fprintf(stderr,"j'suis apres le dooooooo\n");
 
   		switch (c) {
   			case 'h':
@@ -548,14 +546,6 @@ int deplacement_reseau(char map[N][N],int  pm ,int nump, t_equipe ** tab_joueur,
   				return pm;
   		}
 
-  // if(tab_joueur[j]->numEquipe == 1){
-	// 	maj( map, tab_joueur[0], tab_joueur[1]);
-  //   envoie_map(map, tab_joueur, j, nb_client);
-  // }
-  // else {
-	// 	maj( map, tab_joueur[1], tab_joueur[0]);
-  //   envoie_map(map, tab_joueur, j, nb_client);
-  // }
 	return pm;
 }
 
@@ -951,6 +941,7 @@ int serveur (int nb_joueur, t_personnage * persos[CLASSES+1], t_equipe * equipe1
 						if(nump == 1){
 							sprintf(buffer,"[Tour numéro : %d][Tour de l'équipe %d][personnage : %s]{Caractère : %c}\n\n", nb_tour, tab_joueur[j]->numEquipe, tab_joueur[j]->perso1->nom, carac_perso(tab_joueur[j]->numEquipe,nump));
 							send_all_tour(tab_joueur, j, nb_client, 1);
+							envoie_map(map, tab_joueur, j, nb_client);
 
 							if(!est_mort( tab_joueur[j], tab_joueur[j]->perso1->id))
 								tour_reseau(map, equipe1, equipe2, nump, tab_joueur, j, nb_client);
@@ -959,6 +950,7 @@ int serveur (int nb_joueur, t_personnage * persos[CLASSES+1], t_equipe * equipe1
 						if(nump == 2){
 							sprintf(buffer,"[Tour numéro : %d][Tour de l'équipe %d][personnage : %s]{Caractère : %c}\n\n", nb_tour, tab_joueur[j]->numEquipe, tab_joueur[j]->perso2->nom, carac_perso(tab_joueur[j]->numEquipe,nump));
 							send_all_tour(tab_joueur, j, nb_client, 1);
+							envoie_map(map, tab_joueur, j, nb_client);
 
 							if(!est_mort( tab_joueur[j], tab_joueur[j]->perso2->id))
 								tour_reseau(map, equipe2, equipe1, nump, tab_joueur, j, nb_client);
@@ -1068,9 +1060,10 @@ int serveur (int nb_joueur, t_personnage * persos[CLASSES+1], t_equipe * equipe1
 		- pas oublier de gere la fin de fin_partie
 		- envoie des données
 
+
 	pb avec attire
-	remttre la map apres un deplacement
-	verif que le soin du druide fonctionne bien
+	pb avec coup_zone
+	pb avec revita
 	truc bizarre quand tout le monde quitte
 */
 
