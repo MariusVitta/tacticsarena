@@ -439,6 +439,10 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
 	char choix;
   t_coordonnees coor;
 
+  int nb_client;
+  int cpt, cpt2;
+  int l=1;
+
 	/* recopie matrice dans la matrice point qui affiche la portee */
 
 	coor = range(map,perso1,equipe2,equipe1,nump,degat,portee,numj, reseau);
@@ -449,27 +453,30 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
     return 0;
   }
 
-  int nb_client;
-  int cpt;
-  int l;
-
-  if(reseau){
-
-    for(cpt=0;numj!=tab_joueur[cpt]->client_socket;cpt++);
-
-    if(tab_joueur[cpt]->perso2!=NULL){
-      nb_client=2;
-    }
-    else
-      nb_client=4;
-  }
-
   else {
       //printf("x = %i y = %i\n", x, y);
       //vérifie si il y a des personnages dans la croix de largeur 'l' si oui leurs infliges les dégats
 
+      if(reseau){
+
+        for(cpt=0;numj!=tab_joueur[cpt]->client_socket;cpt++);
+
+        /*Pour 2 joueurs on trouve son adversaire */
+        if(tab_joueur[cpt]->numEquipe==1)
+          for(cpt2=0;tab_joueur[cpt2]->numEquipe == tab_joueur[cpt]->numEquipe;cpt2++);
+        if(tab_joueur[cpt]->numEquipe==2)
+          for(cpt2=0;tab_joueur[cpt2]->numEquipe == tab_joueur[cpt]->numEquipe;cpt2++);
+
+        if(tab_joueur[cpt]->perso2!=NULL){
+          nb_client=2;
+        }
+        else
+          nb_client=4;
+      }
+
       //ligne horizontale
       for(i=coor.y,j=coor.x-l;j!=coor.x+(l+1);j++){
+        fprintf(stderr,"case touché : %c",map[i][j]);
         if(numj==1 || (reseau && tab_joueur[cpt]->numEquipe==1)){
           switch (map[i][j]){
 
@@ -481,8 +488,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                 printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
               }
               else{
-                tab_joueur[cpt]->perso1->pv -= degat;
-                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                tab_joueur[cpt2]->perso1->pv -= degat;
+                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso1->nom, tab_joueur[cpt2]->perso1->pv);
                 send_all_tour(tab_joueur, cpt, nb_client, 1);
               }
             break;
@@ -495,8 +502,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                   printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
                 }
                 else{
-                  tab_joueur[cpt]->perso2->pv -= degat;
-                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                  tab_joueur[cpt2]->perso2->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso2->nom, tab_joueur[cpt2]->perso2->pv);
                   send_all_tour(tab_joueur, cpt, nb_client, 1);
                 }
             break;
@@ -514,8 +521,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                 printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
               }
               else{
-                tab_joueur[cpt]->perso1->pv -= degat;
-                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                tab_joueur[cpt2]->perso1->pv -= degat;
+                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso1->nom, tab_joueur[cpt2]->perso1->pv);
                 send_all_tour(tab_joueur, cpt, nb_client, 1);
               }
             break;
@@ -528,8 +535,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                 printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
               }
               else{
-                tab_joueur[cpt]->perso2->pv -= degat;
-                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                tab_joueur[cpt2]->perso2->pv -= degat;
+                sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso2->nom, tab_joueur[cpt2]->perso2->pv);
                 send_all_tour(tab_joueur, cpt, nb_client, 1);
               }
             break;
@@ -539,6 +546,7 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
 
             //ligne verticale
       for(i=coor.y-l,j=coor.x;i!=coor.y+(l+1);i++){
+        fprintf(stderr,"case touché : %c",map[i][j]);
         if(i!=coor.y){
           if(numj==1){
             switch (map[i][j]){
@@ -551,8 +559,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                   printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
                 }
                 else{
-                  tab_joueur[cpt]->perso1->pv -= degat;
-                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                  tab_joueur[cpt2]->perso1->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso1->nom, tab_joueur[cpt2]->perso1->pv);
                   send_all_tour(tab_joueur, cpt, nb_client, 1);
                 }
               break;
@@ -565,8 +573,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                     printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
                   }
                   else{
-                    tab_joueur[cpt]->perso2->pv -= degat;
-                    sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                    tab_joueur[cpt2]->perso2->pv -= degat;
+                    sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso2->nom, tab_joueur[cpt2]->perso2->pv);
                     send_all_tour(tab_joueur, cpt, nb_client, 1);
                   }
               break;
@@ -584,8 +592,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                   printf("%s touché.\nPoint de vie : %i\n", equipe2->perso1->nom, equipe2->perso1->pv);
                 }
                 else{
-                  tab_joueur[cpt]->perso1->pv -= degat;
-                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso1->nom, tab_joueur[cpt]->perso1->pv);
+                  tab_joueur[cpt2]->perso1->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso1->nom, tab_joueur[cpt2]->perso1->pv);
                   send_all_tour(tab_joueur, cpt, nb_client, 1);
                 }
               break;
@@ -598,8 +606,8 @@ int coup_zone (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
                   printf("%s touché.\nPoint de vie : %i\n", equipe2->perso2->nom, equipe2->perso2->pv);
                 }
                 else{
-                  tab_joueur[cpt]->perso2->pv -= degat;
-                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt]->perso2->nom, tab_joueur[cpt]->perso2->pv);
+                  tab_joueur[cpt2]->perso2->pv -= degat;
+                  sprintf(buffer,"%s touché.\nPoint de vie : %i\n", tab_joueur[cpt2]->perso2->nom, tab_joueur[cpt2]->perso2->pv);
                   send_all_tour(tab_joueur, cpt, nb_client, 1);
                 }
                 break;
@@ -845,7 +853,37 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
             }
 
             else{
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+              if(abs(perso1->coord.x - tab_joueur[cpt2]->perso1->coord.x > 3)){
+                if(perso1->coord.x < tab_joueur[cpt2]->perso1->coord.x )
+                    tab_joueur[cpt2]->perso1->coord.x -= 3;
+                else if(perso1->coord.x > tab_joueur[cpt2]->perso1->coord.x )
+                    tab_joueur[cpt2]->perso1->coord.x += 3;
+              }
 
+              /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+              else{
+                if(perso1->coord.x < tab_joueur[cpt2]->perso1->coord.x )
+                  tab_joueur[cpt2]->perso1->coord.x = perso1->coord.x + 1;
+                else if(perso1->coord.x > tab_joueur[cpt2]->perso1->coord.x )
+                  tab_joueur[cpt2]->perso1->coord.x = perso1->coord.x - 1;
+              }
+
+
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+              if(abs(perso1->coord.y - tab_joueur[cpt2]->perso1->coord.y > 3)){
+                if(perso1->coord.y < tab_joueur[cpt2]->perso1->coord.y )
+                    tab_joueur[cpt2]->perso1->coord.y -= 3;
+                else if(perso1->coord.y > tab_joueur[cpt2]->perso1->coord.y )
+                    tab_joueur[cpt2]->perso1->coord.y += 3;
+              }
+              /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+              else{
+                if(perso1->coord.y < tab_joueur[cpt2]->perso1->coord.y )
+                  tab_joueur[cpt2]->perso1->coord.y = perso1->coord.y + 1;
+                else if(perso1->coord.y > tab_joueur[cpt2]->perso1->coord.y )
+                  tab_joueur[cpt2]->perso1->coord.y = perso1->coord.y - 1;
+              }
             }
   					break;
 
@@ -885,7 +923,36 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
             }
 
             else{
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+              if(abs(perso1->coord.x - tab_joueur[cpt2]->perso2->coord.x > 3)){
+                if(perso1->coord.x < tab_joueur[cpt2]->perso2->coord.x )
+                    tab_joueur[cpt2]->perso2->coord.x -= 3;
+                else if(perso1->coord.x > tab_joueur[cpt2]->perso2->coord.x )
+                    tab_joueur[cpt2]->perso2->coord.x += 3;
+              }
+              /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+              else{
+                if(perso1->coord.x < tab_joueur[cpt2]->perso2->coord.x )
+                  tab_joueur[cpt2]->perso2->coord.x = perso1->coord.x + 1;
+                else if(perso1->coord.x > tab_joueur[cpt2]->perso2->coord.x )
+                  tab_joueur[cpt2]->perso2->coord.x = perso1->coord.x - 1;
+              }
 
+
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+              if(abs(perso1->coord.y - tab_joueur[cpt2]->perso2->coord.y > 3)){
+                if(perso1->coord.y < tab_joueur[cpt2]->perso2->coord.y )
+                    tab_joueur[cpt2]->perso2->coord.y -= 3;
+                else if(perso1->coord.y > tab_joueur[cpt2]->perso2->coord.y )
+                    tab_joueur[cpt2]->perso2->coord.y += 3;
+              }
+              /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+              else{
+                if(perso1->coord.y < tab_joueur[cpt2]->perso2->coord.y )
+                  tab_joueur[cpt2]->perso2->coord.y = perso1->coord.y + 1;
+                else if(perso1->coord.y > tab_joueur[cpt2]->perso2->coord.y )
+                  tab_joueur[cpt2]->perso2->coord.y = perso1->coord.y - 1;
+              }
             }
           break;
   			}//fin switch
@@ -930,7 +997,37 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
             }
 
             else{
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+              if(abs(perso1->coord.x - tab_joueur[cpt2]->perso1->coord.x > 3)){
+                if(perso1->coord.x < tab_joueur[cpt2]->perso1->coord.x )
+                    tab_joueur[cpt2]->perso1->coord.x -= 3;
+                else if(perso1->coord.x > tab_joueur[cpt2]->perso1->coord.x )
+                    tab_joueur[cpt2]->perso1->coord.x += 3;
+              }
 
+              /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+              else{
+                if(perso1->coord.x < tab_joueur[cpt2]->perso1->coord.x )
+                  tab_joueur[cpt2]->perso1->coord.x = perso1->coord.x + 1;
+                else if(perso1->coord.x > tab_joueur[cpt2]->perso1->coord.x )
+                  tab_joueur[cpt2]->perso1->coord.x = perso1->coord.x - 1;
+              }
+
+
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+              if(abs(perso1->coord.y - tab_joueur[cpt2]->perso1->coord.y > 3)){
+                if(perso1->coord.y < tab_joueur[cpt2]->perso1->coord.y )
+                    tab_joueur[cpt2]->perso1->coord.y -= 3;
+                else if(perso1->coord.y > tab_joueur[cpt2]->perso1->coord.y )
+                    tab_joueur[cpt2]->perso1->coord.y += 3;
+              }
+              /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+              else{
+                if(perso1->coord.y < tab_joueur[cpt2]->perso1->coord.y )
+                  tab_joueur[cpt2]->perso1->coord.y = perso1->coord.y + 1;
+                else if(perso1->coord.y > tab_joueur[cpt2]->perso1->coord.y )
+                  tab_joueur[cpt2]->perso1->coord.y = perso1->coord.y - 1;
+              }
             }
 
         break;
@@ -970,7 +1067,36 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
             }
 
             else{
+              /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+                if(abs(perso1->coord.x - tab_joueur[cpt2]->perso2->coord.x > 3)){
+                  if(perso1->coord.x < tab_joueur[cpt2]->perso2->coord.x )
+                      tab_joueur[cpt2]->perso2->coord.x -= 3;
+                  else if(perso1->coord.x > tab_joueur[cpt2]->perso2->coord.x )
+                      tab_joueur[cpt2]->perso2->coord.x += 3;
+                }
+                /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+                else{
+                  if(perso1->coord.x < tab_joueur[cpt2]->perso2->coord.x )
+                    tab_joueur[cpt2]->perso2->coord.x = perso1->coord.x + 1;
+                  else if(perso1->coord.x > tab_joueur[cpt2]->perso2->coord.x )
+                    tab_joueur[cpt2]->perso2->coord.x = perso1->coord.x - 1;
+                }
 
+
+                /* Si l'écart entre les 2 equipes est de plus de 3 cases */
+                if(abs(perso1->coord.y - tab_joueur[cpt2]->perso2->coord.y > 3)){
+                  if(perso1->coord.y < tab_joueur[cpt2]->perso2->coord.y )
+                      tab_joueur[cpt2]->perso2->coord.y -= 3;
+                  else if(perso1->coord.y > tab_joueur[cpt2]->perso2->coord.y )
+                      tab_joueur[cpt2]->perso2->coord.y += 3;
+                }
+                /* Sinon l'attire a son corps à corps du nb de cases d'écart*/
+                else{
+                  if(perso1->coord.y < tab_joueur[cpt2]->perso2->coord.y )
+                    tab_joueur[cpt2]->perso2->coord.y = perso1->coord.y + 1;
+                  else if(perso1->coord.y > tab_joueur[cpt2]->perso2->coord.y )
+                    tab_joueur[cpt2]->perso2->coord.y = perso1->coord.y - 1;
+                }
             }
           break;
         }//fin switch
