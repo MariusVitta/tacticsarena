@@ -21,7 +21,7 @@ int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nume
 int eval_sort(int indice_sort,char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int numero_personnage, int * hors_portee);
 int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat);
 int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,t_direction * direction);
-int eval_vie();
+int eval_vie(t_equipe * equipe,int * indice_joueur);
 
 
 
@@ -30,7 +30,7 @@ int eval_vie();
  * paramètre indice_sort: sort que l'on teste
  * paramètre portee : portée du sort indice_sort
  * paramètre degat: degat du sort indice_sort
- * return la portee du sort + les degats;
+ * return la portee du sort - 1
  */
 int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat){
     int j;
@@ -42,12 +42,71 @@ int eval_degat(t_personnage * perso,int indice_sort,int portee,int degat){
     return portee;
 }
 
-int eval_vie();
+/*
+ * fonction qui évalue quel personnage à le moins de vie dans l'équipe
+ * paramètre indice_joueur: variable dans laquelle on mettras l'indice du personnage avec le moins de vie
+ * return
+ */
+int eval_vie(t_equipe * equipe,int * indice_joueur){
+	int i;
+	*indice_joueur = 0;
+	if(est_mort(equipe,1) && !est_mort(equipe,2)){ //si le personnage 1 est mort on retourne l'indice du 2nd
+
+		*indice_joueur = 1;
+	}
+	else if(!est_mort(equipe,1) && est_mort(equipe,2)){ //si le personnage 2 est mort on retourne l'indice du 1er
+		*indice_joueur = 0;
+		printf("2\n" );
+	}
+	else if(equipe->perso1->pv <= equipe->perso2->pv ){
+		*indice_joueur = 0;
+		printf("3\n" );
+	}
+	else{
+		*indice_joueur = 1;
+		printf("4\n" );
+	}
+	return 0;
+}
+
+
+void joueur_plus_proche(t_personnage * temp,t_equipe * equipe2,int * plus_proche){
+	int i,distance[NB_PERSONNAGES],carre;
+	for(i = 0; i < NB_PERSONNAGES;i++){
+        //on cherche à savoir quel est le personnage le plus proche du personnage 'perso'
+
+        if(!i && !est_mort(equipe2,i)){
+            carre = pow((double)(temp->coord.x - equipe2->perso1->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso1->coord.y),2);
+            distance[i] = sqrt((double)carre);
+            *plus_proche = i;
+
+        }
+        else if(!est_mort(equipe2,i)){
+            carre = pow((double)(temp->coord.x - equipe2->perso2->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso2->coord.y),2);
+            distance[i] = sqrt((double)carre);
+            if(distance[i] < distance[i - 1]){ // si y'a un joueur plus proche que l'autre de l'adversaire
+                *plus_proche = i; // on recupere l'indice du joueur le plus proche
+			}
+			else if(distance[i] == distance[i - 1]){ // si les adversaire sont à la meme distance
+				// on recupere l'indice du joueur qui a le moins de vie
+				eval_vie(equipe2,plus_proche);
+				printf("te\n" );
+			}
+        }
+    }
+}
+
+/*
+ * Fonction d'évalutation pour le déplacement de l'ordi le "numero_personnage" que l'on souhaite déplacer ira dans une direction par rapport au
+ * joueur adversaire le plus proche de lui si les deux adversaires sont à égales distances le joueur se déplacer vers le personnage le plus faible en vie
+ * paramètre indice_sort: sort actuel que l'on soit tester
+ * return : 1 si le déplacement est impossible 0 dans le cas contraire
+ */
 
 int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage,t_direction * direction){
     srand(time(NULL));
     int choix = rand()%2;
-    int i,carre,plus_proche,distance_x,distance_y;
+    int i,carre,plus_proche = 0,distance_x,distance_y;
     int distance[NB_PERSONNAGES];
     t_personnage * temp;
     /* choix du personnage du equipe 1 */
@@ -55,25 +114,8 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
         temp = equipe1->perso1;
     else
         temp = equipe1->perso2;
-    char * chaine;
-    //printf("Attente...");
-    //scanf("%s",chaine);
 
-    for(i = 0; i < NB_PERSONNAGES;i++){
-        //on cherche à savoir quel est le personnage le plus proche du personnage 'perso'
-        if(!i){
-            carre = pow((double)(temp->coord.x - equipe2->perso1->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso1->coord.y),2);
-            distance[i] = sqrt((double)carre);
-            plus_proche = i;
-
-        }
-        else{
-            carre = pow((double)(temp->coord.x - equipe2->perso2->coord.x),2) + pow((double)(temp->coord.y - equipe2->perso2->coord.y),2);
-            distance[i] = sqrt((double)carre);
-            if(distance[i] < distance[i - 1])
-                plus_proche = i;
-        }
-    }
+	joueur_plus_proche(temp,equipe2,&plus_proche);
 
     printf("indice du joueur le plus proche : %i\n",plus_proche +1 );
     //on cherche à savoir quel est la coordonées la plus élévée entre les deux personnages le x ou le y
@@ -90,16 +132,20 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
     if(abs(distance_x) > abs(distance_y) ){
         //si l'ennemi le plus proche est situé à gauche ou à droite et que la distance en x est plus grande que la distance en y
         if(distance_x > 0){
-            if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.'))
+            if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.')){
     			printf(" ---- Déplacement impossible 1 ---- \n" );
+				return 1;
+			}
     		else{
     			printf(" ---- Déplacement à Gauche ---- \n" );
     			*direction = OUEST;
     		}
         }
         else{
-            if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
+            if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.')){
                 printf(" ---- Déplacement impossible 2 ---- \n" );
+				return 1;
+			}
             else{
                 printf(" ---- Déplacement à Droite ---- \n" );
                 *direction = EST;
@@ -107,18 +153,21 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
         }
     }
     else if( abs(distance_y) > abs(distance_x)){ // si la distance en y est supérieur à la distance en x
-        //if(distance_y > 0){
         if(distance_y > 0){
-            if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
+            if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.')){
     			printf(" ---- Déplacement impossible 3 ---- \n" );
+				return 1;
+			}
     		else{
     			printf(" ---- Déplacement en Haut ---- \n" );
     			*direction = NORD;
     		}
         }
         else{
-            if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.'))
+            if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.')){
                 printf(" ---- Déplacement impossible 4 ---- \n" );
+				return 1;
+			}
             else{
                 printf(" ---- Déplacement en Bas ---- \n" );
                 *direction = SUD;
@@ -126,23 +175,96 @@ int eval_deplacement(t_equipe * equipe1,t_equipe * equipe2,int numero_personnage
         }
     }
     else if (distance_y == distance_x){
-
+		// on fais déplacer le personnage sur l'une des deux directions si le x et le y sont égaux
+		if(!choix){ // si choix est nul on le fais déplacer sur le x
+			//si l'ennemi le plus proche est situé à gauche ou à droite et que la distance en x est plus grande que la distance en y
+	        if(distance_x > 0){
+	            if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.')){
+	    			printf(" ---- Déplacement impossible 1 ---- \n" );
+					return 1;
+				}
+	    		else{
+	    			printf(" ---- Déplacement à Gauche ---- \n" );
+	    			*direction = OUEST;
+	    		}
+	        }
+	        else{
+	            if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.')){
+	                printf(" ---- Déplacement impossible 2 ---- \n" );
+					return 1;
+				}
+	            else{
+	                printf(" ---- Déplacement à Droite ---- \n" );
+	                *direction = EST;
+	            }
+	        }
+		}
+		else{
+			if(distance_y > 0){
+	            if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.')){
+	    			printf(" ---- Déplacement impossible 3 ---- \n" );
+					return 1;
+				}
+	    		else{
+	    			printf(" ---- Déplacement en Haut ---- \n" );
+	    			*direction = NORD;
+	    		}
+	        }
+	        else{
+	            if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.')){
+	                printf(" ---- Déplacement impossible 4 ---- \n" );
+					return 1;
+				}
+	            else{
+	                printf(" ---- Déplacement en Bas ---- \n" );
+	                *direction = SUD;
+	            }
+	        }
+		}
     }
 
-    /*
-    //h
-    if(temp->coord.y-1<0 || (map[temp->coord.y-1][temp->coord.x]!='.'))
-    //b
-    if(temp->coord.y+1>=N || (map[temp->coord.y+1][temp->coord.x]!='.')
-    //g
-    if(temp->coord.x-1<0 || (map[temp->coord.y][temp->coord.x-1]!='.'))
-    //d
-    if(temp->coord.x+1>=N || (map[temp->coord.y][temp->coord.x+1]!='.'))
-    */
     return 0;
 }
 
+/*
+ * Fonction qui effectue le déplacement du personnage controlé par l'ordinateur dans la direction choisi après l'évaluation de déplacement
+ */
+void deplacement_ia(t_equipe * equipe, int numero_personnage,t_direction direction){
+	int dir = direction;
+	t_personnage * temp;
+    /* choix du personnage du equipe 1 */
+    if(numero_personnage == 1)
+        temp = equipe->perso1;
+    else
+        temp = equipe->perso2;
 
+	switch (dir) {
+		case NORD: temp->coord.y--;
+		case EST: temp->coord.x++;
+		case SUD: temp->coord.y++;
+		case OUEST: temp->coord.x--;
+	}
+}
+
+/*
+ * Fonction qui effectue le déplacement du personnage controlé par l'ordinateur dans la direction choisi après l'évaluation de déplacement
+ */
+void degat_ia(t_equipe * equipe, int numero_personnage,int indice_sort){
+	int dir = direction;
+	t_personnage * temp;
+    /* choix du personnage du equipe 1 */
+    if(numero_personnage == 1)
+        temp = equipe->perso1;
+    else
+        temp = equipe->perso2;
+
+	switch (dir) {
+		case NORD: temp->coord.y--;
+		case EST: temp->coord.x++;
+		case SUD: temp->coord.y++;
+		case OUEST: temp->coord.x--;
+	}
+}
 
 /*
  * Fonction d'évalutation pour le MinMax retourne soit un entier supérieur ou égale à  soit un négatif
@@ -270,12 +392,14 @@ int coup_ordi_opti(char map[N][N],t_equipe * equipe1,t_equipe * equipe2,int nume
 
 
 int main() {
-    int i = 0,hors_portee = 0;
+    int i = 0,hors_portee = 0,pm_utilise=0,pa_utilise=0 ;
     int classe[NB_PERSONNAGES+1];
     t_equipe * equipe1,*equipe2;
     /*Creation de toutes les classes et tous les sorts */
 	t_personnage * persos[CLASSES+1];
 	t_sort * sorts[SORTS+1];
+	t_direction direction = NORD;
+
 	for(int i = 1; i <= SORTS;i++)
 		sorts[i] = malloc(sizeof(t_sort));
 
@@ -295,54 +419,125 @@ int main() {
 	tab[1] = equipe1;
 	tab[2] = equipe2;
 
-    for(int i = 1; i < N;i++)
-		for(int j = 1; j < N;j++)
-			map[i][j] = '.';
 
     equipe1->perso1 = copie_perso(persos[1]);
 	equipe1->perso2 = copie_perso(persos[2]);
     equipe1->numEquipe = 1;
     equipe1->nbPersoVivant = NB_PERSONNAGES;
-    equipe2->perso1 = copie_perso(persos[3]);
-	equipe2->perso2 = copie_perso(persos[4]);
+    equipe2->perso1 = copie_perso(persos[1]);
+	equipe2->perso2 = copie_perso(persos[1]);
     equipe2->numEquipe = 2;
     equipe2->nbPersoVivant = NB_PERSONNAGES;
 
-    equipe1->perso1->coord.x = 5;
-    equipe1->perso1->coord.y = 5;
-    equipe2->perso1->coord.x = 6;
-    equipe2->perso1->coord.y = 6;
-    map[5][5] = '1';
-    map[6][6] = '2';
+    equipe1->perso1->coord.x = 1;
+    equipe1->perso1->coord.y = 1;
+	equipe1->perso2->coord.x = 1;
+    equipe1->perso2->coord.y = 4;
+	//j2
+    equipe2->perso1->coord.x = 9;
+    equipe2->perso1->coord.y = 7;
+	equipe2->perso2->coord.x = 3;
+    equipe2->perso2->coord.y = 3;
+	maj(map,equipe1,equipe2);
 
-    equipe2->perso2->coord.x = 1;
-    equipe2->perso2->coord.y = 1;
 
-    printf("meilleur coup : {%i}\n",coup_ordi_opti(map,equipe1,equipe2,1,&hors_portee) + 1);
-    printf("nombre de sorts hors portée : %i\n",hors_portee );
-    t_direction direction = NORD;
-    eval_deplacement(equipe1,equipe2,1,&direction);
+    //printf("meilleur coup : {%i}\n",coup_ordi_opti(map,equipe1,equipe2,1,&hors_portee) + 1);
+    //printf("nombre de sorts hors portée : %i\n",hors_portee );
+
+    eval_deplacement(equipe2,equipe1,1,&direction);
     printf("{ Direction : %d }\n",direction );
     int dist,carre,j;
     //for(j = 0;j < NB_PERSONNAGES; j++){
-        carre = pow((double)(equipe1->perso1->coord.x - equipe2->perso1->coord.x),2) + pow((double)(equipe1->perso1->coord.y - equipe2->perso1->coord.y),2);
-        dist = sqrt((double)carre);
-        printf("{ distance = %i }\n",dist);
+    carre = pow((double)(equipe1->perso1->coord.x - equipe2->perso1->coord.x),2) + pow((double)(equipe1->perso1->coord.y - equipe2->perso1->coord.y),2);
+    dist = sqrt((double)carre);
+    printf("{ distance = %i }\n",dist);
     //}
     affichage_map(map);
+	/*Gestion des différents tours de jeu par equipe*/
+	/* nump = perso1 ou perso2 de l'equipe, indice est le tour de jeu de l'equipe, equipe1 et equipe2 sont les équipes*/
+	int nump,indice_sort,indice_equipe,nb_tour=1;
+	for(nump = 1, indice_equipe = 1;(partie_finie(equipe1) && partie_finie(equipe2));){
+
+		/*vérification de l'état des persos de l'equipe 1 afin de savoir s'il peuvent jouer ou sont morts,changement d'indice pour passer au tour du perso suivant*/
+		/*nb_tour est un compteur de tour global pour que le joueur sachent depuis combien de temps ils jouent*/
+		if(indice_equipe == 1){
+			printf("[Tour numéro:%i][Tour du equipe %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_equipe,nump,carac_perso(indice_equipe,nump));
+
+			if(nump == 1 && !est_mort(tab[indice_equipe],nump))
+				tour(map,equipe1,equipe2,nump);
+
+			else if(nump == 2 && !est_mort(tab[indice_equipe],nump))
+				tour(map,equipe1,equipe2,nump);
+
+			indice_equipe++;
 
 
+			maj(map,equipe1,equipe2);
+			affichage_map(map);
+		}
+		/*vérification de l'état des persos de l'equipe 2 afin de savoir s'il peuvent jouer ou sont morts,changement d'indice pour passer au tour du perso suivant*/
+		if(indice_equipe == 2){
+			printf("[Tour numéro:%i][Tour du equipe %i][personnage :%i]{Caractère : %c}\n\n",nb_tour,indice_equipe,nump,carac_perso(indice_equipe,nump));
+
+			if(nump == 1 && !est_mort(tab[indice_equipe],nump)){
+				//tant que le personnage n'a pas utilisé tout ses points de mouvements ou d'actions on continue à lui faire effectuer des actions
+				while(pm_utilise != 3 && pa_utilise != 2){
+					indice_sort = coup_ordi_opti(map,equipe2,equipe1,nump,&hors_portee);
+					if(hors_portee != MAX_NB_SORT){ // si un des adversaire est à portée on utilise le meilleur sort sur l'adversaire le plus proche
+						//printf("nombre de sorts hors portée : %i\n",hors_portee);
+						pa_utilise++;
+					}
+					else{ //si on peut pas utiliser de sort on se déplace
+						eval_deplacement(equipe2,equipe1,nump,&direction);
+						deplacement_ia(equipe2,nump,direction);
+						pm_utilise++;
+					}
+					hors_portee = 0;
+					maj(map,equipe1,equipe2);
+				}
+				pm_utilise = 0;
+				pa_utilise = 0;
+
+				indice_equipe--;
+			}
+			else if(nump == 2 && !est_mort(tab[indice_equipe],nump))
+				tour(map,equipe2,equipe1,nump);
+
+			maj(map,equipe1,equipe2);
+			affichage_map(map);
+		}
+		/*Affichage des coordonnées des différents personnages vivants,changement d'indice pour passer au tour du perso suivant, incrementation du tour global*/
+		if((partie_finie(equipe1) || partie_finie(equipe2))&& indice_equipe == 2 && nump == 2){
+			printf("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n");
+			affichage_coord(equipe1);
+			affichage_coord(equipe2);
+			indice_equipe--;
+			nb_tour++;
+		}
+
+		if (nump == 2)
+			nump --;
+
+		else
+			nump ++;
+	}
+
+	printf("===================================================\n\tFIN DE LA PARTIE\n===================================================\n\n");
+
+	/*Fin de partie, affichage du vainqueur*/
+		if(partie_finie(equipe1))
+		printf("Le equipe 1 a perdu \n");
+		else if(partie_finie(equipe2))
+		printf("Le equipe 2 a perdu\n");
 
     /*suppression de tous les mallocs*/
 	for(i = 1; i < SORTS; i++){
 		suppr_sort(&(sorts[i]));
 	}
-    printf("1er free\n" );
 
 	for(i = 1; i <= CLASSES; i++){
 		suppr_perso(&(persos[i]));
 	}
-    printf("2eme free\n" );
 
 	for(i=1; i <= NB_EQUIPES; i++){
 		suppr_perso(&(tab[i]->perso1));
@@ -350,6 +545,6 @@ int main() {
 		free(tab[i]);
 		tab[i] = NULL;
 	}
-    printf("3eme free\n" );
+
     return 0;
 }
