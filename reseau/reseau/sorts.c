@@ -791,7 +791,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
 
               /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-              if(abs(perso1->coord.x - equipe2->perso1->coord.x >= 3)){
+              if(abs(perso1->coord.x - equipe2->perso1->coord.x > 3)){
                 if(perso1->coord.x < equipe2->perso1->coord.x )
                     equipe2->perso1->coord.x -= 3;
                 else if(perso1->coord.x > equipe2->perso1->coord.x )
@@ -808,7 +808,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
 
         			/* Si l'écart entre les 2 equipes est de plus de 3 cases */
-              if(abs(perso1->coord.y - equipe2->perso1->coord.y >= 3)){
+              if(abs(perso1->coord.y - equipe2->perso1->coord.y > 3)){
                 if(perso1->coord.y < equipe2->perso1->coord.y )
                     equipe2->perso1->coord.y -= 3;
                 else if(perso1->coord.y > equipe2->perso1->coord.y )
@@ -827,7 +827,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
   			 	case '4' :
 
               /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-              if(abs(perso1->coord.x - equipe2->perso2->coord.x >= 3)){
+              if(abs(perso1->coord.x - equipe2->perso2->coord.x > 3)){
                 if(perso1->coord.x < equipe2->perso2->coord.x )
                     equipe2->perso2->coord.x -= 3;
                 else if(perso1->coord.x > equipe2->perso2->coord.x )
@@ -843,7 +843,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
 
               /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-              if(abs(perso1->coord.y - equipe2->perso2->coord.y >= 3)){
+              if(abs(perso1->coord.y - equipe2->perso2->coord.y > 3)){
                 if(perso1->coord.y < equipe2->perso2->coord.y )
                     equipe2->perso2->coord.y -= 3;
                 else if(perso1->coord.y > equipe2->perso2->coord.y )
@@ -866,7 +866,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
           case '1' :
           /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-          if(abs(perso1->coord.x - equipe2->perso1->coord.x >= 3)){
+          if(abs(perso1->coord.x - equipe2->perso1->coord.x > 3)){
             if(perso1->coord.x < equipe2->perso1->coord.x )
                 equipe2->perso1->coord.x -= 3;
             else if(perso1->coord.x > equipe2->perso1->coord.x )
@@ -883,7 +883,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
 
           /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-          if(abs(perso1->coord.y - equipe2->perso1->coord.y >= 3)){
+          if(abs(perso1->coord.y - equipe2->perso1->coord.y > 3)){
             if(perso1->coord.y < equipe2->perso1->coord.y )
                 equipe2->perso1->coord.y -= 3;
             else if(perso1->coord.y > equipe2->perso1->coord.y )
@@ -901,7 +901,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
   			 	case '3' :
           /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.x - equipe2->perso2->coord.x >= 3)){
+            if(abs(perso1->coord.x - equipe2->perso2->coord.x > 3)){
               if(perso1->coord.x < equipe2->perso2->coord.x )
                   equipe2->perso2->coord.x -= 3;
               else if(perso1->coord.x > equipe2->perso2->coord.x )
@@ -917,7 +917,7 @@ int attire (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe *
 
 
             /* Si l'écart entre les 2 equipes est de plus de 3 cases */
-            if(abs(perso1->coord.y - equipe2->perso2->coord.y >= 3)){
+            if(abs(perso1->coord.y - equipe2->perso2->coord.y > 3)){
               if(perso1->coord.y < equipe2->perso2->coord.y )
                   equipe2->perso2->coord.y -= 3;
               else if(perso1->coord.y > equipe2->perso2->coord.y )
@@ -1152,7 +1152,7 @@ int minotaure (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equip
       maj(map,equipe2,equipe1);
       affichage_map(map);
     }
-    printf("Vous vous transformez en minotaure et aurez désormais le double de points d'actions (une seule transformation à la fois)\n\n");
+    printf("Vous vous transformez en minotaure et aurez désormais 3 points d'actions (une seule transformation à la fois)\n\n");
   }
 
   else{
@@ -1241,7 +1241,7 @@ int felin (char map[N][N], t_personnage * perso1,t_equipe * equipe2, t_equipe * 
     strcpy(buffer, &test);
     send(tab_joueur[i]->client_socket, buffer, BUFFER_LEN, 0);
     memset(buffer, 0, sizeof(buffer));
-    sprintf(buffer,"Vous vous transformez en minotaure et aurez désormais le double de points d'actions (une seule transformation à la fois)\n\n");
+    sprintf(buffer,"Vous vous transformez en felin et aurez désormais le double de points de mouvement (une seule transformation à la fois)\n\n");
     send_all_tour(tab_joueur, i, nb_client, 1);
   }
   return 1;
