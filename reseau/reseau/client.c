@@ -16,6 +16,11 @@
 int server_socket;
 #define QUITTER "QUITTER"
 
+/**
+*\fn char menu()
+*\brief fonction de choix pour savoir si le joueur veut quitter la partie
+*\return char
+*/
 char menu(){
 	char choix;
 	printf("Que voulez-vous faire ?\n");
@@ -25,6 +30,11 @@ char menu(){
 	return choix;
 }
 
+/**
+*\fn char menu_equipe()
+*\brief fonction de choix pour l'équipe
+*\return char
+*/
 char menu_equipe(){
 	char choix;
 	printf("Equipe 1 : [1] ou Equipe 2 : [2]\n");
@@ -32,12 +42,24 @@ char menu_equipe(){
 	return choix;
 }
 
+/**
+*\fn char menu_choix()
+*\brief fonction de choix pour toute les actions
+*\return char
+*/
 char menu_choix(){
 	char choix;
 	scanf(" %c", &choix);
 	return choix;
 }
 
+/**
+*\fn void envoyer_message(int to_server_socket,char * m)
+*\brief fonction d'envoie de la réponse du client vers le serveur
+*\param to_server_socket adresse du serveur
+*\param m message/information à envoyer
+*\return void
+*/
 void envoyer_message(int to_server_socket,char * m){
 	char msg[200], buffer[BUFFER_LEN];
 	strcpy(buffer,m);
@@ -51,17 +73,27 @@ void envoyer_message(int to_server_socket,char * m){
 	//printf("Reponse du serveur : '%s'\n\n", buffer);
 }
 
+/**
+*\fn void affichage_map_reseau(char * buffer)
+*\brief fonction d'affichage pour la map
+*\param buffer : qui contient la map
+*\return void
+*/
 void affichage_map_reseau(char * buffer){
-
 	printf(" ---- [Plan de jeu] ---- \n\n");
 	printf("%s \n", buffer);
-
 }
 
+
+/**
+*\fn void choix_placement(int to_server_socket)
+*\brief fonction pour le choix du placement des persos
+*\param to_server_socket adresse du serveur
+*\return void
+*/
 void choix_placement(int to_server_socket){
 	char buffer[BUFFER_LEN];
 	char choix;
-
 
 	do{
 		memset(buffer, 0, sizeof(buffer));
@@ -102,13 +134,27 @@ void choix_placement(int to_server_socket){
 
 }
 
+
+/**
+*\fn void quitter(int to_server_socket)
+*\brief fonction d'abandon de la partie
+*\param to_server_socket adresse du serveur
+*\return void
+*/
 void quitter(int to_server_socket){
 	printf("[client] envoi message QUITTER au serveur\n");
 	send(to_server_socket,QUITTER,7,0);
 }
 
-int client (  int argc, char** argv )
-{
+/**
+*\fn int client (  int argc, char** argv )
+*\brief fonction principale du client
+*\param argc
+*\param argv permet de donner l'ip du serveur sur lequel on va se connecter
+*\return int
+*/
+
+int client (  int argc, char** argv ){
 	struct sockaddr_in serveur_addr;
 	struct hostent *serveur_info;
 	long hostAddr;
