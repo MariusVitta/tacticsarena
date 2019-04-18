@@ -57,6 +57,17 @@ void view_ip()
           printf("IP : %s\n", inet_ntoa(**adr));
 }
 
+
+
+/**
+*\fn send_all_tour(t_equipe ** tab_joueur, int j, int nb_client,int info_donnee)
+*\brief fonction qui envoie à tout les clients ou à tous sauf celui dont le tour est en cours
+*\param tab_joueur tableau contenant les informations sur les joueurs
+*\param j qui sert à savoir qui joue actuellement
+*\param nb_client nombre de joueurs connecté
+*\param info_donnee sert à savoir à qui faire l'envoie
+*\return void
+*/
 void send_all_tour(t_equipe ** tab_joueur, int j, int nb_client,int info_donnee){
 	//Annonce aux autres joueurs que c'est le tour de j
 	for(int i=0;i < nb_client;i++){
@@ -91,8 +102,18 @@ void send_all_tour(t_equipe ** tab_joueur, int j, int nb_client,int info_donnee)
 
 }
 
+/**
+*\fn envoie_map(char matriceJeu[N][N], t_equipe ** tab_joueur, int j, int nb_client)
+*\brief fonction qui concatene la map dans une chaine afin de l'envoyer aux clients ou à un client
+*\param matriceJeu contient la map
+*\param tab_joueur tableau contenant les informations sur les joueurs
+*\param j qui sert à savoir qui joue actuellement
+*\param nb_client nombre de joueurs connecté
+*\return void
+*/
 void envoie_map(char matriceJeu[N][N], t_equipe ** tab_joueur, int j, int nb_client){
-		int x, y;
+		int x, y, i;
+		int test=0;
 		char chaine[BUFFER_LEN];
 
 
@@ -102,6 +123,8 @@ void envoie_map(char matriceJeu[N][N], t_equipe ** tab_joueur, int j, int nb_cli
 				if (x == 0 && y == 0)
 					sprintf(buffer," %c |",matriceJeu[0][0]);
 				else {
+					if(matriceJeu[x][y]=='A')
+						test=1;
 					sprintf(chaine," %c |",matriceJeu[x][y]);
 					strcat(buffer, chaine);
 				}
@@ -110,12 +133,30 @@ void envoie_map(char matriceJeu[N][N], t_equipe ** tab_joueur, int j, int nb_cli
 		}
 		strcat(buffer, "\n");
 		printf("\n%s \n", buffer);
-		send_all_tour(tab_joueur, j, nb_client, 1);
+
+		for(i=0;i < nb_client;i++){
+			if(tab_joueur[i]->client_socket == j)
+				j=i;
+		}
+
+		if(test){
+			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
+		}
+		else
+			send_all_tour(tab_joueur, j, nb_client, 1);
 
 }
 
-
-void initialisation_partie(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * equipe2, int nb_client, t_equipe ** tab_joueur, int j){
+/**
+*\fn initialisation_partie(char matriceJeu[N][N], int nb_client, t_equipe ** tab_joueur, int j)
+*\brief fonction qui initialise la partie en réseau
+*\param matriceJeu contient la map
+*\param tab_joueur tableau contenant les informations sur les joueurs
+*\param j qui sert à savoir qui joue actuellement
+*\param nb_client nombre de joueurs connecté
+*\return void
+*/
+void initialisation_partie(char matriceJeu[N][N], t_equipe ** tab_joueur, int j, int nb_client){
 	srand(time(NULL));
 	int y1 = rand()%3+(N-3), x1 = rand()%(N-4)+2, y2, x2;
 	int i,choix1 = 0,choix2 = 0,x=0;
@@ -374,6 +415,16 @@ void initialisation_partie(char matriceJeu[N][N],t_equipe * equipe1,t_equipe * e
 
 }
 
+
+/**
+*\fn sort_uti_reseau(t_personnage * perso, t_equipe ** tab_joueur, int j)
+*\brief fonction qui concatene les choix possible pour les sorts en une chaine qui sera envoyé au client
+*\param perso perso actuellement utilisé
+*\param tab_joueur tableau contenant les informations sur les joueurs
+*\param j qui sert à savoir qui joue actuellement
+*\return void
+*/
+
 void sort_uti_reseau(t_personnage * perso, t_equipe ** tab_joueur, int j){
 	int i = 1;
 	char chaine[BUFFER_LEN];
@@ -392,7 +443,19 @@ void sort_uti_reseau(t_personnage * perso, t_equipe ** tab_joueur, int j){
 
 }
 
-int deplacement_reseau(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int  pm ,int nump, int nb_client, t_equipe ** tab_joueur, int j){
+/**
+*\fn deplacement_reseau(char map[N][N],int  pm ,int nump, int nb_client, t_equipe ** tab_joueur, int j)
+*\brief fonction pour les déplacements
+*\param map contient la map
+*\param pm contient le nombre de point de mouvement restant
+*\param nump détermine si c'est le perso1 ou perso2
+*\param tab_joueur tableau contenant les informations sur les joueurs
+*\param j qui sert à savoir qui joue actuellement
+*\param nb_client nombre de joueurs connecté
+*\return void
+*/
+
+int deplacement_reseau(char map[N][N],int  pm ,int nump, t_equipe ** tab_joueur, int j, int nb_client){
     t_personnage * temp;
 
 
@@ -483,21 +546,16 @@ int deplacement_reseau(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int 
   				return pm;
   		}
 
-  if(tab_joueur[j]->numEquipe == 1){
-		maj( map, tab_joueur[0], tab_joueur[1]);
-    envoie_map(map, tab_joueur, j, nb_client);
-  }
-  else {
-		maj( map, tab_joueur[1], tab_joueur[0]);
-    envoie_map(map, tab_joueur, j, nb_client);
-  }
 	return pm;
 }
 
 /**
- *\fn void affichage_coord(t_equipe * equipe)
+ *\fn void affichage_coord_reseau(t_equipe * equipe)
  *\brief affichage des coordonnees, du nom, de la vie des personnages de l'equipe passée en paramètre
  *\param equipe structure contenant tout les personnages de l'équipe
+ *\param tab_joueur tableau contenant les informations sur les joueurs
+ *\param j qui sert à savoir qui joue actuellement
+ *\param nb_client nombre de joueurs connecté
  *\return void
  */
 void affichage_coord_reseau(t_equipe * equipe, t_equipe ** tab_joueur, int j, int nb_client){
@@ -514,7 +572,20 @@ void affichage_coord_reseau(t_equipe * equipe, t_equipe ** tab_joueur, int j, in
 	send_all_tour(tab_joueur, j, nb_client, 1);
 }
 
-void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump ,int nb_client, t_equipe ** tab_joueur, int j){
+
+/**
+*\fn tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump ,int nb_client, t_equipe ** tab_joueur, int j)
+*\brief fonction de gestion des tours en reseau
+*\param map contient la map
+*\param equipe structure contenant tout les personnages de l'équipe1
+*\param equipe structure contenant tout les personnages de l'équipe2
+*\param nump détermine si c'est le perso1 ou perso2
+*\param tab_joueur tableau contenant les informations sur les joueurs
+*\param j qui sert à savoir qui joue actuellement
+*\param nb_client nombre de joueurs connecté
+*\return void
+*/
+void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump, t_equipe ** tab_joueur, int j, int nb_client){
 
 		t_personnage * temp;
 
@@ -532,6 +603,7 @@ void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump 
     /* variable qui compte le nombre de déplacement max possible par personnage*/
     int pm=temp->pm;
     int choix_action = 0,choix_sort =0;
+		char c;
 
     temp->sorts[0]->upt=temp->sorts[0]->uptm;
     temp->sorts[1]->upt=temp->sorts[1]->uptm;
@@ -554,18 +626,21 @@ void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump 
 						send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 						memset(buffer, 0, sizeof(buffer));
 						recv(tab_joueur[j]->client_socket, buffer, BUFFER_LEN,0);
-						choix_action = atoi(buffer+4);
+						fprintf(stderr,"bufer : %s\n",buffer );
+						strncpy(&c, buffer+4, 1);
+						choix_action = atoi(&c);
         }
         while(choix_action < 1 || choix_action > 3);
+				fprintf(stderr,"choix recu par le serv : %d\n",choix_action );
 
         switch(choix_action){
             case 1:
 
                 if(pm > 0 ){
-									pm = deplacement_reseau(equipe1, equipe2, map, pm , nump, nb_client, tab_joueur, j);
+									pm = deplacement_reseau( map, pm , nump, tab_joueur, j,  nb_client);
                 }
                 else{
-                    sprintf(buffer," ---- Vous avez utilisé tous vos points de déplacements ----\n\n");
+                    sprintf(buffer,"erreur ---- Vous avez utilisé tous vos points de déplacements ----\n\n");
 										send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
                 }
                 break;
@@ -583,23 +658,24 @@ void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump 
                     while(choix_sort < 1 || choix_sort > MAX_NB_SORT+1);
 
 										if (choix_sort == 5){
-												printf(" ---- Vous n'avez utilisé aucun sort,vous ne perdez aucun point d'action ----\n\n");
+												sprintf(buffer," ---- Vous n'avez utilisé aucun sort,vous ne perdez aucun point d'action ----\n\n");
 												send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 										}
 
 										else{
 											choix_sort--;
+
 	                    if (temp->sorts[choix_sort]->point_action <= temp->pa && temp->sorts[choix_sort]->upt > 0 ) {
-													temp->sorts[choix_sort]->sort(map,temp,equipe2,equipe1,nump,temp->sorts[choix_sort]->degat,temp->sorts[choix_sort]->portee,tab_joueur[j]->client_socket,1);
+													if(temp->sorts[choix_sort]->sort(map,temp,equipe2,equipe1,nump,temp->sorts[choix_sort]->degat,temp->sorts[choix_sort]->portee,tab_joueur[j]->client_socket,1));
 													temp->pa -= temp->sorts[choix_sort]->point_action ;
 													temp->sorts[choix_sort]->upt-=1;
 	                    }
 	                    else if(temp->sorts[choix_sort]->upt == 0){
-	                        sprintf(buffer," ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
+	                        sprintf(buffer,"erreur ---- Vous ne pouvez plus utiliser ce sort ce tour ci ----\n\n");
 													send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 	                    }
 	                    else{
-	                        sprintf(buffer," ---- Vous n'avez pas assez de points d'actions ----\n\n");
+	                        sprintf(buffer,"erreur ---- Vous n'avez pas assez de points d'actions ----\n\n");
 													send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 	                    }
 	                 }
@@ -607,7 +683,7 @@ void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump 
                 }
 
 								else{
-									sprintf(buffer," ---- Vous n'avez pas assez de points d'actions ----\n\n");
+									sprintf(buffer,"erreur ---- Vous n'avez pas assez de points d'actions ----\n\n");
 									send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 									break;
 
@@ -619,19 +695,32 @@ void tour_reseau(char map[N][N],t_equipe * equipe1,t_equipe * equipe2, int nump 
 							send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 							break;
         }//fin switch
-				if(equipe1->numEquipe == 1){
-					maj(map,equipe1,equipe2);
+
+				if(tab_joueur[j]->numEquipe == 1){
+					maj( map, tab_joueur[0], tab_joueur[1]);
+			    envoie_map(map, tab_joueur, j, nb_client);
 				}
-				else {
-					maj(map,equipe2,equipe1);
-				}
+				else{
+				 	maj( map, tab_joueur[1], tab_joueur[0]);
+			    envoie_map(map, tab_joueur, j, nb_client);
+			  }
 
     }//fin while
 
 }
 
 
-int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1, t_equipe * equipe2){
+/**
+*\fn serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1, t_equipe * equipe2)
+*\brief fonction principale du serveur
+*\param nb_joueur indique le nombre de joueur dans la partie
+*\param persos[CLASSES+1] permet de recevoir les choix possibles pour les classes
+*\param equipe structure contenant tout les personnages de l'équipe1
+*\param equipe structure contenant tout les personnages de l'équipe2
+*\return int
+*/
+
+int serveur (int nb_joueur, t_personnage * persos[CLASSES+1], t_equipe * equipe1, t_equipe * equipe2){
 	int ma_socket;
 	//int client_socket[N];
 	struct sockaddr_in mon_address, client_address;
@@ -705,16 +794,25 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 		if(atoi(buffer+4) == 1 && membre_team1>=nb_client/2){
 			sprintf(buffer,"Il n'y a plus de place dans l'équipe 1 :( vous allez rejoindre l'autre équipe\n");
 			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
+			equipe2 = tab_joueur[j];
 			tab_joueur[j]->numEquipe = 2;
 		}
 		else if(atoi(buffer+4) == 2 && membre_team2>=nb_client/2){
 			sprintf(buffer,"Il n'y a plus de place dans l'équipe 2 :( vous allez rejoindre l'autre équipe\n");
 			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
+			 equipe1 = tab_joueur[j];
 			tab_joueur[j]->numEquipe = 1;
 		}
-		else
-			tab_joueur[j]->numEquipe = atoi(buffer+4);
-
+		else{
+			if(atoi(buffer+4)==1){
+				equipe1 = tab_joueur[j];
+				tab_joueur[j]->numEquipe = atoi(buffer+4);
+			}
+			else{
+				equipe2 = tab_joueur[j];
+				tab_joueur[j]->numEquipe = atoi(buffer+4);
+			}
+		}
 
 		if(atoi(buffer+4)==1)
 			membre_team1++;
@@ -731,46 +829,45 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 		int classe,classe2;
 		char chaine[BUFFER_LEN];
 		//si il y a quatre joueurs
-		if(nb_client==4){
-			sprintf(buffer,"Choissisez votre classe :\n");
-			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
-
-			sprintf(chaine,"[%d] : %s\n",1,persos[1]->nom);
-			for(i = 2; i <= CLASSES; i++){
-				sprintf(buffer,"[%d] : %s\n",i,persos[i]->nom);
-				//strcpy(chaine,strcat(chaine,	buffer));
-				strcat(chaine,	buffer);
-			}
-			sprintf(buffer,"%s\n",chaine);
-			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
-
-			sprintf(buffer,"Le joueur %d choisit sa classe :\n",j+1);
-			send_all_tour(tab_joueur, j, nb_client, 3);
-
-			memset(buffer, 0, sizeof(buffer));
-			recv(tab_joueur[j]->client_socket, buffer, BUFFER_LEN,0);
-			classe = atoi(buffer+4);
-			if(strncmp("MSG", buffer, 3)==0){
-				tab_joueur[j]->perso1 = copie_perso(persos[classe]);
-				sprintf(buffer,"Le joueur %d a choisit sa classe : %s\n",j+1 ,tab_joueur[j]->perso1->nom);
-				send_all_tour(tab_joueur, j, nb_client, 3);
-				fprintf(stderr,"Le joueur %d a choisit la classe : %s\n",j+1 ,tab_joueur[j]->perso1->nom);
-			}
-		}
+		// if(nb_client==4){
+		// 	sprintf(buffer,"Choissisez votre classe :\n");
+		// 	send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
+		//
+		// 	sprintf(chaine,"\n");
+		// 	for(i = 1; i <= CLASSES; i++){
+		// 		sprintf(buffer,"[%d] : %s\n",i,persos[i]->nom);
+		// 		strcat(chaine,	buffer);
+		// 	}
+		// 	sprintf(buffer,"%s\n",chaine);
+		// 	send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
+		//
+		// 	sprintf(buffer,"Le joueur %d choisit sa classe :\n",j+1);
+		// 	send_all_tour(tab_joueur, j, nb_client, 3);
+		//
+		// 	memset(buffer, 0, sizeof(buffer));
+		// 	recv(tab_joueur[j]->client_socket, buffer, BUFFER_LEN,0);
+		// 	classe = atoi(buffer+4);
+		// 	if(strncmp("MSG", buffer, 3)==0){
+		// 		tab_joueur[j]->perso1 = copie_perso(persos[classe]);
+		// 		sprintf(buffer,"Le joueur %d a choisit sa classe : %s\n",j+1 ,tab_joueur[j]->perso1->nom);
+		// 		send_all_tour(tab_joueur, j, nb_client, 3);
+		// 		fprintf(stderr,"Le joueur %d a choisit la classe : %s\n",j+1 ,tab_joueur[j]->perso1->nom);
+		// 	}
+		// }
 
 		//si il y a deux joueurs
-		else{
+		//else{
 			sprintf(buffer,"Choissisez vos classes :\n");
 			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 
 			//affiche les choix possible et les envoies au client
-			sprintf(chaine,"[%d] : %s\n",1,persos[1]->nom);
-			for(i = 2; i <= CLASSES; i++){
+			sprintf(chaine,"\n");
+			for(i = 1; i <= CLASSES; i++){
 				sprintf(buffer,"[%d] : %s\n",i,persos[i]->nom);
 				//strcpy(chaine,strcat(chaine,	buffer));
 				strcat(chaine,	buffer);
 			}
-			sprintf(buffer,"%s\n",chaine);
+			sprintf(buffer,"%s",chaine);
 
 			send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 
@@ -788,15 +885,14 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 			if(strncmp("MSG", buffer, 3)==0){
 				tab_joueur[j]->perso1 = copie_perso(persos[classe]);
 				tab_joueur[j]->perso2 = copie_perso(persos[classe2]);
-				sprintf(buffer,"Le joueur %d a choisit ses classe : %s , %s\n",j+1 ,tab_joueur[j]->perso1->nom, tab_joueur[j]->perso2->nom);
+				sprintf(buffer,"Le joueur %d a choisit ses classes : %s , %s\n",j+1 ,tab_joueur[j]->perso1->nom, tab_joueur[j]->perso2->nom);
 				send_all_tour(tab_joueur, j, nb_client, 3);
-				fprintf(stderr,"Le joueur %d a choisit les classes : %s , %s\n",j+1 ,tab_joueur[j]->perso1->nom, tab_joueur[j]->perso2->nom);
 			}
-		}
+		//}
 	}
 
 	//initialisation partie
-	initialisation_partie(map,equipe1,equipe2,nb_client,tab_joueur,j);
+	initialisation_partie(map,tab_joueur,j,nb_client);
  	affichage_map(map);
 
 
@@ -804,7 +900,8 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 	//boucle de partie
 	int fin_partie=0, j_connect = nb_client,x=0;
 	int liste_deco[nb_client];
-	int nump=1;
+	int nump=1; /* numero perso*/
+	int numj=1;  /*numero joueur*/
 	int nb_tour=1;
   while(!fin_partie && partie_finie(equipe1) && partie_finie(equipe2)){
 
@@ -827,12 +924,12 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 					sprintf(buffer,"Cest votre tour\n");
 					send(tab_joueur[j]->client_socket, buffer, BUFFER_LEN, 0);
 
-					printf("socket du client : %d = %d\n", j, tab_joueur[j]->client_socket);
-					printf("socket du client : %d = %d\n", j+1, tab_joueur[j+1]->client_socket);
+					//printf("socket du client : %d = %d\n", j, tab_joueur[j]->client_socket);
+					//printf("socket du client : %d = %d\n", j+1, tab_joueur[j+1]->client_socket);
 
 					//Annonce aux autres joueurs que c'est le tour de j
-					sprintf(buffer,"\n Cest le tour du joueur %d\n", j+1);
-					send_all_tour(tab_joueur, j, nb_client, 3);
+					// sprintf(buffer,"\n Cest le tour du joueur %d\n", j+1);
+					// send_all_tour(tab_joueur, j, nb_client, 3);
 
 					//On attend les actions du joueur
 
@@ -840,25 +937,34 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 					recv(tab_joueur[j]->client_socket, buffer, BUFFER_LEN,0);
 					/* Le joueur continue à jouer */
 					if(strncmp("MSG", buffer, 3)==0){
-
+						/* On cherche a savoir si c'est le perso 1 ou 2 qui joue */
 						if(nump == 1){
-							sprintf(buffer,"[Tour numéro : %d][Tour de l'équipe %d][personnage : %s]{Caractère : %d}\n\n", nb_tour, tab_joueur[j]->numEquipe, tab_joueur[j]->perso1->nom, tab_joueur[j]->perso1->id);
+							sprintf(buffer,"[Tour numéro : %d][Tour de l'équipe %d][personnage : %s]{Caractère : %c}\n\n", nb_tour, tab_joueur[j]->numEquipe, tab_joueur[j]->perso1->nom, carac_perso(tab_joueur[j]->numEquipe,nump));
 							send_all_tour(tab_joueur, j, nb_client, 1);
+							envoie_map(map, tab_joueur, j, nb_client);
 
 							if(!est_mort( tab_joueur[j], tab_joueur[j]->perso1->id))
-								tour_reseau(map, equipe1, equipe2, tab_joueur[j]->perso1->id, nb_client, tab_joueur, j);
+								tour_reseau(map, equipe1, equipe2, nump, tab_joueur, j, nb_client);
 						}
 
 						if(nump == 2){
-							sprintf(buffer,"[Tour numéro : %d][Tour de l'équipe %d][personnage : %s]{Caractère : %d}\n\n", nb_tour, tab_joueur[j]->numEquipe, tab_joueur[j]->perso2->nom, tab_joueur[j]->perso2->id);
+							sprintf(buffer,"[Tour numéro : %d][Tour de l'équipe %d][personnage : %s]{Caractère : %c}\n\n", nb_tour, tab_joueur[j]->numEquipe, tab_joueur[j]->perso2->nom, carac_perso(tab_joueur[j]->numEquipe,nump));
 							send_all_tour(tab_joueur, j, nb_client, 1);
+							envoie_map(map, tab_joueur, j, nb_client);
 
 							if(!est_mort( tab_joueur[j], tab_joueur[j]->perso2->id))
-								tour_reseau(map, equipe2, equipe1, tab_joueur[j]->perso2->id, nb_client, tab_joueur, j);
+								tour_reseau(map, equipe2, equipe1, nump, tab_joueur, j, nb_client);
 						}
-						maj(map,equipe1,equipe2);
+
+						if(tab_joueur[j]->numEquipe == 1){
+							maj( map, tab_joueur[0], tab_joueur[1]);
+							envoie_map(map, tab_joueur, j, nb_client);
+						}
+						else {
+							maj( map, tab_joueur[1], tab_joueur[0]);
+							envoie_map(map, tab_joueur, j, nb_client);
+						}
 						affichage_map(map);
-						envoie_map(map, tab_joueur, j, nb_client);
 
 					}
 
@@ -891,18 +997,27 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 						affichage_coord_reseau(equipe2, tab_joueur, j, nb_client);
 						nb_tour++;
 					}
+					/* Si c'est le tour de l'équipe 1 alors on passe à l'équipe2 */
+					if(numj == 1)
+						numj ++;
+
 					/* Si c'est le tour du perso1 de l'équipe 2 alors on passe au perso2 de l'équipe1 */
-					if(nump == 1 && tab_joueur[j]->numEquipe == 2)
+					else if(nump == 1 && numj == 2){
 						nump ++;
+						numj--;
+					}
 
 					/* Si c'est le tour du perso2 de l'équipe 2 alors on passe au perso1 de l'équipe1 */
-					else if(nump == 2 && tab_joueur[j]->numEquipe == 2)
-						nump --;
+					else if(nump == 2 && numj == 2){
+						numj--;
+						nump--;
+					}
+
 					//fermeture de la partie si tout les joueurs sont déconnecté
 					if(j_connect == 0){
 							fin_partie=1;
 					}
-				}//fin if
+				}//fin if j_connect
 			}//fin if verif
 		}//fin for
 	}//fin while ( fin de partie)
@@ -930,13 +1045,13 @@ int serveur (int nb_joueur,t_personnage * persos [CLASSES+1], t_equipe * equipe1
 
 
 /*
-l66 corriger
-le joueur peut preshot sa selection de perso
-rendre lenvoie de msg plus general ( un fonc avec des switch ou truc comme ca)
-(pour les fonctions init ect faire un flags pour reseau ou local et mettre les if au lieu de doubler la fonction
-OU
-couper la fonction en pleins de morceau general au local / reseau et appliquer avec le flag)
- cree des fonctions pour chaque etapes
+	l66 corriger
+	le joueur peut preshot sa selection de perso
+	rendre lenvoie de msg plus general ( un fonc avec des switch ou truc comme ca)
+	(pour les fonctions init ect faire un flags pour reseau ou local et mettre les if au lieu de doubler la fonction
+	OU
+	couper la fonction en pleins de morceau general au local / reseau et appliquer avec le flag)
+	 cree des fonctions pour chaque etapes
 
 	faire une boucle de jeu pour ne pas fermer le serveur mais juste la fin_partie
 	gerer reprise deco par ia
@@ -944,6 +1059,12 @@ couper la fonction en pleins de morceau general au local / reseau et appliquer a
 	implementer le jeu
 		- pas oublier de gere la fin de fin_partie
 		- envoie des données
+
+
+	pb avec attire
+	pb avec coup_zone
+	pb avec revita
+	truc bizarre quand tout le monde quitte
 */
 
 

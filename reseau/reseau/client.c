@@ -16,6 +16,11 @@
 int server_socket;
 #define QUITTER "QUITTER"
 
+/**
+*\fn char menu()
+*\brief fonction de choix pour savoir si le joueur veut quitter la partie
+*\return char
+*/
 char menu(){
 	char choix;
 	printf("Que voulez-vous faire ?\n");
@@ -25,6 +30,11 @@ char menu(){
 	return choix;
 }
 
+/**
+*\fn char menu_equipe()
+*\brief fonction de choix pour l'équipe
+*\return char
+*/
 char menu_equipe(){
 	char choix;
 	printf("Equipe 1 : [1] ou Equipe 2 : [2]\n");
@@ -32,12 +42,24 @@ char menu_equipe(){
 	return choix;
 }
 
+/**
+*\fn char menu_choix()
+*\brief fonction de choix pour toute les actions
+*\return char
+*/
 char menu_choix(){
 	char choix;
 	scanf(" %c", &choix);
 	return choix;
 }
 
+/**
+*\fn void envoyer_message(int to_server_socket,char * m)
+*\brief fonction d'envoie de la réponse du client vers le serveur
+*\param to_server_socket adresse du serveur
+*\param m message/information à envoyer
+*\return void
+*/
 void envoyer_message(int to_server_socket,char * m){
 	char msg[200], buffer[BUFFER_LEN];
 	strcpy(buffer,m);
@@ -51,17 +73,27 @@ void envoyer_message(int to_server_socket,char * m){
 	//printf("Reponse du serveur : '%s'\n\n", buffer);
 }
 
+/**
+*\fn void affichage_map_reseau(char * buffer)
+*\brief fonction d'affichage pour la map
+*\param buffer : qui contient la map
+*\return void
+*/
 void affichage_map_reseau(char * buffer){
-
 	printf(" ---- [Plan de jeu] ---- \n\n");
 	printf("%s \n", buffer);
-
 }
 
+
+/**
+*\fn void choix_placement(int to_server_socket)
+*\brief fonction pour le choix du placement des persos
+*\param to_server_socket adresse du serveur
+*\return void
+*/
 void choix_placement(int to_server_socket){
 	char buffer[BUFFER_LEN];
 	char choix;
-
 
 	do{
 		memset(buffer, 0, sizeof(buffer));
@@ -102,13 +134,27 @@ void choix_placement(int to_server_socket){
 
 }
 
+
+/**
+*\fn void quitter(int to_server_socket)
+*\brief fonction d'abandon de la partie
+*\param to_server_socket adresse du serveur
+*\return void
+*/
 void quitter(int to_server_socket){
 	printf("[client] envoi message QUITTER au serveur\n");
 	send(to_server_socket,QUITTER,7,0);
 }
 
-int client (  int argc, char** argv )
-{
+/**
+*\fn int client (  int argc, char** argv )
+*\brief fonction principale du client
+*\param argc
+*\param argv permet de donner l'ip du serveur sur lequel on va se connecter
+*\return int
+*/
+
+int client (  int argc, char** argv ){
 	struct sockaddr_in serveur_addr;
 	struct hostent *serveur_info;
 	long hostAddr;
@@ -264,68 +310,108 @@ int client (  int argc, char** argv )
 
 		if(choix=='m'){
 
-			memset(buffer, 0, sizeof(buffer));
 			do{
 				/* reception des messages en attendant que l'on puisse faire une action */
 				do{
-					printf("on est dans al boucle  :\n");
 					memset(buffer, 0, sizeof(buffer));
 					recv(to_server_socket,buffer,BUFFER_LEN, 0);
 					printf("%s",buffer);
 				}while(strncmp(" ---- Quelle action souhaitez vous effectuer ? ---- ", buffer, strlen(" ---- Quelle action souhaitez vous effectuer ? ---- ")) != 0);
-				printf("sortie boucle :\n");
-				/* Choix de l'action */
+
+				/* Choix de l'action deplacement,sort ou passer*/
+				do{
 					printf("Choix actions :\n");
-				choix = menu_choix();
+					choix = menu_choix();
+				}while(choix != '1' && choix != '2' && choix != '3');
 				memset(buffer, 0, sizeof(buffer));
 				strcpy(buffer, &choix);
 				envoyer_message(to_server_socket, buffer);
 
-				if(choix=='1' || choix=='2'){
-					/*Reception des choix possibles */
-					printf("recep choix :\n");
-					memset(buffer, 0, sizeof(buffer));
-					recv(to_server_socket,buffer,BUFFER_LEN, 0);
-					printf("%s",buffer);
-					if(choix=='2'){
-						/* Choix du client pour le sort */
-						printf("Choix sort :\n");
-						choix = menu_choix();
-						memset(buffer, 0, sizeof(buffer));
-						strcpy(buffer, &choix);
-						envoyer_message(to_server_socket, buffer);
-						/* reception map avec portee*/
-						printf("recep portee :\n");
-						memset(buffer, 0, sizeof(buffer));
-						recv(to_server_socket,buffer,BUFFER_LEN, 0);
-						printf("%s",buffer);
 
-						/* reception msg d'info*/
-						printf("recep info :\n");
-						memset(buffer, 0, sizeof(buffer));
-						recv(to_server_socket,buffer,BUFFER_LEN, 0);
-						printf("%s",buffer);
-					}
-					/* parce que soin est relou faudra changer ca après */
-					if(choix!='2'){
+				/*si choix = deplacement ou sort */
+				if(choix=='1' || choix=='2'){
+				/*Reception des choix possibles pour deplacement ou sort */
+				printf("recep choix :\n");
+				memset(buffer, 0, sizeof(buffer));
+				recv(to_server_socket,buffer,BUFFER_LEN, 0);
+				printf("%s",buffer);
+					/* verif si l'action est possible */
+					if(strncmp("erreur", buffer, strlen("erreur")) != 0){
+
 						/* Choix du client */
-						printf("choix target :\n");
-						choix = menu_choix();
-						memset(buffer, 0, sizeof(buffer));
-						strcpy(buffer, &choix);
-						envoyer_message(to_server_socket, buffer);
+						char choix_2 = '0'; /* Choix pour le sort ou la direction */
+						if(choix=='1'){
+							do{
+								printf("Choix :\n");
+								choix_2 = menu_choix();
+								memset(buffer, 0, sizeof(buffer));
+								strcpy(buffer, &choix_2);
+								envoyer_message(to_server_socket, buffer);
+							}while(choix_2!='h' && choix_2!='b' && choix_2!='g' && choix_2!='d' && choix_2!='R');
+						}
+						else if(choix=='2'){
+							do{
+								printf("Choix :\n");
+								choix_2 = menu_choix();
+								memset(buffer, 0, sizeof(buffer));
+								strcpy(buffer, &choix_2);
+								envoyer_message(to_server_socket, buffer);
+							}while(choix_2!='1' && choix_2!='2' && choix_2!='3' && choix_2!='4' && choix_2!='5');
+						}
+						/* Si le joueur a choisit déplacement et qu'il veut annuler */
+						if(choix == '1' && choix_2 == 'R');
+						/* Si le joueur a choisit sort et qu'il veut annuler */
+						else if(choix == '2' && choix_2 =='5'){
+							memset(buffer, 0, sizeof(buffer));
+							recv(to_server_socket,buffer,BUFFER_LEN, 0);
+						}
+						else if(choix=='1'){
+							memset(buffer, 0, sizeof(buffer));
+							recv(to_server_socket,buffer,BUFFER_LEN, 0);
+							printf("%s",buffer);
+						}
+						else if(choix == '2'){
+							/* reception map avec portee*/
+							printf("recep portee :\n");
+							memset(buffer, 0, sizeof(buffer));
+							recv(to_server_socket,buffer,BUFFER_LEN, 0);
+							printf("%s",buffer);
+
+							/* Choix de la cible si le sorts en demande une */
+							memset(buffer, 0, sizeof(buffer));
+							recv(to_server_socket,buffer,BUFFER_LEN, 0);
+							fprintf(stderr,"buffer au moment de la verif po : %s \n",buffer);
+							if(strncmp("0",buffer,1) == 0){
+								do{
+									printf("Choix cible :\n");
+									choix_2 = menu_choix();
+									memset(buffer, 0, sizeof(buffer));
+									strcpy(buffer, &choix_2);
+									envoyer_message(to_server_socket, buffer);
+									memset(buffer, 0, sizeof(buffer));
+									recv(to_server_socket,buffer,BUFFER_LEN, 0);
+									printf("%s",buffer);
+								}while(strncmp("Où souhaitez vous taper : \n", buffer, strlen("Où souhaitez vous taper : \n") )!= 0);
+							}
+
+							/* reception msg d'info*/
+							printf("recep info :\n");
+							memset(buffer, 0, sizeof(buffer));
+							recv(to_server_socket,buffer,BUFFER_LEN, 0);
+							printf("%s",buffer);
+						}
 					}
 				}
-
+				/*Si choix = passe */
 				else{
 					printf("si tu passe :\n");
 					memset(buffer, 0, sizeof(buffer));
 					recv(to_server_socket,buffer,BUFFER_LEN, 0);
 				}
+
 			}while(strncmp("\n ---- Vous avez passé votre tour ---- \n\n", buffer, strlen("\n ---- Vous avez passé votre tour ---- \n\n") != 0));
 
 		}//fin if
-		printf(" tiens tiens tiens");
 		if(strncmp("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n", buffer, strlen("===================================================\n\tAFFICHAGE COORDONNEES | FIN DU TOUR\n===================================================\n\n") == 0)){
 			/*Affichage pour l'équipe 1*/
 			memset(buffer, 0, sizeof(buffer));
