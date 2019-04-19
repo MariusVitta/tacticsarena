@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fonc.h"
 
 /**
@@ -74,7 +75,7 @@ void affichage_map(char map[N][N]){
 void affichage_coord(t_equipe * equipe){
 	printf("equipe %i : \n", equipe->numEquipe);
 	printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", equipe->perso1->nom, equipe->perso1->coord.x, equipe->perso1->coord.y,equipe->perso1->pv);
-    printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", equipe->perso2->nom, equipe->perso2->coord.x, equipe->perso2->coord.y,equipe->perso2->pv);
+  printf("- Coordonnées %s : x = %i et y = %i {Vie actuelle:%i}\n", equipe->perso2->nom, equipe->perso2->coord.x, equipe->perso2->coord.y,equipe->perso2->pv);
 	printf("\n");
 }
 
@@ -100,17 +101,21 @@ void maj(char map[N][N], t_equipe * equipe1, t_equipe * equipe2){
 
     /* equipe 1 */
     if(!est_mort(equipe1,1)){
-	    map[equipe1->perso1->coord.y][equipe1->perso1->coord.x] = '1';
+	    //itoa(equipe1->numEquipe, &map[equipe1->perso1->coord.y][equipe1->perso1->coord.x], 10);
+			map[equipe1->perso1->coord.y][equipe1->perso1->coord.x] = equipe1->numEquipe + '0';
     }
     if(!est_mort(equipe1,2)){
-        map[equipe1->perso2->coord.y][equipe1->perso2->coord.x] = '3';
+      //itoa(equipe1->numEquipe+2, &map[equipe1->perso2->coord.y][equipe1->perso2->coord.x], 10);
+			map[equipe1->perso2->coord.y][equipe1->perso2->coord.x] = equipe1->numEquipe + '2';
     }
     /* equipe 2*/
     if(!est_mort(equipe2,1)){
-	   map[equipe2->perso1->coord.y][equipe2->perso1->coord.x] = '2';
+	    //itoa(equipe2->numEquipe, &map[equipe2->perso1->coord.y][equipe2->perso1->coord.x], 10);
+			map[equipe2->perso1->coord.y][equipe2->perso1->coord.x] = equipe2->numEquipe + '0';
     }
     if(!est_mort(equipe2,2)){
-        map[equipe2->perso2->coord.y][equipe2->perso2->coord.x] = '4';
+      //itoa(equipe2->numEquipe+2, &map[equipe2->perso2->coord.y][equipe2->perso2->coord.x], 10);
+			map[equipe2->perso2->coord.y][equipe2->perso2->coord.x] = equipe2->numEquipe + '2';
     }
 }
 

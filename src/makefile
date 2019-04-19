@@ -6,7 +6,7 @@ OBJ = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o e
 OBJ_SDL = sdl_test.o affichages.o init.o persosorts.o
 
 OBJ_SORTS = sorts.o persosorts.o affichages.o
-OBJ_IA = sorts.o ia.o affichages.o persosorts.o fin_partie.o effets.o tour_jeu.o deplacement.o
+OBJ_IA = sorts.o ia.o affichages.o persosorts.o fin_partie.o effets.o
 
 OBJ_RESEAU = main.o init.o affichages.o persosorts.o sorts.o deplacement.o tour_jeu.o effets.o fin_partie.o client.o serveur.o
 
@@ -74,7 +74,10 @@ all: main sdl_test test_perso test_ia client serveur test_reseau
 
 clean:
 	- rm -rf *.o
-	- rm main sdl_test test_perso test_ia test_reseau client
+	- rm main
+	- rm sdl_test
+	- rm test_perso
+	- rm test_ia
 
 mrproper: clean
 

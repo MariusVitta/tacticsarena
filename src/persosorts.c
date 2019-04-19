@@ -54,9 +54,9 @@ void suppr_perso(t_personnage ** perso){
 *\param id_sort numero du sort que l'on souhaite créer
 *\return void
 */
-int (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int ){
+int (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe* ,int,int ,int,int, int ){
 
-	int (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int);
+	int (*fonc )(char [N][N], t_personnage * ,  t_equipe* ,t_equipe* ,int, int,int,int, int);
 
 
 	switch (id_sort) {
@@ -110,18 +110,18 @@ int (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe
 			fonc = revitalisation;
 			break;
 		default : fonc = NULL;
-			break;
 	}
 	return fonc;
 }
 
-
 /**
-*\fn void creation_sorts(t_sort * sorts[])
-*\brief creation des tous les sorts en remplissant les structures
-*\param sorts[] tableau vide dans lequel on va remplir toutes les informations sur tout les sorts
-*\return t_sort
-* la fonction va lire les caractérisques de tout les sorts dans un fichier dont on a prédéfinie le format
+*\fn t_personnage * creation_classes(t_personnage * persos[],t_sort * sorts[])
+*\brief creation des toutes les classes en remplissant les structures
+*\param persos[] tableau vide dans lequel on va remplir toutes les informations sur toutes les classes possibles
+*\param sorts[] tableau de sorts contenant les sorts
+*\return t_personnage
+* la fonction va lire les caractérisques des personnages dans un fichier dont on a prédéfinie le format
+* on remplit les sorts de la classe crée selon les sorts du tableau sorts grâce à un indice recupéré dans le fichier classe.txt
 */
 void creation_sorts(t_sort * sorts[]){
 

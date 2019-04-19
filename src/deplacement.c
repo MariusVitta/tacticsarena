@@ -40,14 +40,12 @@ int deplacement(t_equipe * equipe1,t_equipe * equipe2,char map[N][N],int  pm ,in
 
     char c;
 
-
     do{
         printf("Choisissez l'initial entre haut, bas, gauche, ou droite pour vous déplacer ou R pour rester sur place\n");
 
-        while ((c = getchar()) != EOF && c != '\n');
+	  while ((c = getchar()) != EOF && c != '\n');
 
         scanf(" %c",&c);
-        
     }
     while(c != 'h' && c != 'b' && c != 'g' && c != 'd' && c != 'R');
 

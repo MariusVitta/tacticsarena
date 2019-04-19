@@ -26,7 +26,7 @@ void creer_effet(t_personnage * p,int effet_voulu,int x,int y){
   switch(effet_voulu){
     case (1):
         p->effets[0].nom = "armure";
-        p->effets[0].duree = 1;
+        p->effets[0].duree = 100;
         p->effets[0].cible.x = x;
         p->effets[0].cible.y = y;
       break;

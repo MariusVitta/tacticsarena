@@ -39,7 +39,7 @@ int est_mort(t_equipe * equipe, int nump){
 					 */
 					equipe->nbPersoVivant--;
 					equipe->perso1->pv =-1;
-                    printf(" Le %s du equipe %i est mort \n",equipe->perso1->nom,equipe->numEquipe);
+          printf(" Le %s du equipe %i est mort ",equipe->perso1->nom,equipe->numEquipe);
 					bool = 1;
 				}
 				break;
@@ -47,7 +47,7 @@ int est_mort(t_equipe * equipe, int nump){
 				if(equipe->perso2->pv <= 0){
 					equipe->nbPersoVivant--;
 					equipe->perso2->pv =-1;
-                    printf(" Le %s du equipe %i est mort \n",equipe->perso2->nom,equipe->numEquipe);
+          printf(" Le %s du equipe %i est mort ",equipe->perso2->nom,equipe->numEquipe);
 					bool = 1;
 				}
 				break;
