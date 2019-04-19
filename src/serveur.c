@@ -13,7 +13,7 @@
 #include <time.h>
 
 char buffer[BUFFER_LEN];
-extern char map[N][N];
+ char map[N][N];
 t_equipe * tab_joueur[N];
 
 void fin(int sig){

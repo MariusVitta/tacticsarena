@@ -126,7 +126,7 @@ int (*creer_sort(int id_sort))(char [N][N], t_personnage * , t_equipe* ,t_equipe
 void creation_sorts(t_sort * sorts[]){
 
 	FILE * s = NULL;
-	s = fopen("sorts.txt","r");
+	s = fopen("../src/sorts.txt","r");
 
 	int verif,id,portee,degat,cd,uptm,point_action;
 
@@ -171,7 +171,7 @@ void creation_sorts(t_sort * sorts[]){
 void creation_classes(t_personnage * persos[],t_sort * sorts[]){
 
 	FILE * c = NULL;
-	c = fopen("classe.txt","r");
+	c = fopen("../src/classe.txt","r");
 
 
 

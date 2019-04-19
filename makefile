@@ -1,6 +1,5 @@
 # project name (generate executable with this name)
-TARGETS  = main ia fonctions_ordi main_client
-
+TARGETS  =  main ia fonctions_ordi main_client
 CC       = gcc
 # compiling flags here
 CFLAGS   = -std=c99 -Wall -I.
