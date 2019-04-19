@@ -10,28 +10,28 @@
  * Fonction de choix des classes et
  *
  */
-int choix_personnage_ordi(t_joueur * ordi,int nb_classe,int nb_personnages){
+int choix_personnage_ordi(t_equipe * ordi,int nb_classe,int nb_personnages){
     srand(time(NULL)); // initialisation de rand
     int classe = 0,i = 1;
-    while(i <= nb_personnages){ 
+    while(i <= nb_personnages){
         classe = rand()%nb_classe+1;
         printf("choix: %i\n",classe);
         switch(i) {
-            case 1: ordi->perso1 = creer_perso(classe);break;
-            case 2: ordi->perso2 = creer_perso(classe);break;
+            //case 1: ordi->perso1 = copie_perso(classe);break;
+            //case 2: ordi->perso2 = copie_perso(classe);break;
         }
         i++;
     }
-    ordi->numJoueur = 2;
+    ordi->numEquipe = 2;
     ordi->nbPersoVivant = NB_PERSONNAGES;
 }
 
 
 
 int main() {
-    t_joueur ordi;
+    t_equipe * ordi;
 
-    choix_personnage_ordi(&ordi,NB_CLASSE,NB_PERSONNAGES);
+    choix_personnage_ordi(ordi,NB_CLASSE,NB_PERSONNAGES);
     affichage_coord(ordi);
 
 
