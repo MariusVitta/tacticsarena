@@ -1,6 +1,4 @@
-# tacticsarena
-
-# Titre du projet
+# Tactics Arena
 Projet réalisé par Dylan, Marius, Vivien-Junior et Alexandre
 
 ### Installation
