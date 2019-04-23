@@ -1,25 +1,17 @@
 # tacticsarena
 
 # Titre du projet
-projet réalisé par Marius, Dylan ,Vivien-Junior et Alexandre
-
-### Pré-requis
-
-Ce qu'il est requis pour commencer avec votre projet...
-
-- Programme 1
-- Programme 2
-- etc...
+Projet réalisé par Dylan, Marius, Vivien-Junior et Alexandre
 
 ### Installation
 
 Déplacez vous dans le dossier ```cd tacticsarena```
-Créer les executables ```make```
-Déplacez vous dans le dossiers des executables ```cd bin```
+Créer les éxécutables ```make```
+Déplacez vous dans le dossiers des éxécutables ```cd bin```
 
 ## Démarrage
 
-Executez le fichier ```./main```
+Exécutez le fichier ```./main```
 
 ## Fabriqué avec
 
@@ -36,4 +28,3 @@ Executez le fichier ```./main```
 
 * **Vivien-Junior Obanda** :[@Vivien-Junior](https://github.com/Vivien-Junior)
 
-Les contributeurs [contributeurs](https://github.com/MariusVitta/tacticsarena/contributors)
