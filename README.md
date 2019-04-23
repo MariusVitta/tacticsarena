@@ -4,8 +4,8 @@ Projet réalisé par Dylan, Marius, Vivien-Junior et Alexandre
 ### Installation
 
 Déplacez vous dans le dossier ```cd tacticsarena```
-Créer les éxécutables ```make```
-Déplacez vous dans le dossiers des éxécutables ```cd bin```
+Créez les éxécutables ```make```
+Déplacez vous dans le dossier des éxécutables ```cd bin```
 
 ## Démarrage
 
